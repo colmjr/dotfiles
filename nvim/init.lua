@@ -233,18 +233,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function() vim.hl.on_yank() end,
 })
 
--- [[ Configure and install plugins with `vim.pack` ]]
+-- [[ Install plugins with `vim.pack` ]]
+--  See `:help vim.pack`, `:help vim.pack-examples` or the
+--  excellent blog post from the creator of vim.pack and mini.nvim:
+--  https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack
 --
 --  To inspect plugin state and pending updates, run
 --    :lua vim.pack.update(nil, { offline = true })
 --
 --  To update plugins, run
 --    :lua vim.pack.update()
---
--- NOTE: Here is where you install your plugins.
-local gh = function(repo) return 'https://github.com/' .. repo end
 
-local run_build = function(name, cmd, cwd)
+local function run_build(name, cmd, cwd)
   local result = vim.system(cmd, { cwd = cwd }):wait()
   if result.code ~= 0 then
     local stderr = result.stderr or ''
@@ -255,6 +255,10 @@ local run_build = function(name, cmd, cwd)
   end
 end
 
+-- This autocommand runs after a plugin is installed or updated and
+--  runs the appropriate build command for that plugin if necessary.
+--
+-- See `:help vim.pack-events`
 vim.api.nvim_create_autocmd('PackChanged', {
   callback = function(ev)
     local name = ev.data.spec.name
@@ -279,8 +283,11 @@ vim.api.nvim_create_autocmd('PackChanged', {
   end,
 })
 
+local gh = function(repo) return 'https://github.com/' .. repo end
+
 ---@type (string|vim.pack.Spec)[]
 local plugins = {
+  -- You can specify plugins with a git URL. `vim.pack` then uses the default branch (usually `main` or `master`)
   gh 'NMAC427/guess-indent.nvim',
   gh 'lewis6991/gitsigns.nvim',
   gh 'folke/which-key.nvim',
@@ -293,11 +300,14 @@ local plugins = {
   gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
   gh 'j-hui/fidget.nvim',
   gh 'stevearc/conform.nvim',
+  -- You can also specify plugins with a version range for semver git tags
+  --  See `:help vim.version.range()` for more info
   { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' },
   { src = gh 'L3MON4D3/LuaSnip', version = vim.version.range '2.*' },
   gh 'folke/tokyonight.nvim',
   gh 'folke/todo-comments.nvim',
   gh 'nvim-mini/mini.nvim',
+  -- You can also specify a branch or a specific commit
   { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' },
 }
 
@@ -306,8 +316,14 @@ if vim.fn.executable 'make' == 1 then table.insert(plugins, gh 'nvim-telescope/t
 -- Useful for getting pretty icons, but requires a Nerd Font.
 if vim.g.have_nerd_font then table.insert(plugins, gh 'nvim-tree/nvim-web-devicons') end
 
+-- NOTE: Here is where the plugins are actually installed and added to the path
 vim.pack.add(plugins)
 
+-- [[ Configure plugins ]]
+--  For most plugins you need to call their `.setup()` to start them
+--
+--  For example, here is the simplest possible setup for `guess-indent.nvim`,
+--  which will automatically detect and set your indentation settings based on the current file.
 require('guess-indent').setup {}
 
 -- Here is a more advanced example that passes configuration options to `gitsigns.nvim`
@@ -337,23 +353,15 @@ require('which-key').setup {
     { 'gr', group = 'LSP Actions', mode = { 'n' } },
   },
 }
--- Fuzzy Finder (files, lsp, etc)
---
--- By default, Telescope is included and acts as your picker for everything.
 
--- # TODO: Rework this docstring
---
--- If you would like to switch to a different picker (like snacks, or fzf-lua)
--- you can disable the Telescope plugin by setting enabled to false and enable
--- your replacement picker by requiring it explicitly (e.g. 'custom.plugins.snacks')
-
--- Note: If you customize your config for yourself,
--- it’s best to remove the Telescope plugin config entirely
--- instead of just disabling it here, to keep your config clean.
+-- [[ Fuzzy Finder (files, lsp, etc) ]]
 --
 -- Telescope is a fuzzy finder that comes with a lot of different things that
 -- it can fuzzy find! It's more than just a "file finder", it can search
 -- many different aspects of Neovim, your workspace, LSP, and more!
+--
+-- There are lots of other alternative pickers (like snacks.picker, or fzf-lua)
+-- so feel free to experiment and see what you like!
 --
 -- The easiest way to use Telescope, is to start by doing something like:
 --  :Telescope help_tags
@@ -370,7 +378,6 @@ require('which-key').setup {
 -- Telescope picker. This is really useful to discover what Telescope can
 -- do as well as how to actually do it!
 
--- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
   -- You can put your default mappings / updates / etc. in here
@@ -465,15 +472,7 @@ vim.keymap.set(
 -- Shortcut for searching your Neovim configuration files
 vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end, { desc = '[S]earch [N]eovim files' })
 
--- LSP Plugins
-
--- Automatically install LSPs and related tools to stdpath for Neovim
--- Mason must be loaded before its dependents so we need to set it up here.
-require('mason').setup {}
-
--- Useful status updates for LSP.
-require('fidget').setup {}
-
+-- [[ LSP Configuration ]]
 -- Brief aside: **What is LSP?**
 --
 -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -498,6 +497,9 @@ require('fidget').setup {}
 --
 -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
 -- and elegantly composed help section, `:help lsp-vs-treesitter`
+
+-- Useful status updates for LSP.
+require('fidget').setup {}
 
 --  This function gets run when an LSP attaches to a particular buffer.
 --    That is to say, every time a new file is opened that is associated with
@@ -620,6 +622,9 @@ local servers = {
   },
 }
 
+-- Automatically install LSPs and related tools to stdpath for Neovim
+require('mason').setup {}
+
 -- Ensure the servers and tools above are installed
 --
 -- To check the current status of installed tools and/or manually install
@@ -639,7 +644,7 @@ for name, server in pairs(servers) do
   vim.lsp.enable(name)
 end
 
--- Autoformat
+-- [[ Formatting ]]
 require('conform').setup {
   notify_on_error = false,
   format_on_save = function(bufnr)
@@ -670,17 +675,19 @@ require('conform').setup {
 
 vim.keymap.set({ 'n', 'v' }, '<leader>f', function() require('conform').format { async = true } end, { desc = '[F]ormat buffer' })
 
+-- [[ Autocompletion Configuration ]]
+
 -- Snippet Engine
---
+require('luasnip').setup {}
+
 -- `friendly-snippets` contains a variety of premade snippets.
 --    See the README about individual language/framework/plugin snippets:
 --    https://github.com/rafamadriz/friendly-snippets
 --
 -- vim.pack.add { gh 'rafamadriz/friendly-snippets' }
 -- require('luasnip.loaders.from_vscode').lazy_load()
-require('luasnip').setup {}
 
--- Autocompletion
+-- The autocomplete engine
 require('blink.cmp').setup {
   keymap = {
     -- 'default' (recommended) for mappings similar to built-in completions
@@ -741,9 +748,10 @@ require('blink.cmp').setup {
   signature = { enabled = true },
 }
 
+-- [[ Colorscheme ]]
 -- You can easily change to a different colorscheme.
 -- Change the name of the colorscheme plugin below, and then
--- change the command in the config to whatever the name of that colorscheme is.
+-- change the command under that to load whatever the name of that colorscheme is.
 --
 -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
 ---@diagnostic disable-next-line: missing-fields
@@ -761,7 +769,8 @@ vim.cmd.colorscheme 'tokyonight-night'
 -- Highlight todo, notes, etc in comments
 require('todo-comments').setup { signs = false }
 
--- Collection of various small independent plugins/modules
+-- [[ mini.nvim ]]
+--  A collection of various small independent plugins/modules
 
 -- Better Around/Inside textobjects
 --
@@ -874,9 +883,6 @@ vim.api.nvim_create_autocmd('FileType', {
 --
 --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
 -- require 'custom.plugins'
---
--- For additional information with loading, sourcing and examples see `:help vim.pack`
--- and `:help vim.pack-examples`
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
