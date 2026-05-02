@@ -240,11 +240,14 @@ do
 end
 
 -- ============================================================
--- SECTION 2: PLUGIN MANAGER
--- vim.pack, build hooks, install/update plugins, plugin specs
+-- SECTION 2: PLUGIN MANAGER INTRO
+-- vim.pack intro, build hooks
 -- ============================================================
 do
-  -- [[ Install plugins with `vim.pack` ]]
+  -- [[ Intro to `vim.pack` ]]
+  -- `vim.pack` is a new plugin manager built into Neovim,
+  --  which provides a Lua interface for installing and managing plugins.
+  --
   --  See `:help vim.pack`, `:help vim.pack-examples` or the
   --  excellent blog post from the creator of vim.pack and mini.nvim:
   --  https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack
@@ -254,6 +257,13 @@ do
   --
   --  To update plugins, run
   --    :lua vim.pack.update()
+  --
+  --
+  --  Throughout the rest of the config there will be examples
+  --  of how to install and configure plugins using `vim.pack`.
+  --
+  --  In this section we set up some autocommands to run build
+  --  steps for certain plugins after they are installed or updated.
 
   local function run_build(name, cmd, cwd)
     local result = vim.system(cmd, { cwd = cwd }):wait()
@@ -293,60 +303,47 @@ do
       end
     end,
   })
-
-  local gh = function(repo) return 'https://github.com/' .. repo end
-
-  ---@type (string|vim.pack.Spec)[]
-  local plugins = {
-    -- You can specify plugins with a git URL. `vim.pack` then uses the default branch (usually `main` or `master`)
-    gh 'NMAC427/guess-indent.nvim',
-    gh 'lewis6991/gitsigns.nvim',
-    gh 'folke/which-key.nvim',
-    gh 'nvim-lua/plenary.nvim',
-    gh 'nvim-telescope/telescope.nvim',
-    gh 'nvim-telescope/telescope-ui-select.nvim',
-    gh 'neovim/nvim-lspconfig',
-    gh 'mason-org/mason.nvim',
-    gh 'mason-org/mason-lspconfig.nvim',
-    gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
-    gh 'j-hui/fidget.nvim',
-    gh 'stevearc/conform.nvim',
-    -- You can also specify plugins with a version range for semver git tags
-    --  See `:help vim.version.range()` for more info
-    { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' },
-    { src = gh 'L3MON4D3/LuaSnip', version = vim.version.range '2.*' },
-    gh 'folke/tokyonight.nvim',
-    gh 'folke/todo-comments.nvim',
-    gh 'nvim-mini/mini.nvim',
-    -- You can also specify a branch or a specific commit
-    { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' },
-  }
-
-  if vim.fn.executable 'make' == 1 then table.insert(plugins, gh 'nvim-telescope/telescope-fzf-native.nvim') end
-
-  -- Useful for getting pretty icons, but requires a Nerd Font.
-  if vim.g.have_nerd_font then table.insert(plugins, gh 'nvim-tree/nvim-web-devicons') end
-
-  -- NOTE: Here is where the plugins are actually installed and added to the path
-  vim.pack.add(plugins)
 end
+
+---Because most plugins are hosted on GitHub, you can use the helper
+---function to have less repetition in the following sections.
+---@param repo string
+---@return string
+local function gh(repo) return 'https://github.com/' .. repo end
 
 -- ============================================================
 -- SECTION 3: UI / CORE UX PLUGINS
 -- guess-indent, gitsigns, which-key, colorscheme, todo-comments, mini modules
 -- ============================================================
 do
-  -- [[ Configure plugins ]]
-  --  For most plugins you need to call their `.setup()` to start them
+  -- [[ Installing and Configuring Plugins ]]
   --
-  --  For example, here is the simplest possible setup for `guess-indent.nvim`,
-  --  which will automatically detect and set your indentation settings based on the current file.
+  -- To install a plugin simply call `vim.pack.add` with its git url.
+  -- This will download the default branch of the plugin, which will usually be `main` or `master`
+  -- You can also have more advanced specs, which we will talk about later.
+  --
+  -- For most plugins its not enough to install them, you also need to call their `.setup()` to start them.
+  --
+  -- For example, lets say we want to install `guess-indent.nvim` - a plugin for
+  -- automatically detecting and setting the indentation.
+  --
+  -- We first install it from https://github.com/NMAC427/guess-indent.nvim
+  -- and then call its `setup()` function to start it with default settings.
+  vim.pack.add { gh 'NMAC427/guess-indent.nvim' }
   require('guess-indent').setup {}
 
-  -- Here is a more advanced example that passes configuration options to `gitsigns.nvim`
+  -- Because lua is a real programming language, you can also have some logic to your installation -
+  -- like only installing a plugin if a condition is met.
+  --
+  -- Here we only install `nvim-web-devicons` (which adds pretty icons) if we have a Nerd Font,
+  -- since otherwise the icons won't display properly.
+  if vim.g.have_nerd_font then vim.pack.add { gh 'nvim-tree/nvim-web-devicons' } end
+
+  -- Here is a more advanced configuration example that passes options to `gitsigns.nvim`
   --
   -- See `:help gitsigns` to understand what each configuration key does.
   -- Adds git related signs to the gutter, as well as utilities for managing changes
+  vim.pack.add { gh 'lewis6991/gitsigns.nvim' }
   require('gitsigns').setup {
     signs = {
       add = { text = '+' }, ---@diagnostic disable-line: missing-fields
@@ -358,6 +355,7 @@ do
   }
 
   -- Useful plugin to show you pending keybinds.
+  vim.pack.add { gh 'folke/which-key.nvim' }
   require('which-key').setup {
     -- Delay between pressing a key and opening which-key (milliseconds)
     delay = 0,
@@ -377,6 +375,7 @@ do
   -- change the command under that to load whatever the name of that colorscheme is.
   --
   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  vim.pack.add { gh 'folke/tokyonight.nvim' }
   ---@diagnostic disable-next-line: missing-fields
   require('tokyonight').setup {
     styles = {
@@ -390,10 +389,12 @@ do
   vim.cmd.colorscheme 'tokyonight-night'
 
   -- Highlight todo, notes, etc in comments
+  vim.pack.add { gh 'folke/todo-comments.nvim' }
   require('todo-comments').setup { signs = false }
 
   -- [[ mini.nvim ]]
   --  A collection of various small independent plugins/modules
+  vim.pack.add { gh 'nvim-mini/mini.nvim' }
 
   -- Better Around/Inside textobjects
   --
@@ -462,6 +463,17 @@ do
   -- This opens a window that shows you all of the keymaps for the current
   -- Telescope picker. This is really useful to discover what Telescope can
   -- do as well as how to actually do it!
+
+  ---@type (string|vim.pack.Spec)[]
+  local telescope_plugins = {
+    gh 'nvim-lua/plenary.nvim',
+    gh 'nvim-telescope/telescope.nvim',
+    gh 'nvim-telescope/telescope-ui-select.nvim',
+  }
+  if vim.fn.executable 'make' == 1 then table.insert(telescope_plugins, gh 'nvim-telescope/telescope-fzf-native.nvim') end
+
+  -- NOTE: You can install multiple plugins at once
+  vim.pack.add(telescope_plugins)
 
   -- See `:help telescope` and `:help telescope.setup()`
   require('telescope').setup {
@@ -590,6 +602,7 @@ do
   -- and elegantly composed help section, `:help lsp-vs-treesitter`
 
   -- Useful status updates for LSP.
+  vim.pack.add { gh 'j-hui/fidget.nvim' }
   require('fidget').setup {}
 
   --  This function gets run when an LSP attaches to a particular buffer.
@@ -713,6 +726,13 @@ do
     },
   }
 
+  vim.pack.add {
+    gh 'neovim/nvim-lspconfig',
+    gh 'mason-org/mason.nvim',
+    gh 'mason-org/mason-lspconfig.nvim',
+    gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
+  }
+
   -- Automatically install LSPs and related tools to stdpath for Neovim
   require('mason').setup {}
 
@@ -742,6 +762,7 @@ end
 -- ============================================================
 do
   -- [[ Formatting ]]
+  vim.pack.add { gh 'stevearc/conform.nvim' }
   require('conform').setup {
     notify_on_error = false,
     format_on_save = function(bufnr)
@@ -779,6 +800,10 @@ end
 -- ============================================================
 do
   -- [[ Snippet Engine ]]
+
+  -- NOTE: You can also specify plugin using a version range for its git tag.
+  --  See `:help vim.version.range()` for more info
+  vim.pack.add { { src = gh 'L3MON4D3/LuaSnip', version = vim.version.range '2.*' } }
   require('luasnip').setup {}
 
   -- `friendly-snippets` contains a variety of premade snippets.
@@ -789,6 +814,7 @@ do
   -- require('luasnip.loaders.from_vscode').lazy_load()
 
   -- [[ Autocomplete Engine ]]
+  vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
   require('blink.cmp').setup {
     keymap = {
       -- 'default' (recommended) for mappings similar to built-in completions
@@ -859,6 +885,9 @@ do
   --  Used to highlight, edit, and navigate code
   --
   --  See `:help nvim-treesitter-intro`
+
+  -- NOTE: You can also specify a branch or a specific commit
+  vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
   local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
