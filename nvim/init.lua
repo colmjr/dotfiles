@@ -165,7 +165,7 @@ do
   vim.o.cursorline = true
 
   -- Minimal number of screen lines to keep above and below the cursor.
-  vim.o.scrolloff = 10
+  vim.o.scrolloff = 7
 
   -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
   -- instead raise a dialog asking if you wish to save the current file(s)
@@ -322,6 +322,7 @@ local function gh(repo) return 'https://github.com/' .. repo end
 
 ---@param specs (string|vim.pack.Spec)[]
 ---@param opts? vim.pack.keyset.add
+-- made the timeout longe
 local function pack_add(specs, opts)
   local original_wait = vim.wait
   vim.wait = function(timeout, callback, interval, fast_only)
@@ -452,6 +453,7 @@ vim.cmd.colorscheme 'gruvbox'
   -- - sd'   - [S]urround [D]elete [']quotes
   -- - sr)'  - [S]urround [R]eplace [)] [']
   require('mini.surround').setup()
+  -- we already have the kickstart pairs
   -- require('mini.pairs').setup()
 
   -- Simple and easy statusline.
@@ -714,9 +716,9 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    -- clangd = {},
+    clangd = {},
     -- gopls = {},
-    -- pyright = {},
+    pyright = {},
     -- rust_analyzer = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -804,8 +806,8 @@ do
     format_on_save = function(bufnr)
       -- You can specify filetypes to autoformat on save here:
       local enabled_filetypes = {
-        -- lua = true,
-        -- python = true,
+        lua = true,
+        python = true,
       }
       if enabled_filetypes[vim.bo[bufnr].filetype] then
         return { timeout_ms = 500 }
@@ -841,7 +843,6 @@ do
   --  See `:help vim.version.range()` for more info
   pack_add { { src = gh 'L3MON4D3/LuaSnip', version = vim.version.range '2.*' } }
   require('luasnip').setup {}
-
   -- `friendly-snippets` contains a variety of premade snippets.
   --    See the README about individual language/framework/plugin snippets:
   --    https://github.com/rafamadriz/friendly-snippets
