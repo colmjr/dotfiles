@@ -20,7 +20,7 @@ vim.o.smartcase = true
 -- the thing next to the numbers column
 vim.o.signcolumn = 'yes'
 
-vim.updatetime = 250
+vim.o.updatetime = 250
 -- the time it considers chars to be part of the same command
 -- if over than considers as new command
 vim.o.timeoutlen = 300
