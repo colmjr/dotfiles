@@ -22,16 +22,19 @@ end
 --
 -- vim.keymap.set('n', '<leader>gg', '<cmd>Neogit<CR>', { desc = 'Neogit' })
 pack_add { gh 'tpope/vim-fugitive' }
-pack_add { gh 'sphamba/smear-cursor.nvim' }
-require('smear_cursor').setup {
-  stiffness = 0.9,
-  trailing_stiffness = 0.5,
-  distance_stop_animating = 0.5,
-  smear_between_buffers = true,
-  smear_between_neighbor_lines = true,
-  legacy_computing_symbols_support = true,
-  smear_insert_mode = true,
-}
+
+-- this smears the cursor, obviously very beautiful but not productive and weird
+-- you cannot see where your cursor is after move until a short wait
+-- pack_add { gh 'sphamba/smear-cursor.nvim' }
+-- require('smear_cursor').setup {
+--   stiffness = 0.9,
+--   trailing_stiffness = 0.5,
+--   distance_stop_animating = 0.5,
+--   smear_between_buffers = true,
+--   smear_between_neighbor_lines = true,
+--   legacy_computing_symbols_support = true,
+--   smear_insert_mode = false,
+-- }
 
 local plugins_dir = vim.fs.joinpath(vim.fn.stdpath 'config', 'lua', 'custom', 'plugins')
 for file_name, type in vim.fs.dir(plugins_dir) do
