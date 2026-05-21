@@ -110,7 +110,7 @@ do
   vim.o.number = true
   -- You can also add relative line numbers, to help with jumping.
   --  Experiment for yourself to see if you like it!
-  -- vim.o.relativenumber = true
+  vim.o.relativenumber = true
 
   -- Enable mouse mode, can be useful for resizing splits for example!
   vim.o.mouse = 'a'
@@ -221,7 +221,8 @@ do
 
   -- Keybinds to make split navigation easier.
   --  Use CTRL+<hjkl> to switch between windows
-  --
+  -- for now, i am going to use leader w instead of control w because of mac issues
+  vim.keymap.set('n', '<Leader>w', '<C-w>', {desc = 'wincmd'})
   --  See `:help wincmd` for a list of all window commands
   vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
   vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -319,6 +320,21 @@ end
 ---@return string
 local function gh(repo) return 'https://github.com/' .. repo end
 
+---@param specs (string|vim.pack.Spec)[]
+---@param opts? vim.pack.keyset.add
+local function pack_add(specs, opts)
+  local original_wait = vim.wait
+  vim.wait = function(timeout, callback, interval, fast_only)
+    if timeout == 30000 then timeout = vim.g.pack_install_timeout_ms or 120000 end
+    return original_wait(timeout, callback, interval, fast_only)
+  end
+
+  local ok, err = pcall(vim.pack.add, specs, opts)
+  vim.wait = original_wait
+
+  if not ok then error(err, 2) end
+end
+
 -- ============================================================
 -- SECTION 3: UI / CORE UX PLUGINS
 -- guess-indent, gitsigns, which-key, colorscheme, todo-comments, mini modules
@@ -337,7 +353,7 @@ do
   --
   -- We first install it from https://github.com/NMAC427/guess-indent.nvim
   -- and then call its `setup()` function to start it with default settings.
-  vim.pack.add { gh 'NMAC427/guess-indent.nvim' }
+  pack_add { gh 'NMAC427/guess-indent.nvim' }
   require('guess-indent').setup {}
 
   -- Because lua is a real programming language, you can also have some logic to your installation -
@@ -345,13 +361,13 @@ do
   --
   -- Here we only install `nvim-web-devicons` (which adds pretty icons) if we have a Nerd Font,
   -- since otherwise the icons won't display properly.
-  if vim.g.have_nerd_font then vim.pack.add { gh 'nvim-tree/nvim-web-devicons' } end
+  if vim.g.have_nerd_font then pack_add { gh 'nvim-tree/nvim-web-devicons' } end
 
   -- Here is a more advanced configuration example that passes options to `gitsigns.nvim`
   --
   -- See `:help gitsigns` to understand what each configuration key does.
   -- Adds git related signs to the gutter, as well as utilities for managing changes
-  vim.pack.add { gh 'lewis6991/gitsigns.nvim' }
+  pack_add { gh 'lewis6991/gitsigns.nvim' }
   require('gitsigns').setup {
     signs = {
       add = { text = '+' }, ---@diagnostic disable-line: missing-fields
@@ -363,7 +379,7 @@ do
   }
 
   -- Useful plugin to show you pending keybinds.
-  vim.pack.add { gh 'folke/which-key.nvim' }
+  pack_add { gh 'folke/which-key.nvim' }
   require('which-key').setup {
     -- Delay between pressing a key and opening which-key (milliseconds)
     delay = 0,
@@ -383,26 +399,37 @@ do
   -- change the command under that to load whatever the name of that colorscheme is.
   --
   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  vim.pack.add { gh 'folke/tokyonight.nvim' }
-  ---@diagnostic disable-next-line: missing-fields
-  require('tokyonight').setup {
-    styles = {
-      comments = { italic = false }, -- Disable italics in comments
+  -- here we are using gruvbox, so not the default tokyonight, so we will not be using the following
+  -- pack_add { gh 'folke/tokyonight.nvim' }
+  -- ---@diagnostic disable-next-line: missing-fields
+  -- require('tokyonight').setup {
+  --   styles = {
+  --     comments = { italic = false }, -- Disable italics in comments
+  --   },
+  -- }
+  --
+  -- -- Load the colorscheme here.
+  -- -- Like many other themes, this one has different styles, and you could load
+  -- -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  -- vim.cmd.colorscheme 'tokyonight-night'
+
+  pack_add { gh 'ellisonleao/gruvbox.nvim' }
+  require('gruvbox').setup {
+    contrast = 'hard', -- 'hard', 'soft', or '' (default)
+    italic = {
+      strings = false,
+      comments = false,
     },
   }
-
-  -- Load the colorscheme here.
-  -- Like many other themes, this one has different styles, and you could load
-  -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'tokyonight-night'
+vim.cmd.colorscheme 'gruvbox'
 
   -- Highlight todo, notes, etc in comments
-  vim.pack.add { gh 'folke/todo-comments.nvim' }
+  pack_add { gh 'folke/todo-comments.nvim' }
   require('todo-comments').setup { signs = false }
 
   -- [[ mini.nvim ]]
   --  A collection of various small independent plugins/modules
-  vim.pack.add { gh 'nvim-mini/mini.nvim' }
+  pack_add { gh 'nvim-mini/mini.nvim' }
 
   -- Better Around/Inside textobjects
   --
@@ -425,6 +452,7 @@ do
   -- - sd'   - [S]urround [D]elete [']quotes
   -- - sr)'  - [S]urround [R]eplace [)] [']
   require('mini.surround').setup()
+  -- require('mini.pairs').setup()
 
   -- Simple and easy statusline.
   --  You could remove this setup call if you don't like it,
@@ -481,7 +509,7 @@ do
   if vim.fn.executable 'make' == 1 then table.insert(telescope_plugins, gh 'nvim-telescope/telescope-fzf-native.nvim') end
 
   -- NOTE: You can install multiple plugins at once
-  vim.pack.add(telescope_plugins)
+  pack_add(telescope_plugins)
 
   -- See `:help telescope` and `:help telescope.setup()`
   require('telescope').setup {
@@ -610,7 +638,7 @@ do
   -- and elegantly composed help section, `:help lsp-vs-treesitter`
 
   -- Useful status updates for LSP.
-  vim.pack.add { gh 'j-hui/fidget.nvim' }
+  pack_add { gh 'j-hui/fidget.nvim' }
   require('fidget').setup {}
 
   --  This function gets run when an LSP attaches to a particular buffer.
@@ -734,7 +762,7 @@ do
     },
   }
 
-  vim.pack.add {
+  pack_add {
     gh 'neovim/nvim-lspconfig',
     gh 'mason-org/mason.nvim',
     gh 'mason-org/mason-lspconfig.nvim',
@@ -770,7 +798,7 @@ end
 -- ============================================================
 do
   -- [[ Formatting ]]
-  vim.pack.add { gh 'stevearc/conform.nvim' }
+  pack_add { gh 'stevearc/conform.nvim' }
   require('conform').setup {
     notify_on_error = false,
     format_on_save = function(bufnr)
@@ -811,18 +839,18 @@ do
 
   -- NOTE: You can also specify plugin using a version range for its git tag.
   --  See `:help vim.version.range()` for more info
-  vim.pack.add { { src = gh 'L3MON4D3/LuaSnip', version = vim.version.range '2.*' } }
+  pack_add { { src = gh 'L3MON4D3/LuaSnip', version = vim.version.range '2.*' } }
   require('luasnip').setup {}
 
   -- `friendly-snippets` contains a variety of premade snippets.
   --    See the README about individual language/framework/plugin snippets:
   --    https://github.com/rafamadriz/friendly-snippets
   --
-  -- vim.pack.add { gh 'rafamadriz/friendly-snippets' }
+  -- pack_add { gh 'rafamadriz/friendly-snippets' }
   -- require('luasnip.loaders.from_vscode').lazy_load()
 
   -- [[ Autocomplete Engine ]]
-  vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
+  pack_add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
   require('blink.cmp').setup {
     keymap = {
       -- 'default' (recommended) for mappings similar to built-in completions
@@ -895,7 +923,7 @@ do
   --  See `:help nvim-treesitter-intro`
 
   -- NOTE: You can also specify a branch or a specific commit
-  vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
+  pack_add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
   local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
@@ -963,14 +991,14 @@ do
   -- require 'kickstart.plugins.debug'
   -- require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
-  -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.autopairs'
+  require 'kickstart.plugins.neo-tree'
   -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- require 'custom.plugins'
+  require 'custom.plugins'
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`

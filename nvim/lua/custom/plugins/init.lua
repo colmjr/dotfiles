@@ -4,6 +4,27 @@
 -- See the kickstart.nvim README for more information
 
 -- Iterate over all Lua files in the plugins directory and load them
+local function gh(repo) return 'https://github.com/' .. repo end
+
+local function pack_add(specs, opts)
+  local original_wait = vim.wait
+  vim.wait = function(timeout, callback, interval, fast_only)
+    if timeout == 30000 then
+      timeout = vim.g.pack_install_timeout_ms or 120000
+    end
+    return original_wait(timeout, callback, interval, fast_only)
+  end
+  local ok, err = pcall(vim.pack.add, specs, opts)
+  vim.wait = original_wait
+  if not ok then error(err, 2) end
+end
+
+-- pack_add { gh 'NeogitOrg/neogit' }
+-- require('neogit').setup {}
+--
+-- vim.keymap.set('n', '<leader>gg', '<cmd>Neogit<CR>', { desc = 'Neogit' })
+pack_add { gh 'tpope/vim-fugitive' }
+
 local plugins_dir = vim.fs.joinpath(vim.fn.stdpath 'config', 'lua', 'custom', 'plugins')
 for file_name, type in vim.fs.dir(plugins_dir) do
   if type == 'file' and file_name:match '%.lua$' and file_name ~= 'init.lua' then
