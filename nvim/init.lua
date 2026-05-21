@@ -222,7 +222,7 @@ do
   -- Keybinds to make split navigation easier.
   --  Use CTRL+<hjkl> to switch between windows
   -- for now, i am going to use leader w instead of control w because of mac issues
-  vim.keymap.set('n', '<Leader>w', '<C-w>', {desc = 'wincmd'})
+  vim.keymap.set('n', '<Leader>w', '<C-w>', { desc = 'wincmd' })
   --  See `:help wincmd` for a list of all window commands
   vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
   vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -422,7 +422,7 @@ do
       comments = false,
     },
   }
-vim.cmd.colorscheme 'gruvbox'
+  vim.cmd.colorscheme 'gruvbox'
 
   -- Highlight todo, notes, etc in comments
   pack_add { gh 'folke/todo-comments.nvim' }
@@ -993,7 +993,7 @@ do
   -- require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
   require 'kickstart.plugins.autopairs'
-  require 'kickstart.plugins.neo-tree'
+  -- require 'kickstart.plugins.neo-tree'
   -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
