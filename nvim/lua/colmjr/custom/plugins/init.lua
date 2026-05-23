@@ -23,6 +23,12 @@ end
 -- vim.keymap.set('n', '<leader>gg', '<cmd>Neogit<CR>', { desc = 'Neogit' })
 pack_add { gh 'tpope/vim-fugitive' }
 
+pack_add { gh 'stevearc/oil.nvim' }
+require('oil').setup({
+  default_file_explorer = false,
+})
+vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+
 -- this smears the cursor, obviously very beautiful but not productive and weird
 -- you cannot see where your cursor is after move until a short wait
 -- pack_add { gh 'sphamba/smear-cursor.nvim' }

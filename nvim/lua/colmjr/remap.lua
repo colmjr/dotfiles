@@ -1,5 +1,8 @@
 vim.keymap.set({ 'n', 'x' }, 'Y', 'yy')
 vim.keymap.set({ 'n', 'x' }, 'D', 'dd')
+vim.keymap.set({ 'n', 'x' }, 'H', '^')
+vim.keymap.set({ 'n', 'x' }, 'L', '$')
+-- mac keyboard lol
 vim.keymap.set('n', '<leader>w', '<C-w>')
 
 -- centering remaps lol
