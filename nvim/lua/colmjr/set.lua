@@ -1,6 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 -- line numbers
 vim.o.number = true
 vim.o.relativenumber = true
@@ -44,3 +44,8 @@ vim.o.scrolloff = 7
 -- if performing an operation that would fail due to unsaved changes in the buffer
 -- raise a dialog asking if you wish to save the current file
 vim.o.confirm = true
+
+vim.o.tabstop = 4 -- displays tabs as 4 spaces
+vim.o.shiftwidth = 4 -- uses 4 spaces for auto-indent
+vim.o.softtabstop = 4 -- pressing Tab inserts 4 spaces
+vim.o.expandtab = true -- uses spaces instead of real tab characters

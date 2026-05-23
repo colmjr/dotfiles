@@ -1,5 +1,5 @@
-require 'colmjr.remap'
 require 'colmjr.set'
+require 'colmjr.remap'
 require 'colmjr.plugin'
 
 do

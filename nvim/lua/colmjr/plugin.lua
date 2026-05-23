@@ -85,6 +85,11 @@ do
       { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
       { '<leader>t', group = '[T]oggle' },
       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
+      { '<leader>w', group = '[W]indow', mode = { 'n', 'v' } },
+      { '<leader>p', group = '[P]aste without register', mode = { 'x' } }, -- yes I know it is called a blackhole register
+      { '<leader>y', group = '[Y]ank to clipboard', mode = { 'n', 'v' } },
+      { '<leader>Y', group = '[Y]ank line to clipboard', mode = { 'n', 'v' } },
+      { '<leader>d', group = '[D]elete without register', mode = { 'n', 'v' } },
       { 'gr', group = 'LSP Actions', mode = { 'n' } },
     },
   }
@@ -123,6 +128,57 @@ do
 
   -- surround like in Zed
   require('mini.surround').setup()
+  require('mini.move').setup {
+    mappings = {
+      -- Visual mode
+      left = '<M-h>',
+      right = '<M-l>',
+      down = '<M-j>',
+      up = '<M-k>',
+
+      -- Normal mode
+      line_left = '<M-h>',
+      line_right = '<M-l>',
+      line_down = '<M-j>',
+      line_up = '<M-k>',
+    },
+
+    options = {
+      -- Automatically reindent selection during linewise vertical move
+      reindent_linewise = true,
+    },
+  }
+  require('mini.comment').setup {
+    options = {
+      -- Function to compute custom 'commentstring' (optional)
+      custom_commentstring = nil,
+
+      -- Whether to ignore blank lines when commenting
+      ignore_blank_line = false,
+
+      -- Whether to ignore blank lines in actions and textobject
+      start_of_line = false,
+
+      -- Whether to force single space inner padding for comment parts
+      pad_comment_parts = true,
+    },
+
+    mappings = {
+      comment = 'gc',
+
+      comment_line = 'gcc',
+
+      comment_visual = 'gc',
+
+      -- Define 'comment' textobject (like `dgc` - delete whole comment block)
+      textobject = 'gc',
+    },
+
+    hooks = {
+      pre = function() end,
+      post = function() end,
+    },
+  }
 
   local statusline = require 'mini.statusline'
   statusline.setup { use_icons = vim.g.have_nerd_font }
