@@ -6,7 +6,7 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.o.mouse = 'a'
 vim.o.showmode = false
-vim.o.mousehide = false
+vim.o.mousehide = true
 
 -- sync keyboard clipboard with "+
 vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
@@ -16,6 +16,7 @@ vim.o.breakindent = true
 vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
+vim.o.swapfile = false
 
 -- the thing next to the numbers column
 vim.o.signcolumn = 'yes'
@@ -44,6 +45,7 @@ vim.o.scrolloff = 7
 -- if performing an operation that would fail due to unsaved changes in the buffer
 -- raise a dialog asking if you wish to save the current file
 vim.o.confirm = true
+vim.o.swapfile = false
 
 vim.o.tabstop = 4 -- displays tabs as 4 spaces
 vim.o.shiftwidth = 4 -- uses 4 spaces for auto-indent
