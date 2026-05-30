@@ -1,1 +1,2 @@
-require('colmjr')
+require 'colmjr'
+

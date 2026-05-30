@@ -4,6 +4,8 @@ vim.keymap.set({ 'n', 'x' }, 'H', '^')
 vim.keymap.set({ 'n', 'x' }, 'L', '$')
 -- mac keyboard lol
 vim.keymap.set('n', '<leader>w', '<C-w>')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-k>', '<C-w>k')
 
 -- centering remaps lol
 -- the reason why we dont do this for gg is that zz doesnt work with gg

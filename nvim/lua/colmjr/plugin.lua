@@ -94,19 +94,31 @@ do
     },
   }
 
-  pack_add { gh 'ellisonleao/gruvbox.nvim' }
-  require('gruvbox').setup {
-    contrast = 'hard', -- 'hard', 'soft', or '' (default)
-    italic = {
-      strings = false,
-      comments = false,
+  -- pack_add { gh 'ellisonleao/gruvbox.nvim' }
+  -- require('gruvbox').setup {
+  --   contrast = 'hard', -- 'hard', 'soft', or '' (default)
+  --   italic = {
+  --     strings = false,
+  --     comments = false,
+  --   },
+  -- }
+  -- vim.cmd.colorscheme 'gruvbox'
+
+  pack_add { gh 'rebelot/kanagawa.nvim' }
+  require('kanagawa').setup {
+    theme = 'wave', -- Load "wave" theme
+    background = { -- map the value of 'background' option to a theme
+      dark = 'wave', -- try "dragon" !
+      light = 'lotus',
     },
   }
-  vim.cmd.colorscheme 'gruvbox'
 
+  -- setup must be called before loading
+  vim.cmd 'colorscheme kanagawa'
+  vim.cmd 'colorscheme kanagawa'
   -- highlight todo, notes, etc in comments
-  pack_add { gh 'folke/todo-comments.nvim' }
-  require('todo-comments').setup { signs = false }
+  -- pack_add { gh 'folke/todo-comments.nvim' }
+  -- require('todo-comments').setup { signs = false }
 
   --  a collection of various small independent plugins/modules
   pack_add { gh 'nvim-mini/mini.nvim' }
@@ -664,7 +676,7 @@ do
   -- require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
   require 'colmjr.kickstart.plugins.autopairs'
-  require 'colmjr.kickstart.plugins.neo-tree'
+  -- require 'colmjr.kickstart.plugins.neo-tree'
   -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
   require 'colmjr.custom.plugins'
 end

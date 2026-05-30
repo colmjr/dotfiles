@@ -13,26 +13,26 @@ end
 
 vim.pack.add(plugins)
 
-vim.keymap.set('n', '\\', '<Cmd>Neotree toggle<CR>', { desc = 'NeoTree toggle', silent = true })
-
-require('neo-tree').setup {
-  filesystem = {
-    filtered_items = {
-      visible = false,
-      hide_dotfiles = false,
-      hide_gitignored = true,
-      hide_by_name = {
-        'node_modules',
-        '.git',
-        '.cache',
-        'target',
-        'dist',
-      },
-    },
-    window = {
-      mappings = {
-        ['\\'] = 'close_window',
-      },
-    },
-  },
-}
+-- vim.keymap.set('n', '\\', '<Cmd>Neotree toggle<CR>', { desc = 'NeoTree toggle', silent = true })
+--
+-- require('neo-tree').setup {
+--   filesystem = {
+--     filtered_items = {
+--       visible = false,
+--       hide_dotfiles = false,
+--       hide_gitignored = true,
+--       hide_by_name = {
+--         'node_modules',
+--         '.git',
+--         '.cache',
+--         'target',
+--         'dist',
+--       },
+--     },
+--     window = {
+--       mappings = {
+--         ['\\'] = 'close_window',
+--       },
+--     },
+--   },
+-- }
