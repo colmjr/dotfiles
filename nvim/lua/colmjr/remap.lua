@@ -6,6 +6,8 @@ vim.keymap.set({ 'n', 'x' }, 'L', '$')
 vim.keymap.set('n', '<leader>w', '<C-w>')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
+vim.keymap.set('n', '<C-h>', '<C-w>h')
 
 -- centering remaps lol
 -- the reason why we dont do this for gg is that zz doesnt work with gg
@@ -24,5 +26,3 @@ vim.keymap.set('x', '<leader>p', [["_dP]])
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
 vim.keymap.set({ 'n', 'v' }, '<leader>Y', [["+Y]])
 vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]])
-
--- wincmd magic (handled by vim-tmux-navigator)

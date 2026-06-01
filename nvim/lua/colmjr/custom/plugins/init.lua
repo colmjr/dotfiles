@@ -44,10 +44,10 @@ vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 --   smear_insert_mode = false,
 -- }
 
-local plugins_dir = vim.fs.joinpath(vim.fn.stdpath 'config', 'lua', 'custom', 'plugins')
+local plugins_dir = vim.fs.joinpath(vim.fn.stdpath 'config', 'lua', 'colmjr', 'custom', 'plugins')
 for file_name, type in vim.fs.dir(plugins_dir) do
   if type == 'file' and file_name:match '%.lua$' and file_name ~= 'init.lua' then
     local module = file_name:gsub('%.lua$', '')
-    require('custom.plugins.' .. module)
+    require('colmjr.custom.plugins.' .. module)
   end
 end

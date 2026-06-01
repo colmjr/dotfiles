@@ -37,9 +37,6 @@ end
 
 ---@param repo string
 ---@return string
--- since most of the plugins i have are from github
--- this is a helper function to have less repitition
-local function gh(repo) return 'https://github.com/' .. repo end
 
 ---@param specs (string|vim.pack.Spec)[]
 ---@param opts? vim.pack.keyset.add
@@ -56,6 +53,8 @@ local function pack_add(specs, opts)
 
   if not ok then error(err, 2) end
 end
+
+local function gh(repo) return 'https://github.com/' .. repo end
 
 do
   -- indenting
@@ -120,15 +119,13 @@ do
   -- pack_add { gh 'folke/todo-comments.nvim' }
   -- require('todo-comments').setup { signs = false }
 
-  --  a collection of various small independent plugins/modules
-  pack_add { gh 'nvim-mini/mini.nvim' }
-
-  -- Better Around/Inside textobjects
+  -- Better Around/Inside textobjects (standalone, no full mini.nvim collection)
   --
   -- Examples:
   --  - va)  - [V]isually select [A]round [)]paren
   --  - yiiq - [Y]ank [I]nside [I]+1 [Q]uote
   --  - ci'  - [C]hange [I]nside [']quote
+  pack_add { gh 'echasnovski/mini.ai' }
   require('mini.ai').setup {
     -- NOTE: Avoid conflicts with the built-in incremental selection mappings on Neovim>=0.12 (see `:help treesitter-incremental-selection`)
     mappings = {
@@ -138,71 +135,24 @@ do
     n_lines = 500,
   }
 
-  -- surround like in Zed
-  require('mini.surround').setup()
-  require('mini.move').setup {
-    mappings = {
-      -- Visual mode
-      left = '<M-h>',
-      right = '<M-l>',
-      down = '<M-j>',
-      up = '<M-k>',
+  -- surround: classic vim-surround style mappings (ys / ds / cs)
+  pack_add { gh 'kylechui/nvim-surround' }
+  require('nvim-surround').setup()
 
-      -- Normal mode
-      line_left = '<M-h>',
-      line_right = '<M-l>',
-      line_down = '<M-j>',
-      line_up = '<M-k>',
-    },
+  -- NOTE: commenting (gc / gcc) is provided natively by Neovim 0.10+,
+  -- so mini.comment was removed. mini.move was removed (unused).
 
+  -- statusline
+  pack_add { gh 'nvim-lualine/lualine.nvim' }
+  require('lualine').setup {
     options = {
-      -- Automatically reindent selection during linewise vertical move
-      reindent_linewise = true,
+      icons_enabled = vim.g.have_nerd_font,
+    },
+    sections = {
+      -- cursor location as LINE:COLUMN
+      lualine_z = { '%2l:%-2v' },
     },
   }
-  require('mini.comment').setup {
-    options = {
-      -- Function to compute custom 'commentstring' (optional)
-      custom_commentstring = nil,
-
-      -- Whether to ignore blank lines when commenting
-      ignore_blank_line = false,
-
-      -- Whether to ignore blank lines in actions and textobject
-      start_of_line = false,
-
-      -- Whether to force single space inner padding for comment parts
-      pad_comment_parts = true,
-    },
-
-    mappings = {
-      comment = 'gc',
-
-      comment_line = 'gcc',
-
-      comment_visual = 'gc',
-
-      -- Define 'comment' textobject (like `dgc` - delete whole comment block)
-      textobject = 'gc',
-    },
-
-    hooks = {
-      pre = function() end,
-      post = function() end,
-    },
-  }
-
-  local statusline = require 'mini.statusline'
-  statusline.setup { use_icons = vim.g.have_nerd_font }
-
-  -- You can configure sections in the statusline by overriding their
-  -- default behavior. For example, here we set the section for
-  -- cursor location to LINE:COLUMN
-  ---@diagnostic disable-next-line: duplicate-set-field
-  statusline.section_location = function() return '%2l:%-2v' end
-
-  -- ... and there is more!
-  --  Check out: https://github.com/nvim-mini/mini.nvim
 end
 
 -- ============================================================
