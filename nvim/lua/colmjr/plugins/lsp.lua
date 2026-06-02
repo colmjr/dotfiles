@@ -166,12 +166,15 @@ do
   -- You can press `g?` for help in this menu.
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
-    -- You can add other tools here that you want Mason to install
+    'stylua',
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
+
   for name, server in pairs(servers) do
+    server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
     vim.lsp.config(name, server)
     vim.lsp.enable(name)
   end
