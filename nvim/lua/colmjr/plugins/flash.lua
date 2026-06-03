@@ -2,7 +2,7 @@ vim.pack.add { 'https://github.com/folke/flash.nvim' }
 
 -- Enhances f/F/t/T (multi-line + ;/, repeat) automatically once setup runs.
 -- Set char.jump_labels = true if you want f/t to also show jump labels.
-require('flash').setup { modes = { char = { jump_labels = true } } }
+require('flash').setup { modes = { char = { jump_labels = false } } }
 
 -- `s` to jump anywhere on screen by typing chars then pressing a label.
 -- Works in normal (move), visual (extend selection), and operator-pending.
