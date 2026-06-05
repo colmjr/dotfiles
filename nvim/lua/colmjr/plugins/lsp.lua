@@ -99,7 +99,9 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    clangd = {},
+    clangd = {
+      cmd = { '/usr/bin/clangd', '--query-driver=/opt/homebrew/bin/g++-15', '--log=error' },
+    },
     -- gopls = {},
     pyright = {},
     -- rust_analyzer = {},
@@ -167,6 +169,7 @@ do
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
     'stylua',
+    'markdownlint',
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
