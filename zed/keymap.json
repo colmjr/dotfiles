@@ -1,0 +1,21 @@
+[
+	{
+		"context": "Terminal",
+		"bindings": {
+			"shift-enter": ["terminal::SendText", "\u001b\r"],
+		},
+	},
+	{
+		"context": "vim_mode == visual",
+		"bindings": {
+			"shift-s": "vim::PushAddSurrounds", 
+			"space p": ["workspace::SendKeystrokes", "\" _ d P"],
+		},
+	},
+	{
+		"context": "vim_mode == normal",
+		"bindings": {
+			"space r n": "editor::Rename"
+		},
+	}
+]

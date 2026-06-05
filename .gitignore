@@ -1,0 +1,13 @@
+.DS_Store
+
+# credentials / tokens
+github-copilot/
+gh/hosts.yml
+
+# machine-local, not config
+iterm2/
+opencode/node_modules/
+karabiner/automatic_backups/
+raycast/extensions/
+tmux/plugins/
+zed/prompts/

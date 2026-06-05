@@ -1,0 +1,125 @@
+{
+  "title": "Option Key App Launchers",
+  "rules": [
+    {
+      "description": "Option+Z to Zed",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "z",
+            "modifiers": {
+              "mandatory": ["left_option"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a 'Zed'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Option+B to Helium",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "b",
+            "modifiers": {
+              "mandatory": ["left_option"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a 'Helium'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Option+Enter to Ghostty",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "return_or_enter",
+            "modifiers": {
+              "mandatory": ["left_option"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a 'Ghostty'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Option+M to Thunderbird",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "m",
+            "modifiers": {
+              "mandatory": ["left_option"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a 'Thunderbird'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Option+P to Bitwarden",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "p",
+            "modifiers": {
+              "mandatory": ["left_option"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a 'Bitwarden'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Option+O to Obsidian",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "o",
+            "modifiers": {
+              "mandatory": ["left_option"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a 'Obsidian'"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

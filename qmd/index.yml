@@ -1,0 +1,6 @@
+collections:
+  wiki:
+    path: /Users/colmraffertyjr/dev/Obs/LLM vault
+    pattern: "**/*.md"
+    context:
+      "": Personal LLM Wiki

@@ -1,0 +1,204 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "helix_mode": false,
+  "lsp_document_colors": "inlay",
+  "inlay_hints": {
+    "show_background": false,
+    "show_other_hints": false,
+    "show_type_hints": false,
+    "enabled": true
+  },
+  "title_bar": {
+    "button_layout": "platform_default",
+    "show_user_menu": true,
+    "show_user_picture": true,
+    "show_branch_icon": false
+  },
+  "status_bar": {
+    "show_active_file": false
+  },
+  "debugger": {
+    "button": true
+  },
+  "search": {
+    "whole_word": true,
+    "button": false
+  },
+  "use_smartcase_search": true,
+  "completions": {
+    "words": "fallback"
+  },
+  "git_panel": {
+    "dock": "left",
+    "scrollbar": {},
+    "folder_icons": true,
+    "diff_stats": true
+  },
+  "tabs": {
+    "close_position": "right",
+    "file_icons": false,
+    "git_status": false
+  },
+  "extend_comment_on_newline": false,
+  "diagnostics": {
+    "inline": {
+      "update_debounce_ms": 250,
+      "enabled": false
+    }
+  },
+  "zoomed_padding": true,
+  "active_pane_modifiers": {
+    "border_size": 0.0,
+    "inactive_opacity": 1.0
+  },
+  "window_decorations": "client",
+  "hard_tabs": true,
+  "diff_view_style": "split",
+  "document_folding_ranges": "off",
+  "indent_guides": {
+    "background_coloring": "disabled",
+    "coloring": "indent_aware",
+    "enabled": true,
+  },
+  "auto_indent": "syntax_aware",
+  "restore_on_startup": "launchpad",
+  "calls": {
+    "mute_on_join": true,
+  },
+  "git": {
+    "blame": {
+      "show_avatar": true
+    },
+    "inline_blame": {
+      "enabled": true
+    },
+    "enable_diff": true,
+    "enable_status": true,
+    "disable_git": false,
+  },
+  "agent_buffer_font_size": 18.0,
+  "agent_ui_font_size": 18.0,
+  "ui_font_family": "JetBrains Mono",
+  "buffer_line_height": "comfortable",
+  "colorize_brackets": false,
+  "vim": {
+    "gdefault": true,
+    "use_smartcase_find": true,
+    "use_system_clipboard": "never",
+    "toggle_relative_line_numbers": true,
+    "default_mode": "normal",
+  },
+  "relative_line_numbers": "enabled",
+  "vim_mode": true,
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
+  "languages": {
+    "Markdown": {
+      "allow_rewrap": "anywhere",
+      "soft_wrap": "none",
+      "show_wrap_guides": true
+    },
+    "Shell Script": {
+      "soft_wrap": "none"
+    },
+    "C": {
+      "auto_indent": "syntax_aware",
+      "format_on_save": "off",
+      "hard_tabs": false,
+      "tab_size": 4,
+      "colorize_brackets": false,
+    },
+  },
+  "tab_bar": {
+    "show_pinned_tabs_in_separate_row": false,
+    "show": false,
+  },
+  "buffer_font_family": "JetBrains Mono",
+  "project_panel": {
+    "sort_mode": "directories_first",
+    "dock": "left",
+  },
+  "edit_predictions": {
+    "provider": "copilot",
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry",
+      "favorite_models": ["default"],
+      "favorite_config_option_values": {
+        "model": ["default"],
+      },
+    },
+  },
+  "disable_ai": true,
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000,
+    },
+  },
+  "show_edit_predictions": false,
+  "base_keymap": "VSCode",
+  "ui_font_size": 16.0,
+  "buffer_font_size": 16.0,
+  "theme": {
+    "mode": "system",
+    "light": "Gruvbox Light Hard",
+    "dark": "Gruvbox Dark Hard"
+  },
+  "cursor_blink": false,
+  "buffer_font_features": {
+    "liga": true,
+    "calt": true,
+  },
+  "scrollbar": {
+    "git_diff": true,
+    "show": "never",
+  },
+  "show_whitespaces": "selection",
+  "gutter": {
+    "folds": false,
+  },
+  "terminal": {
+    "dock": "bottom",
+    "font_family": "JetBrains Mono",
+    "font_size": 14,
+  },
+  "lsp": {
+    "basedpyright": {
+      "settings": {
+        "basedpyright": {
+          "analysis": {
+            "reportMissingTypeStubs": false,
+          },
+        },
+      },
+    },
+  },
+}
