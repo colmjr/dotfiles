@@ -1,4 +1,4 @@
-vim.pack.add { 'https://github.com/goolord/alpha-nvim' }
+vim.pack.add { 'https://github.com/nvim-tree/nvim-web-devicons', 'https://github.com/goolord/alpha-nvim' }
 local theta = require 'alpha.themes.theta'
 local dashboard = require 'alpha.themes.dashboard'
 theta.file_icons.provider = 'devicons'
