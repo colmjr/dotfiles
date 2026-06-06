@@ -103,7 +103,18 @@ do
       cmd = { '/usr/bin/clangd', '--query-driver=/opt/homebrew/bin/g++-15', '--log=error' },
     },
     -- gopls = {},
-    pyright = {},
+    pyright = {
+      settings = {
+        python = {
+          pythonPath = vim.fn.expand '~/miniconda3/bin/python',
+          analysis = {
+            diagnosticSeverityOverrides = {
+              reportPrivateImportUsage = 'none', -- false positives on torch.tensor etc.
+            },
+          },
+        },
+      },
+    },
     -- rust_analyzer = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
