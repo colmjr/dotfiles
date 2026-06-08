@@ -1,0 +1,23 @@
+Codeforces "copy statement as markdown" bookmarklet
+===================================================
+
+Setup (once):
+  1. Make a new bookmark in your browser (right-click bookmarks bar -> Add Page,
+     or Cmd+D then edit).
+  2. Name it e.g.  CF -> md
+  3. Paste the single line below as the bookmark's URL/Location.
+
+Use:
+  On any Codeforces problem page, click the bookmark. It copies the statement
+  (title, limits, legend, input/output spec, notes) to your clipboard as
+  markdown. Then in nvim, with the solution file focused, press <leader>cd to
+  write it to <problem>.md and open it side-by-side.
+
+Bookmarklet (one line — paste the whole thing as the bookmark URL):
+
+javascript:(function(){var p=document.querySelector('.problem-statement');if(!p){alert('No Codeforces problem statement on this page');return;}var q=function(s){var e=p.querySelector(s);return e?e.innerText.trim():'';};var o='# '+(q('.title')||document.title)+'\n\n> '+q('.time-limit')+'  ·  '+q('.memory-limit')+'\n\n'+location.href+'\n\n---\n\n';p.querySelectorAll(':scope > div').forEach(function(d){if(d.classList.contains('header')||d.classList.contains('sample-tests'))return;o+=d.innerText.trim()+'\n\n';});navigator.clipboard.writeText(o).then(function(){alert('Statement copied ('+o.length+' chars). In nvim: <leader>cd');},function(e){alert('Clipboard write failed: '+e);});})();
+
+Notes:
+  - Math renders as Unicode text (e.g. n ≤ 10^5), which reads fine side-by-side.
+  - Sample tests are skipped on purpose (CompetiTest already has them).
+  - Works on both /problemset/problem/... and /contest/.../problem/... pages.
