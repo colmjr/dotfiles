@@ -10,6 +10,11 @@ vim.pack.add { { src = 'https://github.com/nvim-treesitter/nvim-treesitter', ver
 local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
 require('nvim-treesitter').install(parsers)
 
+-- Languages whose built-in (non-treesitter) indentexpr we prefer, because the
+-- treesitter indent only reindents on `=`/`o` and is weak for live typing.
+-- For these, we leave the runtime's indent/<ft>.vim in charge (e.g. rust -> GetRustIndent).
+local prefer_native_indent = { rust = true }
+
 ---@param buf integer
 ---@param language string
 local function treesitter_try_attach(buf, language)
@@ -27,8 +32,8 @@ local function treesitter_try_attach(buf, language)
   -- in case there is no indent query, the indentexpr will fallback to the vim's built in one
   local has_indent_query = vim.treesitter.query.get(language, 'indents') ~= nil
 
-  -- Enable treesitter based indentation
-  if has_indent_query then vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end
+  -- Enable treesitter based indentation, unless we prefer the native indenter for this language
+  if has_indent_query and not prefer_native_indent[language] then vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end
 end
 
 local available_parsers = require('nvim-treesitter').get_available()

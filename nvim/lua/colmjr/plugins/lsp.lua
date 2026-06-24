@@ -55,6 +55,12 @@ do
       --  For example, in C this would take you to the header.
       map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+      -- Show documentation / function signature for the symbol under the cursor.
+      map('K', vim.lsp.buf.hover, 'Hover Documentation')
+
+      -- Jump to the definition of the function/symbol under the cursor.
+      map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+
       -- The following two autocommands are used to highlight references of the
       -- word under your cursor when your cursor rests there for a little while.
       --    See `:help CursorHold` for information about when this is executed
@@ -115,7 +121,7 @@ do
         },
       },
     },
-    -- rust_analyzer = {},
+    rust_analyzer = {}, -- provides Rust hover (K), goto-definition, and rustfmt formatting
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
     --    https://github.com/pmizio/typescript-tools.nvim
@@ -177,7 +183,8 @@ do
   --    :Mason
   --
   -- You can press `g?` for help in this menu.
-  local ensure_installed = vim.tbl_keys(servers or {})
+  -- rust-analyzer is provided by rustup (it matches your toolchain), so don't let Mason install a separate copy.
+  local ensure_installed = vim.tbl_filter(function(name) return name ~= 'rust_analyzer' end, vim.tbl_keys(servers or {}))
   vim.list_extend(ensure_installed, {
     'stylua',
     'markdownlint',
