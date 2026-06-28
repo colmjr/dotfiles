@@ -121,7 +121,13 @@ do
         },
       },
     },
-    rust_analyzer = {}, -- provides Rust hover (K), goto-definition, and rustfmt formatting
+    rust_analyzer = {
+      settings = {
+        ['rust-analyzer'] = {
+          checkOnSave = false,
+        },
+      },
+    },
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
     --    https://github.com/pmizio/typescript-tools.nvim

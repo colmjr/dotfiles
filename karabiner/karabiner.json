@@ -20,6 +20,7 @@
                     },
                     {
                         "description": "Option+A to Astrill",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -36,6 +37,7 @@
                     },
                     {
                         "description": "Option+Z to Zed",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -84,6 +86,7 @@
                     },
                     {
                         "description": "Option+M to Thunderbird",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -100,6 +103,7 @@
                     },
                     {
                         "description": "Option+Q to QQ Music",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -116,6 +120,7 @@
                     },
                     {
                         "description": "Option+P to Bitwarden",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -132,6 +137,7 @@
                     },
                     {
                         "description": "Option+O to Obsidian",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -154,10 +160,23 @@
                     "identifiers": {
                         "is_keyboard": true,
                         "is_pointing_device": true,
-                        "product_id": 2691,
+                        "product_id": 563,
                         "vendor_id": 13364
                     },
                     "ignore": false,
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "right_command" },
+                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 563,
+                        "vendor_id": 13364
+                    },
                     "simple_modifications": [
                         {
                             "from": { "key_code": "right_command" },
