@@ -27,13 +27,44 @@ require('mason-nvim-dap').setup {
 
   -- You can provide additional configuration to the handlers,
   -- see mason-nvim-dap README for more information
-  handlers = {},
+  handlers = {
+    function(config) require('mason-nvim-dap').default_setup(config) end,
+
+    codelldb = function(config)
+      -- mason-nvim-dap finds codelldb via exepath(), but this file loads before
+      -- lsp.lua runs mason.setup() (which is what puts mason/bin on PATH), so
+      -- point at the binary directly.
+      config.adapters.executable.command = vim.fn.stdpath 'data' .. '/mason/bin/codelldb'
+
+      -- Keep the default setup (adapter + generic C/C++ launch configs)...
+      require('mason-nvim-dap').default_setup(config)
+
+      -- ...but give Rust its own config that rebuilds first, so the debugger
+      -- never runs a stale binary, and starts the prompt where cargo puts it.
+      dap.configurations.rust = {
+        {
+          name = 'LLDB: cargo build & launch',
+          type = 'codelldb',
+          request = 'launch',
+          program = function()
+            local output = vim.fn.system 'cargo build'
+            if vim.v.shell_error ~= 0 then error('cargo build failed:\n' .. output, 0) end
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
+          end,
+          cwd = '${workspaceFolder}',
+          stopOnEntry = false,
+          args = {},
+        },
+      }
+    end,
+  },
 
   -- You'll need to check that you have the required things installed
   -- online, please don't ask me how to install them :)
   ensure_installed = {
     -- Update this to ensure that you have the debuggers for the langs you want
     'delve',
+    'codelldb', -- Rust (the default handler also wires it up for C/C++)
   },
 }
 
