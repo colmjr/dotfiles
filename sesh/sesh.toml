@@ -1,0 +1,19 @@
+[default_session]
+# direct exec, no shell — the ls=eza alias doesn't apply here, so call eza itself
+preview_command = "eza --all --git --icons --color=always {}"
+
+[[session]]
+name = "cp"
+path = "~/dev/Problems"
+# creates cses + algos windows with explicit targets, then opens nvim in window 1
+startup_command = "sh ~/.config/sesh/cp-windows.sh"
+
+[[session]]
+name = "config"
+path = "~/.config"
+startup_command = "nvim"
+
+# any project under ~/dev opens straight into nvim
+[[wildcard]]
+pattern = "~/dev/*"
+startup_command = "nvim"
