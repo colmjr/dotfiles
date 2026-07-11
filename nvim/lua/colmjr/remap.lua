@@ -1,7 +1,7 @@
-vim.keymap.set({ 'n', 'x' }, 'Y', 'yy')
-vim.keymap.set({ 'n', 'x' }, 'D', 'dd')
-vim.keymap.set({ 'n', 'x' }, 'H', '^')
-vim.keymap.set({ 'n', 'x' }, 'L', '$')
+vim.keymap.set('n', 'Y', 'yy')
+vim.keymap.set('n', 'D', 'dd')
+vim.keymap.set({ 'n', 'x', 'o' }, 'H', '^')
+vim.keymap.set({ 'n', 'x', 'o' }, 'L', '$')
 -- mac keyboard lol
 vim.keymap.set('n', '<leader>w', '<C-w>')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
@@ -12,12 +12,13 @@ vim.keymap.set('n', '<C-h>', '<C-w>h')
 -- centering remaps lol
 -- the reason why we dont do this for gg is that zz doesnt work with gg
 vim.keymap.set({ 'n', 'x' }, 'G', [[Gzz]])
-vim.keymap.set('n', '<C-d>', '<C-d> zz')
-vim.keymap.set('n', '<C-u>', '<C-u> zz')
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzz')
 vim.keymap.set('n', 'N', 'Nzz')
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>S', '<cmd>so $MYVIMRC<CR>', { desc = '[S]ource Nvim' })
 -- for exiting terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>')
 
