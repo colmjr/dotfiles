@@ -29,7 +29,7 @@ yabai="$HOME/.local/bin/yabai"
 # focus follows mouse: 'autofocus' focuses without raising; use 'autoraise'
 # for full Hyprland behavior or 'off' if it gets annoying on macOS
 "$yabai" -m config focus_follows_mouse    autofocus
-"$yabai" -m config mouse_follows_focus    off
+"$yabai" -m config mouse_follows_focus    autoraise
 
 # ---- rules: float system utility windows (~ windowrule float) ----
 "$yabai" -m rule --add app="^System Settings$"    manage=off
