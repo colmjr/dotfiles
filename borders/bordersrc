@@ -1,0 +1,13 @@
+#!/bin/bash
+# jankyborders — colors match Hyprland's default look:
+# col.active_border = 33ccff -> 00ff99 gradient, col.inactive_border = 595959aa
+
+options=(
+	style=round
+	width=5.0
+	hidpi=on
+	active_color="gradient(top_left=0xff33ccff,bottom_right=0xff00ff99)"
+	inactive_color=0xaa595959
+)
+
+"$HOME/.local/bin/borders" "${options[@]}"

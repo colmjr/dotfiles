@@ -1,0 +1,69 @@
+# skhd — Hyprland-style binds, mod = alt (option)
+#
+# skhd hot-reloads this file on save. Absolute yabai path because launchd
+# services don't source ~/.zshrc (~/.local/bin may not be on PATH).
+
+# ---- app launchers (~ bind = SUPER, X, exec, app) — moved here from Karabiner ----
+alt - return : open -na Ghostty
+alt - a : open -a 'Astrill'
+alt - b : open -a 'Helium'
+alt - m : open -a 'Thunderbird'
+alt - q : open -a 'QQMusic'
+alt - p : open -a 'Bitwarden'
+alt - o : open -a 'Obsidian'
+
+# close window (~ killactive)
+alt - w : ~/.local/bin/yabai -m window --close
+
+# focus window (~ movefocus)
+alt - h : ~/.local/bin/yabai -m window --focus west
+alt - j : ~/.local/bin/yabai -m window --focus south
+alt - k : ~/.local/bin/yabai -m window --focus north
+alt - l : ~/.local/bin/yabai -m window --focus east
+alt - tab : ~/.local/bin/yabai -m window --focus recent
+
+# swap window (~ movewindow)
+alt + shift - h : ~/.local/bin/yabai -m window --swap west
+alt + shift - j : ~/.local/bin/yabai -m window --swap south
+alt + shift - k : ~/.local/bin/yabai -m window --swap north
+alt + shift - l : ~/.local/bin/yabai -m window --swap east
+
+# resize window (~ resizeactive)
+alt + ctrl - h : ~/.local/bin/yabai -m window --resize left:-50:0  2>/dev/null || ~/.local/bin/yabai -m window --resize right:-50:0
+alt + ctrl - j : ~/.local/bin/yabai -m window --resize bottom:0:50 2>/dev/null || ~/.local/bin/yabai -m window --resize top:0:50
+alt + ctrl - k : ~/.local/bin/yabai -m window --resize bottom:0:-50 2>/dev/null || ~/.local/bin/yabai -m window --resize top:0:-50
+alt + ctrl - l : ~/.local/bin/yabai -m window --resize right:50:0  2>/dev/null || ~/.local/bin/yabai -m window --resize left:50:0
+
+# focus space (~ workspace N) — spaces must already exist (no SA = no --create)
+alt - 1 : ~/.local/bin/yabai -m space --focus 1
+alt - 2 : ~/.local/bin/yabai -m space --focus 2
+alt - 3 : ~/.local/bin/yabai -m space --focus 3
+alt - 4 : ~/.local/bin/yabai -m space --focus 4
+alt - 5 : ~/.local/bin/yabai -m space --focus 5
+alt - 6 : ~/.local/bin/yabai -m space --focus 6
+alt - 7 : ~/.local/bin/yabai -m space --focus 7
+alt - 8 : ~/.local/bin/yabai -m space --focus 8
+alt - 9 : ~/.local/bin/yabai -m space --focus 9
+
+# move window to space and follow (~ movetoworkspace)
+alt + shift - 1 : ~/.local/bin/yabai -m window --space 1; ~/.local/bin/yabai -m space --focus 1
+alt + shift - 2 : ~/.local/bin/yabai -m window --space 2; ~/.local/bin/yabai -m space --focus 2
+alt + shift - 3 : ~/.local/bin/yabai -m window --space 3; ~/.local/bin/yabai -m space --focus 3
+alt + shift - 4 : ~/.local/bin/yabai -m window --space 4; ~/.local/bin/yabai -m space --focus 4
+alt + shift - 5 : ~/.local/bin/yabai -m window --space 5; ~/.local/bin/yabai -m space --focus 5
+alt + shift - 6 : ~/.local/bin/yabai -m window --space 6; ~/.local/bin/yabai -m space --focus 6
+alt + shift - 7 : ~/.local/bin/yabai -m window --space 7; ~/.local/bin/yabai -m space --focus 7
+alt + shift - 8 : ~/.local/bin/yabai -m window --space 8; ~/.local/bin/yabai -m space --focus 8
+alt + shift - 9 : ~/.local/bin/yabai -m window --space 9; ~/.local/bin/yabai -m space --focus 9
+
+# toggles
+alt - v         : ~/.local/bin/yabai -m window --toggle float --grid 4:4:1:1:2:2   # ~ togglefloating
+alt - f         : ~/.local/bin/yabai -m window --toggle zoom-fullscreen            # ~ fullscreen,1
+alt + shift - f : ~/.local/bin/yabai -m window --toggle native-fullscreen          # ~ fullscreen,0
+alt - t         : ~/.local/bin/yabai -m window --toggle split                      # ~ togglesplit
+alt - e         : ~/.local/bin/yabai -m space --balance
+alt - r         : ~/.local/bin/yabai -m space --rotate 270
+alt - g         : ~/.local/bin/yabai -m space --toggle padding; ~/.local/bin/yabai -m space --toggle gap
+
+# restart yabai (~ hyprctl reload; skhd itself hot-reloads on save)
+alt + shift - r : ~/.local/bin/yabai --restart-service

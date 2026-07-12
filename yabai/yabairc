@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+# yabai — bsp tiling, Hyprland-style
+# Running WITHOUT the scripting addition (SIP enabled). SA-only features are
+# unavailable: space --create/--destroy/--move, window shadows, opacity,
+# sticky windows, layers. See asmvik/yabai#2800/#2802 for macOS 27 SA status.
+
+yabai="$HOME/.local/bin/yabai"
+
+# ---- layout (~ Hyprland dwindle) ----
+"$yabai" -m config layout                 bsp
+"$yabai" -m config window_placement       second_child
+"$yabai" -m config split_ratio            0.50
+"$yabai" -m config auto_balance           off
+
+# ---- gaps (~ gaps_in / gaps_out) ----
+"$yabai" -m config top_padding            10
+"$yabai" -m config bottom_padding         10
+"$yabai" -m config left_padding           10
+"$yabai" -m config right_padding          10
+"$yabai" -m config window_gap             10
+
+# ---- mouse (~ bindm = SUPER, mouse:272, movewindow) ----
+# hold alt + left-drag to move, alt + right-drag to resize
+"$yabai" -m config mouse_modifier         alt
+"$yabai" -m config mouse_action1          move
+"$yabai" -m config mouse_action2          resize
+"$yabai" -m config mouse_drop_action      swap
+
+# focus follows mouse: 'autofocus' focuses without raising; use 'autoraise'
+# for full Hyprland behavior or 'off' if it gets annoying on macOS
+"$yabai" -m config focus_follows_mouse    autofocus
+"$yabai" -m config mouse_follows_focus    off
+
+# ---- rules: float system utility windows (~ windowrule float) ----
+"$yabai" -m rule --add app="^System Settings$"    manage=off
+"$yabai" -m rule --add app="^Calculator$"         manage=off
+"$yabai" -m rule --add app="^Karabiner-Elements$" manage=off
+"$yabai" -m rule --add app="^Archive Utility$"    manage=off
+"$yabai" -m rule --add app="^Installer$"          manage=off
+"$yabai" -m rule --add app="^Bitwarden$"          manage=off
+
+# ---- jankyborders (~ Hyprland borders) ----
+pkill -x borders >/dev/null 2>&1
+"$HOME/.local/bin/borders" &
+
+echo "yabai configuration loaded.."
