@@ -13,6 +13,9 @@ yabai="$HOME/.local/bin/yabai"
 "$yabai" -m config auto_balance           off
 
 # ---- gaps (~ gaps_in / gaps_out) ----
+# external_bar reserves the sketchybar strip (y_offset 10 + height 40);
+# top_padding then adds the usual 10px gap below the bar
+"$yabai" -m config external_bar           all:50:0
 "$yabai" -m config top_padding            10
 "$yabai" -m config bottom_padding         10
 "$yabai" -m config left_padding           10
