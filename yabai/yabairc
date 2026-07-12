@@ -31,6 +31,9 @@ yabai="$HOME/.local/bin/yabai"
 "$yabai" -m config focus_follows_mouse    autofocus
 "$yabai" -m config mouse_follows_focus    autoraise
 
+# ---- native menu bar: invisible + ignores hover (replaced by sketchybar) ----
+"$yabai" -m config menubar_opacity        0.0
+
 # ---- rules: float system utility windows (~ windowrule float) ----
 "$yabai" -m rule --add app="^System Settings$"    manage=off
 "$yabai" -m rule --add app="^Calculator$"         manage=off
