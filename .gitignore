@@ -3,6 +3,8 @@
 # credentials / tokens
 github-copilot/
 gh/hosts.yml
+glab-cli/
+homebrew/
 
 # machine-local, not config
 iterm2/
