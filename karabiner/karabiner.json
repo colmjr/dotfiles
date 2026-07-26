@@ -9,7 +9,7 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Caps Lock to Escape on single press, Caps Lock on press and hold.",
+                        "description": "Caps Lock to Escape on single press, Control on press and hold.",
                         "manipulators": [
                             {
                                 "from": {
@@ -22,12 +22,13 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "escape"
+                                        "key_code": "left_control",
+                                        "lazy": true
                                     }
                                 ],
-                                "to_if_held_down": [
+                                "to_if_alone": [
                                     {
-                                        "key_code": "caps_lock"
+                                        "key_code": "escape"
                                     }
                                 ],
                                 "type": "basic"
@@ -77,46 +78,7 @@
                             ]
                         }
                     ]
-                }
-            ],
-            "name": "Normal",
-            "selected": true,
-            "virtual_hid_keyboard": {
-                "keyboard_type_v2": "ansi"
-            }
-        },
-        {
-            "complex_modifications": {
-                "rules": [
-                    {
-                        "description": "Caps Lock to Escape on single press, Caps Lock on press and hold.",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "escape"
-                                    }
-                                ],
-                                "to_if_held_down": [
-                                    {
-                                        "key_code": "caps_lock"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "devices": [
+                },
                 {
                     "disable_built_in_keyboard_if_exists": true,
                     "identifiers": {
@@ -140,19 +102,8 @@
                     ]
                 }
             ],
-            "name": "NeoVim",
-            "simple_modifications": [
-                {
-                    "from": {
-                        "key_code": "comma"
-                    },
-                    "to": [
-                        {
-                            "key_code": "right_control"
-                        }
-                    ]
-                }
-            ],
+            "name": "Normal",
+            "selected": true,
             "virtual_hid_keyboard": {
                 "keyboard_type_v2": "ansi"
             }
