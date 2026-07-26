@@ -37,13 +37,12 @@ yabai="$HOME/.local/bin/yabai"
 # ---- native menu bar: invisible + ignores hover (replaced by sketchybar) ----
 "$yabai" -m config menubar_opacity        0.0
 
-# ---- rules: float system utility windows (~ windowrule float) ----
-"$yabai" -m rule --add app="^System Settings$"    manage=off
-"$yabai" -m rule --add app="^Calculator$"         manage=off
-"$yabai" -m rule --add app="^Karabiner-Elements$" manage=off
-"$yabai" -m rule --add app="^Archive Utility$"    manage=off
-"$yabai" -m rule --add app="^Installer$"          manage=off
-"$yabai" -m rule --add app="^Bitwarden$"          manage=off
+# ---- rules: whitelist tiling — float everything, opt apps back in ----
+# when multiple rules match a window the last one added wins, so the
+# catch-all must stay above the whitelist
+"$yabai" -m rule --add app=".*" manage=off
+"$yabai" -m rule --add app="^(Ghostty|Helium|Safari|Google Chrome|Zed|Code|Obsidian)$" manage=on
+"$yabai" -m rule --apply
 
 # ---- jankyborders (~ Hyprland borders) ----
 pkill -x borders >/dev/null 2>&1
