@@ -96,7 +96,7 @@
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "neogit": {
-      "rev": "2043096b7ae81e8350ec8cceb3e7ab08dca1dcfe",
+      "rev": "57c9f8ee784bcd07141bf7fa958b5c5bb1420de8",
       "src": "https://github.com/NeogitOrg/neogit"
     },
     "nui.nvim": {
@@ -124,7 +124,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "d592c1e6ad9a0a01b3d5ed3f0345d68407167181",
+      "rev": "7ab79bb1b57160a537f427ac8a6026102f12b701",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -136,7 +136,7 @@
       "src": "https://github.com/kylechui/nvim-surround"
     },
     "nvim-treesitter": {
-      "rev": "bd41519ff7901da11ba6e1c8f419f17f2d94305a",
+      "rev": "61df84986b4b4ec469ee745a182e433d49f8c27e",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
@@ -147,6 +147,14 @@
     "oil.nvim": {
       "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "org-bullets.nvim": {
+      "rev": "503fe053550879cc202086a40454e46a87c41ddb",
+      "src": "https://github.com/nvim-orgmode/org-bullets.nvim"
+    },
+    "orgmode": {
+      "rev": "f32a06d4b5399dad8bf0478c772bf6c513f02dcf",
+      "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "pack-ui.nvim": {
       "rev": "608fe1139753bc12637837c621fb8e51988a564e",
@@ -167,6 +175,10 @@
     "telescope-fzf-native.nvim": {
       "rev": "b25b749b9db64d375d782094e2b9dce53ad53a40",
       "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
+    },
+    "telescope-orgmode.nvim": {
+      "rev": "214fe56e105bb3d0638f33320ed959911a1bfcb1",
+      "src": "https://github.com/nvim-orgmode/telescope-orgmode.nvim"
     },
     "telescope-ui-select.nvim": {
       "rev": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
