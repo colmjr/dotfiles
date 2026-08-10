@@ -1,0 +1,19 @@
+{
+  "lastChangelogVersion": "0.84.1",
+  "theme": "dark",
+  "defaultProvider": "kimi-coding",
+  "defaultModel": "k3",
+  "defaultThinkingLevel": "high",
+  "warnings": {
+    "anthropicExtraUsage": true
+  },
+  "doubleEscapeAction": "tree",
+  "defaultProjectTrust": "always",
+  "showCacheMissNotices": false,
+  "outputPad": 1,
+  "editorPaddingX": 1,
+  "packages": [
+    "npm:pi-web-access"
+  ],
+  "tuiMode": "fullscreen"
+}
