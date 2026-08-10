@@ -4,6 +4,28 @@ require('blink.cmp').setup {
     preset = 'default',
   },
 
+  cmdline = {
+    keymap = {
+      preset = 'cmdline',
+      -- the cmdline preset's <Tab> has no 'fallback', so it swallows Tab in
+      -- input() prompts (getcmdtype '@', e.g. orgmode capture), breaking their
+      -- native customlist completion; hand those prompts back to vim
+      ['<Tab>'] = {
+        function()
+          if vim.fn.getcmdtype() == '@' then
+            -- wildchar (Tab) is ignored when not typed, so completion must be
+            -- triggered through wildcharm; 'i' keeps the fed key's typeahead place
+            vim.o.wildcharm = 26 -- <C-z>
+            vim.api.nvim_feedkeys(vim.keycode '<C-z>', 'ni', false)
+            return true
+          end
+        end,
+        'show_and_insert_or_accept_single',
+        'select_next',
+      },
+    },
+  },
+
   appearance = {
     nerd_font_variant = 'mono',
   },
