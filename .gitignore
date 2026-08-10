@@ -13,3 +13,9 @@ karabiner/automatic_backups/
 raycast/extensions/
 tmux/plugins/
 zed/prompts/
+
+# pi runtime / secrets
+pi/agent/auth.json
+pi/agent/sessions/
+pi/agent/npm/
+pi/agent/models-store.json
