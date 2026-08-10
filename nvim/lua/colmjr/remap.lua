@@ -3,7 +3,6 @@ vim.keymap.set('n', 'D', 'dd')
 vim.keymap.set({ 'n', 'x', 'o' }, 'H', '^')
 vim.keymap.set({ 'n', 'x', 'o' }, 'L', '$')
 -- mac keyboard lol
-vim.keymap.set('n', '<leader>w', '<C-w>')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
 vim.keymap.set('n', '<C-l>', '<C-w>l')
