@@ -112,7 +112,6 @@ do
     pyright = {
       settings = {
         python = {
-          pythonPath = vim.fn.expand '~/miniconda3/bin/python',
           analysis = {
             diagnosticSeverityOverrides = {
               reportPrivateImportUsage = 'none', -- false positives on torch.tensor etc.
