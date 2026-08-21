@@ -13,9 +13,10 @@
  */
 
 import type { AgentMessage } from "@earendil-works/pi-agent-core";
-import type { AssistantMessage, TextContent } from "@earendil-works/pi-ai";
+import { StringEnum, type AssistantMessage, type TextContent } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { Key } from "@earendil-works/pi-tui";
+import { Type } from "typebox";
 import { extractTodoItems, isSafeCommand, markCompletedSteps, type TodoItem } from "./utils.ts";
 
 // Tools
@@ -28,8 +29,13 @@ interface PlanModeState {
 	enabled: boolean;
 	todos?: TodoItem[];
 	executing?: boolean;
+	todosVisible?: boolean;
 	toolsBeforePlanMode?: string[];
 }
+
+const PlanTodoParams = Type.Object({
+	action: StringEnum(["list", "show", "hide", "toggle", "clear"] as const),
+});
 
 // Type guard for assistant messages
 function isAssistantMessage(m: AgentMessage): m is AssistantMessage {
@@ -48,6 +54,7 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 	let planModeEnabled = false;
 	let executionMode = false;
 	let todoItems: TodoItem[] = [];
+	let todosVisible = true;
 	let toolsBeforePlanMode: string[] | undefined;
 
 	pi.registerFlag("plan", {
@@ -58,24 +65,24 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 
 	function updateStatus(ctx: ExtensionContext): void {
 		// Footer status
-		if (executionMode && todoItems.length > 0) {
+		if (executionMode && todoItems.length > 0 && todosVisible) {
 			const completed = todoItems.filter((t) => t.completed).length;
-			ctx.ui.setStatus("plan-mode", ctx.ui.theme.fg("accent", `📋 ${completed}/${todoItems.length}`));
+			ctx.ui.setStatus("plan-mode", ctx.ui.theme.fg("accent", `plan ${completed}/${todoItems.length}`));
 		} else if (planModeEnabled) {
-			ctx.ui.setStatus("plan-mode", ctx.ui.theme.fg("warning", "⏸ plan"));
+			ctx.ui.setStatus("plan-mode", ctx.ui.theme.fg("warning", "plan"));
 		} else {
 			ctx.ui.setStatus("plan-mode", undefined);
 		}
 
 		// Widget showing todo list
-		if (executionMode && todoItems.length > 0) {
+		if (executionMode && todoItems.length > 0 && todosVisible) {
 			const lines = todoItems.map((item) => {
 				if (item.completed) {
 					return (
-						ctx.ui.theme.fg("success", "☑ ") + ctx.ui.theme.fg("muted", ctx.ui.theme.strikethrough(item.text))
+						ctx.ui.theme.fg("success", "[x] ") + ctx.ui.theme.fg("muted", ctx.ui.theme.strikethrough(item.text))
 					);
 				}
-				return `${ctx.ui.theme.fg("muted", "☐ ")}${item.text}`;
+				return `${ctx.ui.theme.fg("muted", "[ ] ")}${item.text}`;
 			});
 			ctx.ui.setWidget("plan-todos", lines);
 		} else {
@@ -118,8 +125,24 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 			enabled: planModeEnabled,
 			todos: todoItems,
 			executing: executionMode,
+			todosVisible,
 			toolsBeforePlanMode,
 		});
+	}
+
+	function setTodosVisible(ctx: ExtensionContext, visible: boolean): void {
+		todosVisible = visible;
+		updateStatus(ctx);
+		persistState();
+	}
+
+	function clearPlanTodos(ctx: ExtensionContext): number {
+		const count = todoItems.length;
+		executionMode = false;
+		todoItems = [];
+		updateStatus(ctx);
+		persistState();
+		return count;
 	}
 
 	function togglePlanMode(ctx: ExtensionContext): void {
@@ -150,8 +173,62 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 				ctx.ui.notify("No todos. Create a plan first with /plan", "info");
 				return;
 			}
-			const list = todoItems.map((item, i) => `${i + 1}. ${item.completed ? "✓" : "○"} ${item.text}`).join("\n");
+			const list = todoItems
+				.map((item, i) => `${i + 1}. ${item.completed ? "[x]" : "[ ]"} ${item.text}`)
+				.join("\n");
 			ctx.ui.notify(`Plan Progress:\n${list}`, "info");
+		},
+	});
+
+	pi.registerCommand("plan-todos-toggle", {
+		description: "Toggle the plan todo widget and footer status",
+		handler: async (_args, ctx) => {
+			setTodosVisible(ctx, !todosVisible);
+			ctx.ui.notify(`Plan todo display ${todosVisible ? "shown" : "hidden"}.`, "info");
+		},
+	});
+
+	pi.registerCommand("plan-todos-clear", {
+		description: "Clear the current plan todo list",
+		handler: async (_args, ctx) => {
+			const count = clearPlanTodos(ctx);
+			ctx.ui.notify(`Cleared ${count} plan todo${count === 1 ? "" : "s"}.`, "info");
+		},
+	});
+
+	pi.registerTool({
+		name: "plan_todo",
+		label: "Plan Todo",
+		description: "Manage the active plan todo display. Actions: list, show, hide, toggle, clear",
+		parameters: PlanTodoParams,
+		async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
+			switch (params.action) {
+				case "show":
+					setTodosVisible(ctx, true);
+					break;
+				case "hide":
+					setTodosVisible(ctx, false);
+					break;
+				case "toggle":
+					setTodosVisible(ctx, !todosVisible);
+					break;
+				case "clear": {
+					const count = clearPlanTodos(ctx);
+					return {
+						content: [{ type: "text", text: `Cleared ${count} plan todo${count === 1 ? "" : "s"}` }],
+						details: { action: params.action, count },
+					};
+				}
+				case "list":
+					break;
+			}
+
+			const completed = todoItems.filter((item) => item.completed).length;
+			const summary = todoItems.length === 0 ? "No plan todos" : `${completed}/${todoItems.length} completed`;
+			return {
+				content: [{ type: "text", text: `${summary}; display ${todosVisible ? "shown" : "hidden"}` }],
+				details: { action: params.action, todos: todoItems, visible: todosVisible },
+			};
 		},
 	});
 
@@ -265,13 +342,10 @@ After completing a step, include a [DONE:n] tag in your response.`,
 			if (todoItems.every((t) => t.completed)) {
 				const completedList = todoItems.map((t) => `~~${t.text}~~`).join("\n");
 				pi.sendMessage(
-					{ customType: "plan-complete", content: `**Plan Complete!** ✓\n\n${completedList}`, display: true },
+					{ customType: "plan-complete", content: `**Plan Complete**\n\n${completedList}`, display: true },
 					{ triggerTurn: false },
 				);
-				executionMode = false;
-				todoItems = [];
-				updateStatus(ctx);
-				persistState(); // Save cleared state so resume doesn't restore old execution mode
+				clearPlanTodos(ctx); // Save cleared state so resume doesn't restore old execution mode
 			}
 			return;
 		}
@@ -291,7 +365,7 @@ After completing a step, include a [DONE:n] tag in your response.`,
 		persistState();
 
 		// Show plan steps and prompt for next action
-		const todoListText = todoItems.map((t, i) => `${i + 1}. ☐ ${t.text}`).join("\n");
+		const todoListText = todoItems.map((t, i) => `${i + 1}. [ ] ${t.text}`).join("\n");
 		const planTodoListMessage = {
 			customType: "plan-todo-list",
 			content: `**Plan Steps (${todoItems.length}):**\n\n${todoListText}`,
@@ -353,6 +427,7 @@ After completing a step, include a [DONE:n] tag in your response.`;
 			planModeEnabled = planModeEntry.data.enabled ?? planModeEnabled;
 			todoItems = planModeEntry.data.todos ?? todoItems;
 			executionMode = planModeEntry.data.executing ?? executionMode;
+			todosVisible = planModeEntry.data.todosVisible ?? todosVisible;
 			toolsBeforePlanMode = planModeEntry.data.toolsBeforePlanMode ?? toolsBeforePlanMode;
 		}
 

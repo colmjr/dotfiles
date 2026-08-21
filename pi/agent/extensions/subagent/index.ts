@@ -459,15 +459,17 @@ const SubagentParams = Type.Object({
 });
 
 export default function (pi: ExtensionAPI) {
-	// Explicit-only gating: the tool stays active, but a tool_call hook below
-	// blocks every invocation unless the user's latest message explicitly asks
-	// for delegation (mentions a subagent, delegation, or an agent name).
+	// Explicit-only gating, two layers:
+	//   1. The tool is removed from the active tool set, so the model never
+	//      even sees it, unless the user's latest message explicitly asks for
+	//      delegation (see session_start / input handlers at the bottom).
+	//   2. A tool_call hook blocks any invocation that slips through anyway.
 	pi.registerTool({
 		name: "subagent",
 		label: "Subagent",
 		description: [
 			"Delegate tasks to specialized subagents with isolated context.",
-			"IMPORTANT: only call this tool when the user explicitly asked to delegate in their latest message (calls are blocked otherwise).",
+			"IMPORTANT: this tool is only active because the user explicitly asked to delegate in their latest message. Do not call it otherwise (calls are blocked).",
 			"Modes: single (agent + task), parallel (tasks array), chain (sequential with {previous} placeholder).",
 			`Default agent scope is "user" (from ${path.join(getAgentDir(), "agents")}).`,
 			`To enable project-local agents in ${CONFIG_DIR_NAME}/agents, set agentScope: "both" (or "project").`,
@@ -1038,11 +1040,53 @@ export default function (pi: ExtensionAPI) {
 
 	// Verbal opt-in only: the user never touches a slash command, and the model
 	// can never start a subagent on its own initiative.
-	const EXPLICIT_SUBAGENT_PATTERN = /\b(subagents?|sub-agents?|delegate|delegation|scout|planner|reviewer|worker)\b/i;
+	const DELEGATION_KEYWORDS = /\b(subagents?|sub-agents?|delegate|delegation)\b/i;
 
+	function escapeRegExp(s: string): string {
+		return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	}
+
+	// True when the given user text explicitly asks for delegation, either via a
+	// delegation keyword or by naming a known agent (scout, planner, ...).
+	function userRequestedSubagents(text: string, cwd: string): boolean {
+		if (!text.trim()) return false;
+		if (DELEGATION_KEYWORDS.test(text)) return true;
+		const { agents } = discoverAgents(cwd, "both");
+		return agents.some((a) => new RegExp(`\\b${escapeRegExp(a.name)}\\b`, "i").test(text));
+	}
+
+	// Add or remove the subagent tool from the active tool set. When inactive,
+	// the model cannot see or call it at all.
+	function setSubagentToolActive(active: boolean) {
+		const current = pi.getActiveTools();
+		const isActive = current.includes("subagent");
+		if (active && !isActive) pi.setActiveTools([...current, "subagent"]);
+		else if (!active && isActive) pi.setActiveTools(current.filter((t) => t !== "subagent"));
+	}
+
+	// Session start (including resume / -p): only activate if the most recent
+	// user message already asks for delegation.
+	pi.on("session_start", async (_event, ctx) => {
+		setSubagentToolActive(userRequestedSubagents(getLastUserText(ctx), ctx.cwd));
+	});
+
+	// Every new user message re-decides. An unrelated message deactivates the
+	// tool again, even mid-session after a previous delegated task.
+	pi.on("input", async (event, ctx) => {
+		setSubagentToolActive(userRequestedSubagents(event.text, ctx.cwd));
+	});
+
+	// Covers paths that bypass the input event (e.g. `pi -p "..."`, rpc): the
+	// prompt is re-evaluated right before the agent loop starts.
+	pi.on("before_agent_start", async (event, ctx) => {
+		setSubagentToolActive(userRequestedSubagents(event.prompt ?? "", ctx.cwd));
+	});
+
+	// Backstop: even while active, block calls when the latest user message no
+	// longer asks for delegation (e.g. a queued follow-up changed topics).
 	pi.on("tool_call", async (event, ctx) => {
 		if (event.toolName !== "subagent") return;
-		if (EXPLICIT_SUBAGENT_PATTERN.test(getLastUserText(ctx))) return;
+		if (userRequestedSubagents(getLastUserText(ctx), ctx.cwd)) return;
 		return {
 			block: true,
 			reason:

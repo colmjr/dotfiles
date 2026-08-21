@@ -8,13 +8,18 @@ Read-only exploration mode for safe code analysis.
 - **Bash allowlist**: Only read-only bash commands are allowed
 - **Plan extraction**: Extracts numbered steps from `Plan:` sections
 - **Progress tracking**: Widget shows completion status during execution
+- **Display toggle**: Hide or show the widget and plan footer independently of progress
+- **Agent management**: The `plan_todo` tool can inspect, show, hide, toggle, or clear plan todos
+- **Automatic cleanup**: Completed plans clear their persisted todo state and widget
 - **[DONE:n] markers**: Explicit step completion tracking
-- **Session persistence**: State survives session resume
+- **Session persistence**: State and display preference survive session resume
 
 ## Commands
 
 - `/plan` - Toggle plan mode
-- `/todos` - Show current plan progress
+- `/plan-todos` - Show current plan progress
+- `/plan-todos-toggle` - Toggle the plan todo widget and footer status
+- `/plan-todos-clear` - Clear current plan todos
 - `Ctrl+Alt+P` - Toggle plan mode (shortcut)
 
 ## Usage
@@ -33,6 +38,9 @@ Plan:
 4. Choose "Execute the plan" when prompted
 5. During execution, the agent marks steps complete with `[DONE:n]` tags
 6. Progress widget shows completion status
+7. When every step is complete, the todo state and widget clear automatically
+
+Use `/plan-todos-toggle` to hide or show the widget without stopping plan execution. The agent can perform the same operation, or clear the plan, with the `plan_todo` tool.
 
 ## How It Works
 

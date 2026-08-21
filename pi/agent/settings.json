@@ -1,9 +1,17 @@
 {
-  "lastChangelogVersion": "0.84.1",
+  "lastChangelogVersion": "0.84.2",
   "theme": "dark",
   "defaultProvider": "kimi-coding",
   "defaultModel": "k3",
   "defaultThinkingLevel": "high",
+  "enabledModels": [
+    "kimi-coding/k3",
+    "openrouter/deepseek/deepseek-v4-flash",
+    "anthropic/claude-fable-5",
+    "anthropic/claude-opus-5",
+    "openai-codex/gpt-5.6-terra",
+    "openai-codex/gpt-5.6-sol"
+  ],
   "warnings": {
     "anthropicExtraUsage": true
   },
@@ -15,5 +23,6 @@
   "packages": [
     "npm:pi-web-access"
   ],
-  "tuiMode": "fullscreen"
+  "tuiMode": "fullscreen",
+  "hideThinkingBlock": false
 }
