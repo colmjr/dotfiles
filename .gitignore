@@ -20,3 +20,4 @@ pi/agent/sessions/
 pi/agent/npm/
 pi/agent/models-store.json
 beets/
+mpd/
