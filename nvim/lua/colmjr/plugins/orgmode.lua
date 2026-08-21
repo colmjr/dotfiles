@@ -40,9 +40,9 @@ require('orgmode').setup {
       target = '~/org/todo.org',
     },
     r = {
-      description = 'Repo',
-      template = "* [[%x][%(return string.match('%x', '([^/]+)$'))]]%?",
-      target = '~/org/repos.org',
+      description = 'Refile',
+      template = '* %? %t :refile:',
+      target = '~/org/refile.org',
     },
     l = {
       description = 'Links',
