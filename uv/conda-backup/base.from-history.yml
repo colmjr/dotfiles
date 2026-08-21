@@ -1,0 +1,19 @@
+name: base
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - conda=26.1.1
+  - setuptools
+  - pip
+  - wheel
+  - conda-anaconda-telemetry[version='>=0.3.0']
+  - conda-anaconda-tos[version='>=0.2.2']
+  - conda-content-trust
+  - conda-libmamba-solver
+  - menuinst
+  - python.app
+  - anaconda-anon-usage
+  - anaconda-auth
+  - matplotlib
+prefix: /Users/colmraffertyjr/miniconda3

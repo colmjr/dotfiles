@@ -1,0 +1,13 @@
+name: ml
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pytorch
+  - numpy
+  - opencv
+  - torchvision
+  - pandas
+  - matplotlib
+  - scikit-learn
+prefix: /Users/colmraffertyjr/miniconda3/envs/ml

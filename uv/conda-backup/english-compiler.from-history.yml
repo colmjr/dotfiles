@@ -1,0 +1,6 @@
+name: english-compiler
+channels:
+  - defaults
+dependencies:
+  - anthropic
+prefix: /Users/colmraffertyjr/miniconda3/envs/english-compiler
