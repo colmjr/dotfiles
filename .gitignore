@@ -19,3 +19,4 @@ pi/agent/auth.json
 pi/agent/sessions/
 pi/agent/npm/
 pi/agent/models-store.json
+beets/
