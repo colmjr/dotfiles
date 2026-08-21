@@ -11,10 +11,16 @@ shell = ""
 
 # startup mode: "last", "spec", "history"
 # "last" = remember last mode used
-mode = "last"
+mode = "history"
 
 # enable debug logging
 debug = false
+
+# save invalid commands (typos, command not found, failed cd) to history
+save-invalid = false
+
+# 0 = off, 1 = atuin history only, 2 = atuin history + default history
+atuin-history = 2
 
 [ui]
 # visual style: "modern" (icons, category pills, shortcut footer) or "classic" (minimalist, centered number, no icons)
@@ -38,6 +44,10 @@ filter-active-branch = true
 
 # merge remote and local branches with same name
 deduplicate-branches = true
+
+[keybindings]
+# accept the selected suggestion (moved off tab so zsh native path completion works)
+select = "ctrl+y"
 
 [updater]
 # check for updates on startup
