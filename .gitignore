@@ -19,6 +19,8 @@ iterm2/
 **/pi/agent/sessions/
 **/pi/agent/npm/
 **/pi/agent/models-store.json
+**/pi/agent/scratchpad/
+**/pi/web-search-cache/
 beets/
 mpd/
 
@@ -28,4 +30,3 @@ mpd/
 **/dconf/user
 Bitwarden/
 mozilla/
-**/pi/agent/scratchpad/

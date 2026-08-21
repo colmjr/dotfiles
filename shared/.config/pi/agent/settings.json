@@ -2,7 +2,7 @@
   "lastChangelogVersion": "0.84.2",
   "theme": "dark",
   "defaultProvider": "kimi-coding",
-  "defaultModel": "k3",
+  "defaultModel": "kimi-for-coding",
   "defaultThinkingLevel": "high",
   "enabledModels": [
     "kimi-coding/k3",
