@@ -1,50 +1,22 @@
 #!/usr/bin/env sh
-# yabai — bsp tiling, Hyprland-style
-# Running WITHOUT the scripting addition (SIP enabled). SA-only features are
-# unavailable: space --create/--destroy/--move, window shadows, opacity,
-# sticky windows, layers. See asmvik/yabai#2800/#2802 for macOS 27 SA status.
+# yabai — no tiling at all; yabai only handles space focus (option + num via
+# skhd) and focus-follows-mouse. Everything else is plain floating macOS.
+# Running WITHOUT the scripting addition (SIP enabled).
 
 yabai="$HOME/.local/bin/yabai"
 
-# ---- layout (~ Hyprland dwindle) ----
-"$yabai" -m config layout                 bsp
-"$yabai" -m config window_placement       second_child
-"$yabai" -m config split_ratio            0.50
-"$yabai" -m config auto_balance           off
+# ---- no tiling: all windows are floating ----
+"$yabai" -m config layout float
 
-# ---- gaps (~ gaps_in / gaps_out) ----
-# external_bar reserves the sketchybar strip (y_offset 10 + height 40);
-# top_padding then adds the usual 10px gap below the bar
-"$yabai" -m config external_bar           all:50:0
-"$yabai" -m config top_padding            10
-"$yabai" -m config bottom_padding         10
-"$yabai" -m config left_padding           10
-"$yabai" -m config right_padding          10
-"$yabai" -m config window_gap             10
-
-# ---- mouse (~ bindm = SUPER, mouse:272, movewindow) ----
-# hold alt + left-drag to move, alt + right-drag to resize
-"$yabai" -m config mouse_modifier         alt
-"$yabai" -m config mouse_action1          move
-"$yabai" -m config mouse_action2          resize
-"$yabai" -m config mouse_drop_action      swap
-
-# focus follows mouse: 'autofocus' focuses without raising; use 'autoraise'
-# for full Hyprland behavior or 'off' if it gets annoying on macOS
+# ---- focus follows mouse: 'autofocus' focuses without raising; use
+# 'autoraise' if you want hovered windows raised too ----
 "$yabai" -m config focus_follows_mouse    autofocus
-"$yabai" -m config mouse_follows_focus    autoraise
+"$yabai" -m config mouse_follows_focus    off
 
-# ---- native menu bar: invisible + ignores hover (replaced by sketchybar) ----
+# ---- native menu bar: invisible (replaced by sketchybar) ----
 "$yabai" -m config menubar_opacity        0.0
 
-# ---- rules: whitelist tiling — float everything, opt apps back in ----
-# when multiple rules match a window the last one added wins, so the
-# catch-all must stay above the whitelist
-"$yabai" -m rule --add app=".*" manage=off
-"$yabai" -m rule --add app="^(Ghostty|Helium|Safari|Google Chrome|Zed|Code|Obsidian)$" manage=on
-"$yabai" -m rule --apply
-
-# ---- jankyborders (~ Hyprland borders) ----
+# ---- jankyborders (still draws borders around floating windows) ----
 pkill -x borders >/dev/null 2>&1
 "$HOME/.local/bin/borders" &
 
