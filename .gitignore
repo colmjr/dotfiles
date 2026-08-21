@@ -2,22 +2,29 @@
 
 # credentials / tokens
 github-copilot/
-gh/hosts.yml
+**/gh/hosts.yml
 glab-cli/
 homebrew/
 
 # machine-local, not config
 iterm2/
-opencode/node_modules/
-karabiner/automatic_backups/
-raycast/extensions/
-tmux/plugins/
-zed/prompts/
+**/opencode/node_modules/
+**/karabiner/automatic_backups/
+**/raycast/extensions/
+**/tmux/plugins/
+**/zed/prompts/
 
 # pi runtime / secrets
-pi/agent/auth.json
-pi/agent/sessions/
-pi/agent/npm/
-pi/agent/models-store.json
+**/pi/agent/auth.json
+**/pi/agent/sessions/
+**/pi/agent/npm/
+**/pi/agent/models-store.json
 beets/
 mpd/
+
+# linux machine-local / generated
+**/Thunar/accels.scm
+**/pulse/cookie
+**/dconf/user
+Bitwarden/
+mozilla/
