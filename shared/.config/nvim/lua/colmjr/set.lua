@@ -42,6 +42,10 @@ vim.o.inccommand = 'split'
 vim.o.cursorline = true
 vim.o.scrolloff = 7
 
+-- start with all folds open, fold on demand with zc/zM (foldmethod itself is
+-- set per-buffer by treesitter, see plugins/treesitter.lua)
+vim.o.foldlevel = 99
+
 -- if performing an operation that would fail due to unsaved changes in the buffer
 -- raise a dialog asking if you wish to save the current file
 vim.o.confirm = true
