@@ -40,10 +40,98 @@
                             "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
                         }
                     ]
+                },
+                {
+                    "identifiers": {
+                        "is_pointing_device": true,
+                        "product_id": 17939,
+                        "vendor_id": 9390
+                    },
+                    "ignore": false
                 }
             ],
             "name": "Normal",
             "selected": true,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+        },
+        {
+            "complex_modifications": {
+                "rules": [
+                    {
+                        "description": "Caps Lock to Escape.",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Rapoo mouse: side back button to left control, side forward button to f.",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "is_pointing_device": true,
+                                                "product_id": 17939,
+                                                "vendor_id": 9390
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": { "pointing_button": "button4" },
+                                "to": [{ "key_code": "left_control" }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "is_pointing_device": true,
+                                                "product_id": 17939,
+                                                "vendor_id": 9390
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": { "pointing_button": "button5" },
+                                "to": [{ "key_code": "f" }],
+                                "type": "basic"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "devices": [
+                {
+                    "disable_built_in_keyboard_if_exists": true,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 563,
+                        "vendor_id": 13364
+                    },
+                    "ignore": false
+                },
+                {
+                    "identifiers": {
+                        "is_pointing_device": true,
+                        "product_id": 17939,
+                        "vendor_id": 9390
+                    },
+                    "ignore": false
+                }
+            ],
+            "name": "Game",
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
