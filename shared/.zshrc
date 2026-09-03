@@ -40,6 +40,9 @@ fi
 alias n='nvim'
 alias gst='git status'
 alias ls='eza'
+alias karabiner="/Library/Application\ Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli --select-profile"
+alias c='clear'
+alias q='exit'
 
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
