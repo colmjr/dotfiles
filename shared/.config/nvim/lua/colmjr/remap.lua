@@ -17,7 +17,6 @@ vim.keymap.set('n', 'n', 'nzz')
 vim.keymap.set('n', 'N', 'Nzz')
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.keymap.set('n', '<leader>S', '<cmd>so $MYVIMRC<CR>', { desc = '[S]ource Nvim' })
 -- for exiting terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>')
 
