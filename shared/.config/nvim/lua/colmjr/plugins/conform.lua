@@ -7,6 +7,7 @@ require('conform').setup {
       python = true,
       cpp = true,
       rust = true,
+      haskell = true,
     }
     if enabled_filetypes[vim.bo[bufnr].filetype] then
       return { timeout_ms = 500 }
@@ -18,7 +19,9 @@ require('conform').setup {
     lsp_format = 'fallback', -- Use external formatters if configured below, otherwise use LSP formatting. Set to `false` to disable LSP formatting entirely.
   },
   -- external formatters
-  formatters_by_ft = {},
+  formatters_by_ft = {
+    haskell = { 'fourmolu' },
+  },
 }
 
 vim.keymap.set({ 'n', 'v' }, '<leader>f', function() require('conform').format { async = true } end, { desc = '[F]ormat buffer' })
