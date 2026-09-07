@@ -1,9 +1,9 @@
 -- DIAGNOSTIC CONFIG
 vim.pack.add { 'https://github.com/rachartier/tiny-inline-diagnostic.nvim' }
 require('tiny-inline-diagnostic').setup {
-  preset = 'simple',
+  preset = 'minimal',
   signs = {
-    diag = '●',
+    diag = '',
     arrow = '',
     up_arrow = '',
   },
@@ -26,6 +26,8 @@ require('tiny-inline-diagnostic').setup {
 vim.diagnostic.config {
   update_in_insert = false,
   severity_sort = true,
+  -- no signs (the circles) in the sign column
+  signs = false,
   float = { border = 'rounded', source = 'if_many' },
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
 
