@@ -13,11 +13,15 @@ yabai="$HOME/.local/bin/yabai"
 "$yabai" -m config focus_follows_mouse    autofocus
 "$yabai" -m config mouse_follows_focus    off
 
-# ---- native menu bar: invisible (replaced by sketchybar) ----
-"$yabai" -m config menubar_opacity        0.0
+# ---- native menu bar: visible (sketchybar removed) ----
+"$yabai" -m config menubar_opacity        1.0
 
 # ---- jankyborders (still draws borders around floating windows) ----
 pkill -x borders >/dev/null 2>&1
 "$HOME/.local/bin/borders" &
 
 echo "yabai configuration loaded.."
+
+# ---- wine games: don't tile, let them manage their own size/fullscreen ----
+"$yabai" -m rule --add app="How to Fish.exe" manage=off
+"$yabai" -m rule --add app="wine" title="^How to Fish$" manage=off
