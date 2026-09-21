@@ -4,9 +4,9 @@ setopt share_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$HOME/.local/bin:$PATH"
-if [[ -t 0 && -t 1 ]] && command -v iris >/dev/null; then
-  eval "$(iris init zsh)"
-fi
+
+# Rust (rustup)
+. "$HOME/.cargo/env"
 
 export EZA_CONFIG_DIR="$XDG_CONFIG_HOME/eza"
 
@@ -38,6 +38,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 alias n='nvim'
+alias lg='lazygit'
 alias gst='git status'
 alias ls='eza'
 alias karabiner="/Library/Application\ Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli --select-profile"
@@ -68,19 +69,7 @@ bindkey '^[[B' history-substring-search-down
 bindkey '^[OA' history-substring-search-up
 bindkey '^[OB' history-substring-search-down
 
-# tmux tab names: announce the running program via escape sequence (goes
-# through iris's pty, which hides the real command from tmux itself), then
-# clear back to a blank name at the prompt.
-if [[ -n "$TMUX" ]]; then
-  _tmux_name_preexec() { printf '\033k%s\033\\' "${1%% *}"; }
-  _tmux_name_precmd()  { printf '\033k\033\\'; }
-  preexec_functions+=(_tmux_name_preexec)
-  precmd_functions+=(_tmux_name_precmd)
-fi
-
-# atuin: silent history recorder (exit codes, duration, cwd) that iris reads
-# via atuin-history = 2. ctrl+r and up-arrow stay with iris and
-# history-substring-search, so atuin's own TUI bindings are disabled.
-command -v atuin >/dev/null && eval "$(atuin init zsh --disable-ctrl-r --disable-up-arrow)"
+# tmux names tabs natively via automatic-rename (see tmux.conf) now that no
+# pty wrapper hides the running command from it.
 
 command -v starship >/dev/null && eval "$(starship init zsh)"
