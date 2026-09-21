@@ -110,9 +110,10 @@ do
     },
     hls = {}, -- haskell-language-server, provided by ghcup (matches your GHC), so don't let Mason install it
     -- gopls = {},
-    pyright = {
+    basedpyright = {
       settings = {
-        python = {
+        basedpyright = {
+          disableOrganizeImports = true, -- ruff handles import sorting
           analysis = {
             diagnosticSeverityOverrides = {
               reportPrivateImportUsage = 'none', -- false positives on torch.tensor etc.
@@ -121,6 +122,7 @@ do
         },
       },
     },
+    ruff = {}, -- linting, formatting and import sorting (used by conform)
     rust_analyzer = {
       settings = {
         ['rust-analyzer'] = {

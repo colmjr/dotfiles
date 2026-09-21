@@ -6,9 +6,13 @@ require('tiny-inline-diagnostic').setup {
     diag = '',
     arrow = '',
     up_arrow = '',
+    vertical = '',
+    vertical_end = '',
   },
   options = {
     show_source = { enabled = true, if_many = true },
+    -- strip GHC's bullet markers from message text
+    format = function(diag) return (diag.message:gsub('•%s*', '')) end,
     -- errors stay visible on every line, other severities only on the cursor line
     multilines = { enabled = true, always_show = true, severity = { vim.diagnostic.severity.ERROR } },
     -- when a line has multiple diagnostics, only show the most severe one

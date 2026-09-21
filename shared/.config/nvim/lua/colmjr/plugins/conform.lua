@@ -21,6 +21,7 @@ require('conform').setup {
   -- external formatters
   formatters_by_ft = {
     haskell = { 'fourmolu' },
+    python = { 'ruff_format', 'ruff_organize_imports' },
   },
 }
 
