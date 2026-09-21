@@ -30,3 +30,6 @@ mpd/
 **/dconf/user
 Bitwarden/
 mozilla/
+
+# raycast
+**/raycast
