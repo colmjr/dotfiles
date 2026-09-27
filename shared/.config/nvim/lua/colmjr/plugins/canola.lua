@@ -3,7 +3,7 @@ vim.g.canola = {
 }
 
 vim.pack.add {
-  { src = 'https://github.com/barrettruth/canola.nvim', version = 'canola' },
+  { src = 'https://forge.barrettruth.com/barrettruth/canola.nvim', version = 'canola' },
 }
 
 vim.keymap.set('n', '-', '<CMD>Canola<CR>', { desc = 'Open parent directory' })
