@@ -21,8 +21,8 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>')
 
 -- buffer nav
-vim.keymap.set('n', '<Tab>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
-vim.keymap.set('n', '<S-Tab>', '<cmd>bprevious<CR>', { desc = 'Prev buffer' })
+vim.keymap.set('n', ']b', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '[b', '<cmd>bprevious<CR>', { desc = 'Prev buffer' })
 
 -- register keybind magic
 vim.keymap.set('x', '<leader>p', [["_dP]])
