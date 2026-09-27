@@ -208,4 +208,25 @@ do
     vim.lsp.config(name, server)
     vim.lsp.enable(name)
   end
+
+  -- Toggle rust-analyzer's checkOnSave (cargo check / rustc diagnostics) at runtime.
+  -- The default config above sets checkOnSave = false, so you only get rust-analyzer's
+  -- own syntax errors until you flip this on.
+  local ra_check_enabled = false
+  local function toggle_ra_check()
+    ra_check_enabled = not ra_check_enabled
+    local clients = vim.lsp.get_clients { name = 'rust_analyzer' }
+    if #clients == 0 then
+      vim.notify('rust-analyzer is not attached to this buffer', vim.log.levels.WARN)
+      ra_check_enabled = false -- keep state in sync when nothing was toggled
+      return
+    end
+    for _, client in ipairs(clients) do
+      client.config.settings['rust-analyzer'].checkOnSave = ra_check_enabled
+      client:notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+    end
+    vim.notify(('rust-analyzer checkOnSave (cargo check): %s'):format(ra_check_enabled and 'ON' or 'OFF'))
+  end
+
+  vim.keymap.set('n', '<leader>tr', toggle_ra_check, { desc = '[T]oggle [R]ustc diagnostics (ra checkOnSave)' })
 end
