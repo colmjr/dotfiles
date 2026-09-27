@@ -16,10 +16,6 @@ yabai="$HOME/.local/bin/yabai"
 # ---- native menu bar: visible (sketchybar removed) ----
 "$yabai" -m config menubar_opacity        1.0
 
-# ---- jankyborders (still draws borders around floating windows) ----
-pkill -x borders >/dev/null 2>&1
-"$HOME/.local/bin/borders" &
-
 echo "yabai configuration loaded.."
 
 # ---- wine games: don't tile, let them manage their own size/fullscreen ----
