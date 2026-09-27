@@ -1,4 +1,5 @@
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import { matchesKey, truncateToWidth } from "@earendil-works/pi-tui";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as os from "node:os";
@@ -100,26 +101,26 @@ export default function (pi: ExtensionAPI) {
 							const cursor = i === index ? theme.fg("accent", ">") : " ";
 							const box = checked.has(s.name) ? theme.fg("success", "[x]") : theme.fg("dim", "[ ]");
 							const name = theme.fg(i === index ? "accent" : "text", ` ${s.name}`);
-							const maxDesc = Math.max(10, width - s.name.length - 10);
-							const desc =
-								s.description.length > maxDesc ? s.description.slice(0, maxDesc - 1) + "..." : s.description;
-							lines.push(`${cursor} ${box}${name} ${theme.fg("dim", "- " + desc)}`);
+							lines.push(`${cursor} ${box}${name} ${theme.fg("dim", "- " + s.description)}`);
 						}
-						return lines;
+						return lines.map((line) => truncateToWidth(line, width, "..."));
+					},
+					invalidate() {
+						// Rendering is uncached, so there is no state to invalidate.
 					},
 					handleInput(data: string) {
-						if (data === "\x1b[A" || data === "k") {
+						if (matchesKey(data, "up") || matchesKey(data, "k")) {
 							index = Math.max(0, index - 1);
-						} else if (data === "\x1b[B" || data === "j") {
+						} else if (matchesKey(data, "down") || matchesKey(data, "j")) {
 							index = Math.min(skills.length - 1, index + 1);
-						} else if (data === " ") {
+						} else if (matchesKey(data, "space")) {
 							const name = skills[index].name;
 							if (checked.has(name)) checked.delete(name);
 							else checked.add(name);
-						} else if (data === "\r") {
+						} else if (matchesKey(data, "enter")) {
 							done(new Set(checked));
 							return;
-						} else if (data === "\x1b") {
+						} else if (matchesKey(data, "escape")) {
 							done(null);
 							return;
 						}
