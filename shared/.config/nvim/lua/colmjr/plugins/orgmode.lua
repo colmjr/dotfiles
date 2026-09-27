@@ -32,23 +32,24 @@ require('orgmode').setup {
   org_capture_templates = {
     n = {
       description = 'Notes',
-      template = 'Notes: %? %t',
+      template = '* %?\nCaptured: %u',
+      target = '~/org/notes.org',
     },
     t = {
       description = 'Tasks',
-      template = '* TODO %? %t',
+      template = '* TODO %?\nCaptured: %u',
       target = '~/org/todo.org',
     },
     r = {
       description = 'Refile',
-      template = '* %? %t :refile:',
+      template = '* %? :refile:\nCaptured: %u',
       target = '~/org/refile.org',
     },
     l = {
       description = 'Links',
       -- first 'blog' is the default; candidates (Tab-completable) start at the
       -- third part, so it's repeated to make it show up in completion too
-      template = '* [[%x][%^{Description}]] %t :%^{Tag|blog|blog|article|tutorial|reddit|video|problem}:',
+      template = '* [[%x][%^{Description}]] :%^{Tag|blog|blog|article|tutorial|reddit|video|problem}:\nSaved: %u',
       target = '~/org/links.org',
       headline = function()
         local first = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] or ''
