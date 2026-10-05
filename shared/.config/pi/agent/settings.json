@@ -1,6 +1,6 @@
 {
-  "lastChangelogVersion": "0.87.1",
-  "theme": "dark",
+  "lastChangelogVersion": "1.0.0",
+  "theme": "system",
   "defaultProvider": "kimi-coding",
   "defaultModel": "kimi-for-coding",
   "defaultThinkingLevel": "high",
