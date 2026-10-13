@@ -49,9 +49,9 @@
 		"words": "fallback",
 	},
 	"git_panel": {
-		"dock": "left",
+		"folder_indicator": "icon",
+  "dock": "left",
 		"scrollbar": {},
-		"folder_icons": true,
 		"diff_stats": true,
 	},
 	"tabs": {
@@ -163,7 +163,7 @@
 		},
 	},
 	"show_edit_predictions": false,
-	"base_keymap": "VSCode",
+	"base_keymap": "Zed",
 	"ui_font_size": 16.0,
 	"buffer_font_size": 16.0,
 	"theme": {
