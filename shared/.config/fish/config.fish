@@ -12,6 +12,7 @@ set -gx EZA_CONFIG_DIR "$XDG_CONFIG_HOME/eza"
 # PATH (fish_add_path prepends once, no duplicates)
 fish_add_path -g "$HOME/.local/bin"
 fish_add_path -g "$HOME/.opencode/bin"
+fish_add_path ~/.config/emacs/bin
 
 if test (uname) = Darwin
     # bob (neovim version manager) proxy, prepended so it shadows /usr/local/bin
