@@ -1,7 +1,6 @@
 require 'colmjr.set'
 require 'colmjr.remap'
 require 'colmjr.plugin'
-require 'colmjr.cuda'
 
 do
   -- highlight on yank
