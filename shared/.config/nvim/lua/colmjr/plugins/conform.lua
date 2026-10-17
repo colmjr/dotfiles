@@ -8,6 +8,7 @@ require('conform').setup {
       cpp = true,
       rust = true,
       haskell = true,
+      julia = true,
     }
     if enabled_filetypes[vim.bo[bufnr].filetype] then
       return { timeout_ms = 500 }

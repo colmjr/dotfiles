@@ -109,6 +109,7 @@ do
       cmd = { '/usr/bin/clangd', '--query-driver=/opt/homebrew/bin/g++-15', '--log=error' },
     },
     hls = {}, -- haskell-language-server, provided by ghcup (matches your GHC), so don't let Mason install it
+    julials = {}, -- LanguageServer.jl is installed in ~/.julia/environments/nvim-lspconfig
     -- gopls = {},
     basedpyright = {
       settings = {
@@ -193,7 +194,8 @@ do
   -- You can press `g?` for help in this menu.
   -- rust-analyzer is provided by rustup (it matches your toolchain), so don't let Mason install a separate copy.
   -- hls is provided by ghcup for the same reason.
-  local ensure_installed = vim.tbl_filter(function(name) return name ~= 'rust_analyzer' and name ~= 'hls' end, vim.tbl_keys(servers or {}))
+  -- julials uses LanguageServer.jl installed through Julia's package manager.
+  local ensure_installed = vim.tbl_filter(function(name) return name ~= 'rust_analyzer' and name ~= 'hls' and name ~= 'julials' end, vim.tbl_keys(servers or {}))
   vim.list_extend(ensure_installed, {
     'stylua',
     'markdownlint',
