@@ -30,6 +30,9 @@ fish_add_path -g "$HOME/.ghcup/bin" "$HOME/.cabal/bin"
 # rustup: same story as ghcup, ~/.cargo/env is POSIX sh, add the bin directly.
 fish_add_path -g "$HOME/.cargo/bin"
 
+# Julia, installed through juliaup.
+fish_add_path -g "$HOME/.juliaup/bin"
+
 # aliases
 alias n='nvim'
 alias lg='lazygit'
