@@ -8,21 +8,6 @@
     "Emacs"
 ]
 
-# ---- app launchers ----
-alt - return : open -na Ghostty
-alt - a : open -a 'Astrill'
-alt - m : open -a 'Thunderbird'
-alt - q : open -a 'QQMusic'
-
-# close window
-alt - w : ~/.local/bin/yabai -m window --close
-
-# focus window (directional focus also works on floating windows)
-alt - h : ~/.local/bin/yabai -m window --focus west
-alt - j : ~/.local/bin/yabai -m window --focus south
-alt - k : ~/.local/bin/yabai -m window --focus north
-alt - l : ~/.local/bin/yabai -m window --focus east
-
 # focus space — spaces must already exist (no SA = no --create)
 alt - 1 : ~/.local/bin/yabai -m space --focus 1
 alt - 2 : ~/.local/bin/yabai -m space --focus 2
@@ -33,9 +18,3 @@ alt - 6 : ~/.local/bin/yabai -m space --focus 6
 alt - 7 : ~/.local/bin/yabai -m space --focus 7
 alt - 8 : ~/.local/bin/yabai -m space --focus 8
 alt - 9 : ~/.local/bin/yabai -m space --focus 9
-
-# toggles
-alt + shift - f : ~/.local/bin/yabai -m window --toggle native-fullscreen
-
-# restart yabai (skhd itself hot-reloads on save)
-alt + shift - r : ~/.local/bin/yabai --restart-service
