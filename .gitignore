@@ -14,6 +14,11 @@ iterm2/
 **/tmux/plugins/
 **/zed/prompts/
 
+# pi installation / dependencies
+**/pi/agent/bin/
+**/pi/agent/install/
+**/pi/agent/**/node_modules/
+
 # pi runtime / secrets
 **/pi/agent/auth.json
 **/pi/agent/sessions/
