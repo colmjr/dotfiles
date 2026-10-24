@@ -52,3 +52,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
+;; pi-coding-agent was renamed to pilish upstream.
+(package! pilish)
+

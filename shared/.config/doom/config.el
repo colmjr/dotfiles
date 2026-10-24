@@ -85,3 +85,28 @@
 ;; they are implemented.
 
 (map! :n "-" #'dired-jump)
+(map! :after evil
+      :n "C-u" (cmd! (call-interactively #'evil-scroll-up) (recenter))
+      :n "C-d" (cmd! (call-interactively #'evil-scroll-down) (recenter))
+      :n "D" (kbd "d d")
+      :n "Y" (kbd "y y")
+      )
+
+(use-package! pilish
+  :commands (pilish pilish-toggle)
+  :init
+  (defalias 'pi 'pilish)
+  (defalias 'pi-coding-agent 'pilish)
+  :config
+  ;; Include the managed Pi launcher for GUI Emacs as well as terminal Emacs.
+  (let ((pi-bin (expand-file-name "~/.pi/agent/bin")))
+    (when (file-executable-p (expand-file-name "pi" pi-bin))
+      (add-to-list 'exec-path pi-bin)
+      (setenv "PATH" (concat pi-bin path-separator (getenv "PATH")))))
+  ;; Respect Pi's saved project trust decisions instead of auto-approving.
+  (setq pilish-project-trust-policy 'default))
+
+(map! :leader
+      (:prefix ("o" . "open")
+       :desc "Pi coding agent" "p" #'pilish
+       :desc "Toggle Pi windows" "P" #'pilish-toggle))
