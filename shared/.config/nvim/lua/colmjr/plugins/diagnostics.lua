@@ -50,8 +50,26 @@ vim.diagnostic.config {
   },
 }
 
--- show quickfixes
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- Toggle quickfix and request workspace diagnostics from supporting servers.
+vim.keymap.set('n', '<leader>q', function()
+  if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+    vim.cmd.cclose()
+  else
+    vim.lsp.buf.workspace_diagnostics()
+    vim.diagnostic.setqflist()
+    vim.cmd 'botright copen'
+  end
+end, { desc = 'Toggle diagnostic [Q]uickfix list' })
+
+-- Workspace results arrive asynchronously, so refresh without reopening.
+vim.api.nvim_create_autocmd('DiagnosticChanged', {
+  group = vim.api.nvim_create_augroup('colmjr-diagnostic-quickfix', { clear = true }),
+  callback = vim.schedule_wrap(function()
+    if vim.fn.getqflist({ title = 0 }).title == 'Diagnostics' then
+      vim.diagnostic.setqflist { open = false }
+    end
+  end),
+})
 
 -- toggle tiny-inline-diagnostic; keeps underline + signs
 vim.keymap.set('n', '<leader>td', function() require('tiny-inline-diagnostic').toggle() end, { desc = '[T]oggle inline [D]iagnostics' })

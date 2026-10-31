@@ -20,7 +20,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- double esc also clears multicursors (:h multicursor)
 vim.keymap.set('n', '<Esc><Esc>', function()
   vim.cmd.nohlsearch()
-  local mc_ns = vim.api.nvim_create_namespace('nvim.multicursor')
+  local mc_ns = vim.api.nvim_create_namespace 'nvim.multicursor'
   vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)
 end, { desc = 'Clear search highlight and multicursors' })
 -- for exiting terminal mode
@@ -33,5 +33,3 @@ vim.keymap.set('n', '[b', '<cmd>bprevious<CR>', { desc = 'Prev buffer' })
 -- register keybind magic
 vim.keymap.set('x', '<leader>p', [["_dP]])
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
-vim.keymap.set({ 'n', 'v' }, '<leader>Y', [["+Y]])
-vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]])

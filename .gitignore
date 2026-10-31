@@ -38,3 +38,5 @@ mozilla/
 
 # raycast
 **/raycast
+/shared/.config/pi/agent/mcp-auth.json
+/shared/.config/pi/agent/mcp.json
