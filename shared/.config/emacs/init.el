@@ -1,9 +1,11 @@
+;;; init.el --- Personal configuration -*- lexical-binding: t; -*-
+
 ;;; Code:
 (require 'package)
-
+(setq ring-bell-function #'ignore)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/")
-	       t)
+	     t)
 (package-initialize)
 
 
@@ -14,10 +16,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(cape consult corfu evil-collection evil-commentary evil-surround
-	  flycheck gruvbox-theme haskell-mode leuven-theme lsp-haskell
-	  lsp-pyright magit marginalia orderless projectile rg
-	  rust-mode vertico yasnippet)))
+   '(apheleia cape consult corfu dashboard evil-collection
+	      evil-commentary evil-surround flycheck gruvbox-theme
+	      haskell-mode leuven-theme lsp-haskell lsp-pyright magit
+	      marginalia orderless projectile rg rust-mode vertico
+	      yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -28,9 +31,9 @@
 
 ;; (load-theme 'leuven-dark t)
 (use-package gruvbox-theme
-     :ensure t
-     :config
-     (load-theme 'gruvbox-dark-medium t))
+  :ensure t
+  :config
+  (load-theme 'gruvbox-dark-medium t))
 
 (use-package dired
   :ensure nil
@@ -41,6 +44,8 @@
 (use-package evil
   :ensure t
   :init
+  ;; workaround emacs 31 evil bug
+  (defvar evil-mode-buffers nil)
   (setq evil-want-keybinding nil
         evil-want-C-u-scroll t
         evil-want-C-i-jump t
@@ -68,6 +73,18 @@
 (use-package magit
   :ensure t
   :bind ("C-x g" . magit-status))
+
+(use-package diff-hl
+  :ensure t
+  :demand t
+  :custom
+  (diff-hl-side 'left)
+  (diff-hl-show-staged-changes t)
+  :hook
+  (magit-post-refresh . diff-hl-magit-post-refresh)
+  :config
+  (global-diff-hl-mode 1)
+  (diff-hl-flydiff-mode 1))
 
 (use-package evil-collection
   :ensure t
@@ -108,13 +125,14 @@
   :ensure t
   :bind
   (("C-s" . consult-line)
-   ("C-x b" . consult-buffer))
+   ("C-x b" . consult-buffer)
+   ("C-c r" . consult-recent-file))
   :after evil
   :config
   (evil-define-key 'normal 'global
     (kbd "<leader>sg") #'consult-ripgrep
     (kbd "<leader>ss") #'consult-imenu)
- )
+  )
 
 (use-package corfu
   :ensure t
@@ -129,9 +147,18 @@
 
 (use-package flycheck
   :ensure t
+  :custom
+  (flycheck-annotate-current-line-style 'eol)
+  (flycheck-annotate-other-lines-style 'eol)
+  (flycheck-indication-mode nil)
+  ;; on cursor line
+  (flycheck-annotate-levels t)
+  (flycheck-annotate-current-line-levels t)
+  ;; on other lines
+  (flycheck-annotate-other-lines-levels '(error))
   :config
-  (global-flycheck-mode 1))
-
+  (global-flycheck-mode 1)
+  (global-flycheck-annotate-mode 1))
 (use-package yasnippet
   :ensure t
   :init
@@ -148,6 +175,7 @@
    lsp-diagnostics-provider :flycheck
    lsp-enable-snippet t
    lsp-enable-symbol-highlighting t
+   lsp-rust-analyzer-lens-implementations-enable nil
    lsp-enable-semantic-highlighting t
    lsp-headerline-breadcrumb-enable t
    lsp-modeline-code-actions-enable t
@@ -186,26 +214,157 @@
 
 (use-package rg
   :ensure t
-  :defer t)
+  :defer t
+  :bind
+  ("s-t" . tab-new)
+  :custom
+  (tab-bar-show 1)
+  (tab-bar-select-tab-modifiers '(super))
+  (tab-bar-tab-hints t)
+  :config
+  (tab-bar-mode 1)
+  (tab-bar-history-mode 1))
 
-;; custom functions
+(use-package tab-bar
+  :ensure nil
+  :demand t)
+
+(use-package org
+  :ensure nil
+  :bind
+  (("C-c a" . org-agenda)
+   ("C-c c" . org-capture))
+  :custom
+  (org-directory "~/org/")
+  (org-agenda-files '("~/org/"))
+  (org-startup-indented t)
+  (org-hide-emphasis-markers t)
+  :config
+  (setq org-capture-templates
+        '(("n" "Notes" entry
+           (file "~/org/notes.org")
+           "* %?\nCaptured: %u")
+
+          ("t" "Tasks" entry
+           (file "~/org/todo.org")
+           "* TODO %?\nCaptured: %u")
+
+          ("r" "Refile" entry
+           (file "~/org/refile.org")
+           "* %? :refile:\nCaptured: %u")
+
+          ("l" "Links" entry
+           (file "~/org/links.org")
+           "* [[%(or (gui-get-selection 'CLIPBOARD 'STRING) \"\"][%^{Description}]] :%^{Tag|blog|article|tutorial|reddit|video|problem}:\nSaved: %u"))))
+
+(use-package org-modern
+  :ensure t
+  :after org
+  :config
+  (global-org-modern-mode 1))
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :custom
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-use-childframe t)
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-show-with-cursor nil)
+  (lsp-ui-doc-show-with-mouse nil)
+  (lsp-ui-doc-max-width 80)
+  (lsp-ui-doc-max-height 20)
+  (lsp-ui-doc-border "#665c54")
+  :custom-face
+  (lsp-ui-doc-background ((t (:background "#282828"))))
+  :config
+  (evil-define-key 'normal lsp-ui-doc-frame-mode-map
+    (kbd "q") #'lsp-ui-doc-hide
+    (kbd "<escape>") #'lsp-ui-doc-hide))
+
+(use-package ghostel
+  :ensure t
+  :bind ("C-c t" . ghostel))
+
+(use-package evil-ghostel
+  :ensure t
+  :after (ghostel evil)
+  :hook (ghostel-mode . evil-ghostel-mode))
+
+(use-package xwidget
+  :ensure nil
+  :bind ("C-c b" . xwidget-webkit-browse-url))
+
+(use-package apheleia
+  :ensure t
+  :config
+  (apheleia-global-mode +1))
+
+
+;; Recent files (built-in)
+(use-package recentf
+  :ensure nil
+  :custom
+  (recentf-max-saved-items 200)
+  :config
+  (recentf-mode 1))
+
+;; Startup dashboard
+(use-package dashboard
+  :ensure t
+  :custom
+  (dashboard-center-content t)
+  (dashboard-projects-backend 'projectile)
+  (dashboard-items
+   '((recents . 8)
+     (projects . 5)
+     (agenda . 5)))
+  :config
+  (dashboard-setup-startup-hook))
+
+(evil-define-key 'normal 'lsp-mode
+  (kbd "gd") #'lsp-find-definition
+  (kbd "gr") #'lsp-find-references
+  (kbd "gi") #'lsp-find-implementation
+  (kbd "gD") #'lsp-find-declaration)
+
+(evil-define-key 'normal 'global
+  (kbd "<leader>q")  #'flycheck-list-errors
+  (kbd "<leader>ss") #'consult-imenu
+  (kbd "<leader>sS") #'lsp-ui-peek-find-workspace-symbol
+  (kbd "<leader>ca") #'lsp-execute-code-action)
+
+;; custom function
 (defun my/evil-scroll-up-center ()
+  "Center C-u."
   (interactive)
   (call-interactively #'evil-scroll-up)
   (recenter))
 
 (defun my/evil-scroll-down-center ()
+  "Center C-d."
   (interactive)
   (call-interactively #'evil-scroll-down)
   (recenter))
 
+(defun my/vsplit-focus ()
+  "Focus on C-w v window."
+  (interactive)
+  (select-window (split-window-right)))
+
+(defun my/hsplit-focus ()
+  "Focus on C-w s window."
+  (interactive)
+  (select-window (split-window-below)))
 ;; Keybinds
 (define-key evil-normal-state-map (kbd "-") #'dired-jump)
 (define-key evil-normal-state-map (kbd "D") (kbd "dd"))
 (define-key evil-normal-state-map (kbd "Y") (kbd "yy"))
 (define-key evil-normal-state-map (kbd "C-u") #'my/evil-scroll-up-center)
 (define-key evil-normal-state-map (kbd "C-d") #'my/evil-scroll-down-center)
-(define-key evil-normal-state-map (kbd "K") #'lsp-describe-thing-at-point)
+(define-key evil-normal-state-map (kbd "K") #'lsp-ui-doc-show)
+(define-key evil-window-map (kbd "v") #'my/vsplit-focus)
+(define-key evil-window-map (kbd "s") #'my/hsplit-focus)
 ;; TODO: make a keybind to reload config
 (set-face-attribute 'default nil :height 210 :family "JetBrains Mono")
 (electric-pair-mode 1)
