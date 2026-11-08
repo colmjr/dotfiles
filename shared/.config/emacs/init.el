@@ -7,7 +7,12 @@
 	     '("melpa" . "https://melpa.org/packages/")
 	     t)
 (package-initialize)
-
+(savehist-mode 1)
+(save-place-mode 1)
+(global-auto-revert-mode 1)
+;; better trackpad scrolling
+(when (fboundp 'pixel-scroll-precision-mode)
+  (pixel-scroll-precision-mode 1))
 
 
 (custom-set-variables
@@ -16,17 +21,23 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(apheleia cape consult corfu dashboard evil-collection
+   '(apheleia cape consult consult-lsp corfu dashboard evil-collection
 	      evil-commentary evil-surround flycheck gruvbox-theme
-	      haskell-mode leuven-theme lsp-haskell lsp-pyright magit
-	      marginalia orderless projectile rg rust-mode vertico
-	      yasnippet)))
+	      haskell-mode helpful leuven-theme lsp-haskell
+	      lsp-pyright magit marginalia orderless projectile rg
+	      rust-mode vertico yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(evil-goggles-change-face ((t (:inherit diff-removed))))
+ '(evil-goggles-delete-face ((t (:inherit diff-removed))))
+ '(evil-goggles-paste-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+ '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
+ '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
 
 
 ;; (load-theme 'leuven-dark t)
@@ -60,6 +71,13 @@
   (evil-mode 1)
   (evil-set-leader 'normal (kbd "SPC"))
   (evil-select-search-module 'evil-search-module 'evil-search))
+
+(use-package evil-goggles
+  :ensure t
+  :config
+  (evil-goggles-mode)
+
+  (evil-goggles-use-diff-faces))
 
 (use-package projectile
   :ensure t
@@ -134,6 +152,8 @@
     (kbd "<leader>ss") #'consult-imenu)
   )
 
+(use-package )
+
 (use-package corfu
   :ensure t
   :init
@@ -171,7 +191,7 @@
   :init
   (setq
    lsp-keymap-prefix "C-c l"
-   lsp-completion-provider :none
+   lsp-completion-provider :capf
    lsp-diagnostics-provider :flycheck
    lsp-enable-snippet t
    lsp-enable-symbol-highlighting t
@@ -214,7 +234,11 @@
 
 (use-package rg
   :ensure t
-  :defer t
+  :defer t)
+
+(use-package tab-bar
+  :ensure nil
+  :demand t
   :bind
   ("s-t" . tab-new)
   :custom
@@ -225,9 +249,6 @@
   (tab-bar-mode 1)
   (tab-bar-history-mode 1))
 
-(use-package tab-bar
-  :ensure nil
-  :demand t)
 
 (use-package org
   :ensure nil
@@ -260,6 +281,8 @@
 (use-package org-modern
   :ensure t
   :after org
+  :custom
+  (org-modern-fold-stars '(("\u25b8" . "\u25be")))
   :config
   (global-org-modern-mode 1))
 
@@ -275,6 +298,7 @@
   (lsp-ui-doc-max-width 80)
   (lsp-ui-doc-max-height 20)
   (lsp-ui-doc-border "#665c54")
+  (lsp-ui-sideline-enable nil)
   :custom-face
   (lsp-ui-doc-background ((t (:background "#282828"))))
   :config
@@ -313,6 +337,7 @@
 (use-package dashboard
   :ensure t
   :custom
+  (dashboard-startup-banner 'logo)
   (dashboard-center-content t)
   (dashboard-projects-backend 'projectile)
   (dashboard-items
@@ -322,40 +347,69 @@
   :config
   (dashboard-setup-startup-hook))
 
+(use-package embark-consult
+  :ensure t)
+
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim)
+   ("C-h B" . embark-bindings))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+(use-package helpful
+  :ensure t
+  :bind
+  (("C-h f" . helpful-callable)
+   ("C-h v" . helpful-variable)
+   ("C-h k" . helpful-key)
+   ("C-h x" . helpful-command)
+   ("C-c C-d" . helpful-at-point)
+   ("C-h F" . helpful-function))
+  )
+
+;; g
 (evil-define-key 'normal 'lsp-mode
   (kbd "gd") #'lsp-find-definition
   (kbd "gr") #'lsp-find-references
   (kbd "gi") #'lsp-find-implementation
-  (kbd "gD") #'lsp-find-declaration)
+  (kbd "gD") #'lsp-find-declaration
+  ;; shadow gt
+  (kbd "gt") #'lsp-find-type-definition)
 
+;; leader
 (evil-define-key 'normal 'global
   (kbd "<leader>q")  #'flycheck-list-errors
-  (kbd "<leader>ss") #'consult-imenu
-  (kbd "<leader>sS") #'lsp-ui-peek-find-workspace-symbol
+  (kbd "<leader>ss") #'consult-lsp-symbols
+  (kbd "<leader>sS") #'consult-imenu
   (kbd "<leader>ca") #'lsp-execute-code-action)
+
 
 ;; custom function
 (defun my/evil-scroll-up-center ()
-  "Center C-u."
+  "Center scroll up."
   (interactive)
   (call-interactively #'evil-scroll-up)
   (recenter))
 
 (defun my/evil-scroll-down-center ()
-  "Center C-d."
+  "Center scroll up."
   (interactive)
   (call-interactively #'evil-scroll-down)
   (recenter))
 
 (defun my/vsplit-focus ()
-  "Focus on C-w v window."
+  "Focus on vertical split window."
   (interactive)
   (select-window (split-window-right)))
 
 (defun my/hsplit-focus ()
-  "Focus on C-w s window."
+  "Focus on horizontal split window."
   (interactive)
   (select-window (split-window-below)))
+
 ;; Keybinds
 (define-key evil-normal-state-map (kbd "-") #'dired-jump)
 (define-key evil-normal-state-map (kbd "D") (kbd "dd"))
@@ -365,6 +419,9 @@
 (define-key evil-normal-state-map (kbd "K") #'lsp-ui-doc-show)
 (define-key evil-window-map (kbd "v") #'my/vsplit-focus)
 (define-key evil-window-map (kbd "s") #'my/hsplit-focus)
+(define-key evil-normal-state-map (kbd "<escape>") nil)
+(define-key evil-normal-state-map
+	    (kbd "<escape> <escape>") #'evil-ex-nohighlight)
 ;; TODO: make a keybind to reload config
 (set-face-attribute 'default nil :height 210 :family "JetBrains Mono")
 (electric-pair-mode 1)
@@ -376,4 +433,7 @@
   (which-key-idle-delay 0.5)
   (which-key-side-window-location 'bottom))
 (setq display-line-numbers-type 'relative)
+
+(add-hook 'prog-mode-hook
+          #'display-line-numbers-mode)
 (global-display-line-numbers-mode 1)
