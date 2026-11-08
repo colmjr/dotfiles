@@ -40,11 +40,13 @@
  '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
 
 
-;; (load-theme 'leuven-dark t)
-(use-package gruvbox-theme
-  :ensure t
-  :config
-  (load-theme 'gruvbox-dark-medium t))
+;; Resolve the real init.el so this also works through the Stow symlink.
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "themes/"
+                               (file-name-directory
+                                (file-truename (or load-file-name user-init-file)))))
+(mapc #'disable-theme custom-enabled-themes)
+(load-theme 'gruvbox-nvim t)
 
 (use-package dired
   :ensure nil
@@ -83,8 +85,8 @@
   :ensure t
   :config
   (projectile-mode 1)
-  :bind
-  ("s-p" . projectile-command-map)
+  (evil-define-key 'normal 'global
+    (kbd "<leader>p") #'projectile-command-map)
   :init
   (setq projectile-session-autosave t))
 
@@ -148,16 +150,20 @@
   :after evil
   :config
   (evil-define-key 'normal 'global
-    (kbd "<leader>sg") #'consult-ripgrep
-    (kbd "<leader>ss") #'consult-imenu)
-  )
+    (kbd "<leader>sg") #'consult-ripgrep))
 
-(use-package )
+(use-package consult-lsp
+  :ensure t
+  :commands consult-lsp-symbols)
 
 (use-package corfu
   :ensure t
+  :custom
+  (corfu-auto t)
+  (corfu-auto-prefix 2)
+  (corfu-auto-delay 0.15)
   :init
-  (global-corfu-mode))
+  (global-corfu-mode 1))
 
 (use-package cape
   :ensure t
@@ -178,11 +184,23 @@
   (flycheck-annotate-other-lines-levels '(error))
   :config
   (global-flycheck-mode 1)
-  (global-flycheck-annotate-mode 1))
+  (global-flycheck-annotate-mode 1)
+  (add-hook 'evil-insert-state-entry-hook
+            (lambda ()
+              (when (bound-and-true-p flycheck-mode)
+                (flycheck-annotate-mode -1))))
+  (add-hook 'evil-insert-state-exit-hook
+            (lambda ()
+              (when (bound-and-true-p flycheck-mode)
+                (flycheck-annotate-mode 1)))))
 (use-package yasnippet
   :ensure t
   :init
   (yas-global-mode 1))
+
+(use-package posframe
+  :ensure t
+  :commands (posframe-show posframe-hide))
 
 (use-package lsp-mode
   ;; deferred is better perf wise
@@ -194,6 +212,16 @@
    lsp-completion-provider :capf
    lsp-diagnostics-provider :flycheck
    lsp-enable-snippet t
+   lsp-signature-function #'lsp-signature-posframe
+   lsp-signature-render-documentation nil
+   lsp-signature-posframe-params
+   (list :poshandler #'posframe-poshandler-point-bottom-left-corner
+         :max-width 80
+         :max-height 8
+         :min-width 20
+         :border-width 1
+         :left-fringe 8
+         :right-fringe 8)
    lsp-enable-symbol-highlighting t
    lsp-rust-analyzer-lens-implementations-enable nil
    lsp-enable-semantic-highlighting t
@@ -299,8 +327,6 @@
   (lsp-ui-doc-max-height 20)
   (lsp-ui-doc-border "#665c54")
   (lsp-ui-sideline-enable nil)
-  :custom-face
-  (lsp-ui-doc-background ((t (:background "#282828"))))
   :config
   (evil-define-key 'normal lsp-ui-doc-frame-mode-map
     (kbd "q") #'lsp-ui-doc-hide
@@ -325,7 +351,6 @@
   (apheleia-global-mode +1))
 
 
-;; Recent files (built-in)
 (use-package recentf
   :ensure nil
   :custom
@@ -333,7 +358,6 @@
   :config
   (recentf-mode 1))
 
-;; Startup dashboard
 (use-package dashboard
   :ensure t
   :custom
@@ -410,20 +434,25 @@
   (interactive)
   (select-window (split-window-below)))
 
+(defun my/reload-config ()
+  "Reload Emacs with init.el."
+  (interactive)
+  (load-file user-init-file))
+
 ;; Keybinds
 (define-key evil-normal-state-map (kbd "-") #'dired-jump)
 (define-key evil-normal-state-map (kbd "D") (kbd "dd"))
 (define-key evil-normal-state-map (kbd "Y") (kbd "yy"))
 (define-key evil-normal-state-map (kbd "C-u") #'my/evil-scroll-up-center)
 (define-key evil-normal-state-map (kbd "C-d") #'my/evil-scroll-down-center)
-(define-key evil-normal-state-map (kbd "K") #'lsp-ui-doc-show)
+(define-key evil-normal-state-map (kbd "K") #'lsp-ui-doc-glance)
 (define-key evil-window-map (kbd "v") #'my/vsplit-focus)
 (define-key evil-window-map (kbd "s") #'my/hsplit-focus)
 (define-key evil-normal-state-map (kbd "<escape>") nil)
 (define-key evil-normal-state-map
 	    (kbd "<escape> <escape>") #'evil-ex-nohighlight)
-;; TODO: make a keybind to reload config
 (set-face-attribute 'default nil :height 210 :family "JetBrains Mono")
+(set-face-attribute 'fixed-pitch nil :family "JetBrains Mono" :height 1.0)
 (electric-pair-mode 1)
 (use-package which-key
   :ensure nil
@@ -433,7 +462,16 @@
   (which-key-idle-delay 0.5)
   (which-key-side-window-location 'bottom))
 (setq display-line-numbers-type 'relative)
+(blink-cursor-mode -1)
+(global-visual-line-mode 1)
+(scroll-bar-mode -1)
+(display-battery-mode -1)
+(tool-bar-mode -1)
 
-(add-hook 'prog-mode-hook
-          #'display-line-numbers-mode)
-(global-display-line-numbers-mode 1)
+;; Keep line numbers in programming buffers only, including after a reload.
+(global-display-line-numbers-mode -1)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(dolist (buffer (buffer-list))
+  (with-current-buffer buffer
+    (when (derived-mode-p 'prog-mode)
+      (display-line-numbers-mode 1))))
