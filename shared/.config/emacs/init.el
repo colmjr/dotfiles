@@ -42,9 +42,9 @@
 
 ;; Resolve the real init.el so this also works through the Stow symlink.
 (add-to-list 'custom-theme-load-path
-             (expand-file-name "themes/"
-                               (file-name-directory
-                                (file-truename (or load-file-name user-init-file)))))
+	     (expand-file-name "themes/"
+			       (file-name-directory
+				(file-truename (or load-file-name user-init-file)))))
 (mapc #'disable-theme custom-enabled-themes)
 (load-theme 'gruvbox-nvim t)
 
@@ -60,15 +60,15 @@
   ;; workaround emacs 31 evil bug
   (defvar evil-mode-buffers nil)
   (setq evil-want-keybinding nil
-        evil-want-C-u-scroll t
-        evil-want-C-i-jump t
-        evil-ex-search-highlight-all t
-        evil-ex-search-persistent-highlight t
-        evil-ex-search-incremental t
+	evil-want-C-u-scroll t
+	evil-want-C-i-jump t
+	evil-ex-search-highlight-all t
+	evil-ex-search-persistent-highlight t
+	evil-ex-search-incremental t
 	evil-undo-system 'undo-redo
-        evil-ex-hl-update-delay 0.2
-        scroll-margin 7
-        scroll-conservatively 101)
+	evil-ex-hl-update-delay 0.2
+	scroll-margin 7
+	scroll-conservatively 101)
   :config
   (evil-mode 1)
   (evil-set-leader 'normal (kbd "SPC"))
@@ -169,7 +169,7 @@
   :ensure t
   :init
   (add-to-list 'completion-at-point-functions
-               #'cape-file))
+	       #'cape-file))
 
 (use-package flycheck
   :ensure t
@@ -186,13 +186,13 @@
   (global-flycheck-mode 1)
   (global-flycheck-annotate-mode 1)
   (add-hook 'evil-insert-state-entry-hook
-            (lambda ()
-              (when (bound-and-true-p flycheck-mode)
-                (flycheck-annotate-mode -1))))
+	    (lambda ()
+	      (when (bound-and-true-p flycheck-mode)
+		(flycheck-annotate-mode -1))))
   (add-hook 'evil-insert-state-exit-hook
-            (lambda ()
-              (when (bound-and-true-p flycheck-mode)
-                (flycheck-annotate-mode 1)))))
+	    (lambda ()
+	      (when (bound-and-true-p flycheck-mode)
+		(flycheck-annotate-mode 1)))))
 (use-package yasnippet
   :ensure t
   :init
@@ -216,12 +216,12 @@
    lsp-signature-render-documentation nil
    lsp-signature-posframe-params
    (list :poshandler #'posframe-poshandler-point-bottom-left-corner
-         :max-width 80
-         :max-height 8
-         :min-width 20
-         :border-width 1
-         :left-fringe 8
-         :right-fringe 8)
+	 :max-width 80
+	 :max-height 8
+	 :min-width 20
+	 :border-width 1
+	 :left-fringe 8
+	 :right-fringe 8)
    lsp-enable-symbol-highlighting t
    lsp-rust-analyzer-lens-implementations-enable nil
    lsp-enable-semantic-highlighting t
@@ -290,21 +290,21 @@
   (org-hide-emphasis-markers t)
   :config
   (setq org-capture-templates
-        '(("n" "Notes" entry
-           (file "~/org/notes.org")
-           "* %?\nCaptured: %u")
+	'(("n" "Notes" entry
+	   (file "~/org/notes.org")
+	   "* %?\nCaptured: %u")
 
-          ("t" "Tasks" entry
-           (file "~/org/todo.org")
-           "* TODO %?\nCaptured: %u")
+	  ("t" "Tasks" entry
+	   (file "~/org/todo.org")
+	   "* TODO %?\nCaptured: %u")
 
-          ("r" "Refile" entry
-           (file "~/org/refile.org")
-           "* %? :refile:\nCaptured: %u")
+	  ("r" "Refile" entry
+	   (file "~/org/refile.org")
+	   "* %? :refile:\nCaptured: %u")
 
-          ("l" "Links" entry
-           (file "~/org/links.org")
-           "* [[%(or (gui-get-selection 'CLIPBOARD 'STRING) \"\"][%^{Description}]] :%^{Tag|blog|article|tutorial|reddit|video|problem}:\nSaved: %u"))))
+	  ("l" "Links" entry
+	   (file "~/org/links.org")
+	   "* [[%(or (gui-get-selection 'CLIPBOARD 'STRING) \"\"][%^{Description}]] :%^{Tag|blog|article|tutorial|reddit|video|problem}:\nSaved: %u"))))
 
 (use-package org-modern
   :ensure t
@@ -440,17 +440,22 @@
   (load-file user-init-file))
 
 ;; Keybinds
-(define-key evil-normal-state-map (kbd "-") #'dired-jump)
-(define-key evil-normal-state-map (kbd "D") (kbd "dd"))
-(define-key evil-normal-state-map (kbd "Y") (kbd "yy"))
-(define-key evil-normal-state-map (kbd "C-u") #'my/evil-scroll-up-center)
-(define-key evil-normal-state-map (kbd "C-d") #'my/evil-scroll-down-center)
-(define-key evil-normal-state-map (kbd "K") #'lsp-ui-doc-glance)
-(define-key evil-window-map (kbd "v") #'my/vsplit-focus)
-(define-key evil-window-map (kbd "s") #'my/hsplit-focus)
-(define-key evil-normal-state-map (kbd "<escape>") nil)
-(define-key evil-normal-state-map
-	    (kbd "<escape> <escape>") #'evil-ex-nohighlight)
+(with-eval-after-load 'evil
+  (define-key evil-normal-state-map (kbd "-") #'dired-jump)
+  (define-key evil-normal-state-map (kbd "D") (kbd "dd"))
+  (define-key evil-normal-state-map (kbd "Y") (kbd "yy"))
+  (define-key evil-normal-state-map (kbd "C-u") #'my/evil-scroll-up-center)
+  (define-key evil-normal-state-map (kbd "C-d") #'my/evil-scroll-down-center)
+  (define-key evil-normal-state-map (kbd "K") #'lsp-ui-doc-glance)
+  (define-key evil-window-map (kbd "v") #'my/vsplit-focus)
+  (define-key evil-window-map (kbd "s") #'my/hsplit-focus)
+  (define-key evil-normal-state-map (kbd "<escape>")
+	      (lambda ()
+		(interactive)
+		(evil-ex-nohighlight)
+		(evil-force-normal-state)))
+  (define-key evil-normal-state-map
+	      (kbd "<escape> <escape>") #'evil-ex-nohighlight))
 (set-face-attribute 'default nil :height 210 :family "JetBrains Mono")
 (set-face-attribute 'fixed-pitch nil :family "JetBrains Mono" :height 1.0)
 (electric-pair-mode 1)
