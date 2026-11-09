@@ -1,0 +1,39 @@
+;;; org.el --- Org notes, capture, agenda, and appearance -*- lexical-binding: t; -*-
+
+;;; Code:
+
+(use-package org
+  :ensure nil
+  :commands (org-agenda org-capture)
+  :custom
+  (org-directory "~/org/")
+  (org-agenda-files '("~/org/"))
+  (org-startup-indented t)
+  (org-hide-emphasis-markers t)
+  :config
+  (setq org-capture-templates
+	'(("n" "Notes" entry
+	   (file "~/org/notes.org")
+	   "* %?\nCaptured: %u")
+
+	  ("t" "Tasks" entry
+	   (file "~/org/todo.org")
+	   "* TODO %?\nCaptured: %u")
+
+	  ("r" "Refile" entry
+	   (file "~/org/refile.org")
+	   "* %? :refile:\nCaptured: %u")
+
+	  ("l" "Links" entry
+	   (file "~/org/links.org")
+	   "* [[%(or (gui-get-selection 'CLIPBOARD 'STRING) \"\"][%^{Description}]] :%^{Tag|blog|article|tutorial|reddit|video|problem}:\nSaved: %u"))))
+
+(use-package org-modern
+  :ensure t
+  :after org
+  :custom
+  (org-modern-fold-stars '(("\u25b8" . "\u25be")))
+  :config
+  (global-org-modern-mode 1))
+
+;;; org.el ends here

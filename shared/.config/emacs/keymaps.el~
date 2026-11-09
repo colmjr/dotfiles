@@ -1,0 +1,84 @@
+;;; keymaps.el --- Global, Evil, and package-local keybindings -*- lexical-binding: t; -*-
+
+;;; Code:
+
+;;; Global bindings
+
+(global-set-key (kbd "C-x g") #'magit-status)
+(global-set-key (kbd "C-s") #'consult-line)
+(global-set-key (kbd "C-x b") #'consult-buffer)
+(global-set-key (kbd "C-c r") #'consult-recent-file)
+(global-set-key (kbd "s-t") #'tab-new)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c t") #'ghostel)
+(global-set-key (kbd "C-c b") #'xwidget-webkit-browse-url)
+(global-set-key (kbd "C-.") #'embark-act)
+(global-set-key (kbd "C-;") #'embark-dwim)
+(global-set-key (kbd "C-h B") #'embark-bindings)
+(global-set-key (kbd "C-h f") #'helpful-callable)
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+(global-set-key (kbd "C-h x") #'helpful-command)
+(global-set-key (kbd "C-c C-d") #'helpful-at-point)
+(global-set-key (kbd "C-h F") #'helpful-function)
+
+;;; Evil and leader bindings
+
+(with-eval-after-load 'evil
+  (evil-set-leader 'normal (kbd "SPC"))
+  (define-key evil-normal-state-map (kbd "-") #'dired-jump)
+  (define-key evil-normal-state-map (kbd "D") (kbd "dd"))
+  (define-key evil-normal-state-map (kbd "Y") (kbd "yy"))
+  (define-key evil-normal-state-map (kbd "C") (kbd "cc"))
+  (define-key evil-normal-state-map (kbd "C-u") #'my/evil-scroll-up-center)
+  (define-key evil-normal-state-map (kbd "C-d") #'my/evil-scroll-down-center)
+  (define-key evil-normal-state-map (kbd "K") #'lsp-ui-doc-glance)
+  (define-key evil-window-map (kbd "v") #'my/vsplit-focus)
+  (define-key evil-window-map (kbd "s") #'my/hsplit-focus)
+  (define-key evil-normal-state-map (kbd "<escape>")
+	      (lambda ()
+		(interactive)
+		(evil-ex-nohighlight)
+		(evil-force-normal-state))))
+
+(with-eval-after-load 'evil
+  (evil-define-key 'normal 'global
+    (kbd "<leader>p") #'projectile-command-map
+    (kbd "<leader>sg") #'consult-ripgrep)
+
+  (evil-define-key 'normal 'global
+    (kbd "<leader>q")  #'flycheck-list-errors
+    (kbd "<leader>ss") #'consult-lsp-symbols
+    (kbd "<leader>sS") #'consult-imenu
+    (kbd "<leader>ca") #'lsp-execute-code-action
+    (kbd "<leader>cc") #'my/projectile-compile
+    (kbd "<leader>cC") #'projectile-compile-project
+    (kbd "<leader>cr") #'my/projectile-run
+    (kbd "<leader>cR") #'projectile-run-project
+    (kbd "<leader>ct") #'my/projectile-test
+    (kbd "<leader>cT") #'projectile-test-project))
+
+;;; Package-local bindings
+
+(with-eval-after-load 'evil
+  (with-eval-after-load 'lsp-mode
+    (evil-define-key 'normal 'lsp-mode
+      (kbd "gd") #'lsp-find-definition
+      (kbd "gr") #'lsp-find-references
+      (kbd "gi") #'lsp-find-implementation
+      (kbd "gD") #'lsp-find-declaration
+      ;; shadow gt
+      (kbd "gt") #'lsp-find-type-definition))
+
+  (with-eval-after-load 'diff-hl
+    (evil-define-key 'normal diff-hl-mode-map
+      (kbd "]d") #'diff-hl-next-hunk
+      (kbd "[d") #'diff-hl-previous-hunk))
+
+  (with-eval-after-load 'lsp-ui
+    (evil-define-key 'normal lsp-ui-doc-frame-mode-map
+      (kbd "q") #'lsp-ui-doc-hide
+      (kbd "<escape>") #'lsp-ui-doc-hide)))
+
+;;; keymaps.el ends here
