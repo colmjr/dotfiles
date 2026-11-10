@@ -4,6 +4,18 @@
 
 (setq ring-bell-function #'ignore)
 
+(setq-default indent-tabs-mode t
+              tab-width 4)
+
+;; Rust's tree-sitter mode otherwise forces space indentation.
+(defun my/use-tabs ()
+  "Use tab characters for indentation in the current buffer."
+  (setq-local indent-tabs-mode t
+              tab-width 4))
+
+(add-hook 'rust-mode-hook #'my/use-tabs)
+(add-hook 'rust-ts-mode-hook #'my/use-tabs)
+
 (savehist-mode 1)
 
 (save-place-mode 1)

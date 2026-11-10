@@ -57,4 +57,14 @@
   (lsp-ui-doc-border "#665c54")
   (lsp-ui-sideline-enable nil))
 
+(use-package treesit-auto
+  :ensure t
+  :custom
+  ;; Avoid probing every missing grammar each time a file gets its major mode.
+  ;; Add languages here when installing more grammars.
+  (treesit-auto-langs '(json python rust toml))
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 ;;; lsp.el ends here

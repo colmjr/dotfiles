@@ -47,4 +47,18 @@
      ".." "..." "..="))
   (global-ligature-mode 1))
 
+(use-package nerd-icons
+  :ensure t)
+
+(use-package doom-modeline
+  :ensure t
+  :after nerd-icons
+  :init
+  (setq doom-modeline-buffer-encoding nil
+		doom-modeline-indent-info nil
+		doom-modeline-minor-modes nil
+		)
+  :config
+  (doom-modeline-mode 1))
+
 ;;; appearance.el ends here

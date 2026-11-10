@@ -8,11 +8,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(apheleia cape consult consult-lsp corfu dashboard evil-collection
-	      evil-commentary evil-surround flycheck gruvbox-theme
-	      haskell-mode helpful leuven-theme lsp-haskell
-	      lsp-pyright magit marginalia orderless projectile rg
-	      rust-mode vertico yasnippet)))
+   '(apheleia cape clippy consult consult-lsp corfu dashboard
+	      doom-modeline evil-collection evil-commentary
+	      evil-surround flycheck gruvbox-theme haskell-mode
+	      helpful leuven-theme lsp-haskell lsp-pyright magit
+	      marginalia nerd-icons orderless projectile rg rust-mode
+	      treesit-auto vertico yasnippet)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -2,6 +2,7 @@
 
 ;;; Code:
 
+
 (global-set-key (kbd "C-x g") #'magit-status)
 (global-set-key (kbd "C-s") #'consult-line)
 (global-set-key (kbd "C-x b") #'consult-buffer)
@@ -21,8 +22,16 @@
 (global-set-key (kbd "C-c C-d") #'helpful-at-point)
 (global-set-key (kbd "C-h F") #'helpful-function)
 
+(with-eval-after-load 'corfu
+  (with-eval-after-load 'evil
+    (evil-define-key 'insert corfu-map
+      (kbd "C-y") #'corfu-insert
+      (kbd "C-e") #'corfu-quit)))
+
 (with-eval-after-load 'evil
   (evil-set-leader 'normal (kbd "SPC"))
+  (define-key evil-insert-state-map (kbd "C-SPC")
+              #'completion-at-point)
   (define-key evil-normal-state-map (kbd "-") #'dired-jump)
   (define-key evil-normal-state-map (kbd "D") (kbd "dd"))
   (define-key evil-normal-state-map (kbd "Y") (kbd "yy"))
@@ -41,9 +50,8 @@
 (with-eval-after-load 'evil
   (evil-define-key 'normal 'global
     (kbd "<leader>p") #'projectile-command-map
-    (kbd "<leader>sg") #'consult-ripgrep)
-
-  (evil-define-key 'normal 'global
+    (kbd "<leader>sg") #'consult-ripgrep
+    (kbd "<leader>st") #'projectile-todos
     (kbd "<leader>q")  #'flycheck-list-errors
     (kbd "<leader>ss") #'consult-lsp-symbols
     (kbd "<leader>sS") #'consult-imenu

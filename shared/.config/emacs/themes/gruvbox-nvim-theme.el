@@ -64,6 +64,8 @@
    `(isearch ((t (:foreground ,bg0 :background ,orange :weight normal))))
    `(lazy-highlight ((t (:foreground ,bg0 :background ,yellow))))
    `(match ((t (:foreground ,bg0 :background ,yellow))))
+   ;; LSP reference results preserve syntax foregrounds over this background.
+   `(xref-match ((t (:inherit nil :background ,bg1 :weight bold))))
    `(isearch-fail ((t (:foreground ,bg0 :background ,red))))
    `(show-paren-match ((t (:background ,bg3 :weight bold))))
    `(show-paren-mismatch ((t (:foreground ,bg0 :background ,red :weight bold))))
