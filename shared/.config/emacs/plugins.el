@@ -14,6 +14,7 @@
                 "lsp.el"
                 "languages.el"
                 "org.el"
+				"ai.el"
                 "ghostel.el"
                 "dashboard.el"))
   (load (expand-file-name file

@@ -9,11 +9,11 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(apheleia cape clippy consult consult-lsp corfu dashboard
-	      doom-modeline evil-collection evil-commentary
-	      evil-surround flycheck gruvbox-theme haskell-mode
-	      helpful leuven-theme lsp-haskell lsp-pyright magit
-	      marginalia nerd-icons orderless projectile rg rust-mode
-	      treesit-auto vertico yasnippet)))
+			  doom-modeline evil-collection evil-commentary
+			  evil-surround flycheck gruvbox-theme haskell-mode
+			  helpful leuven-theme lsp-haskell lsp-pyright magit
+			  marginalia nerd-icons olivetti orderless pilish
+			  projectile rg rust-mode treesit-auto vertico yasnippet)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

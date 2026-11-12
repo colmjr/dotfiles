@@ -3,6 +3,7 @@
 ;;; Code:
 
 (setq ring-bell-function #'ignore)
+(defalias 'pi 'pilish)
 
 (setq-default indent-tabs-mode t
               tab-width 4)

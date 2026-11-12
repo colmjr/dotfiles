@@ -42,10 +42,10 @@
   (define-key evil-window-map (kbd "v") #'my/vsplit-focus)
   (define-key evil-window-map (kbd "s") #'my/hsplit-focus)
   (define-key evil-normal-state-map (kbd "<escape>")
-	      (lambda ()
-		(interactive)
-		(evil-ex-nohighlight)
-		(evil-force-normal-state))))
+			  (lambda ()
+				(interactive)
+				(evil-ex-nohighlight)
+				(evil-force-normal-state))))
 
 (with-eval-after-load 'evil
   (evil-define-key 'normal 'global
@@ -71,16 +71,17 @@
       (kbd "gi") #'lsp-find-implementation
       (kbd "gD") #'lsp-find-declaration
       ;; shadow gt
-      (kbd "gt") #'lsp-find-type-definition))
+      (kbd "gt") #'lsp-find-type-definition
+	  (kbd "gn") #'lsp-rename))
 
   (with-eval-after-load 'diff-hl
     (evil-define-key 'normal diff-hl-mode-map
-      (kbd "]d") #'diff-hl-next-hunk
-      (kbd "[d") #'diff-hl-previous-hunk))
+	  (kbd "]d") #'diff-hl-next-hunk
+	  (kbd "[d") #'diff-hl-previous-hunk))
 
   (with-eval-after-load 'lsp-ui
     (evil-define-key 'normal lsp-ui-doc-frame-mode-map
-      (kbd "q") #'lsp-ui-doc-hide
-      (kbd "<escape>") #'lsp-ui-doc-hide)))
+	  (kbd "q") #'lsp-ui-doc-hide
+	  (kbd "<escape>") #'lsp-ui-doc-hide)))
 
 ;;; keymaps.el ends here
