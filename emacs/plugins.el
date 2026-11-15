@@ -2,8 +2,6 @@
 
 ;;; Code:
 
-;; Load by absolute path: plugin filenames must not shadow package libraries.
-;; The explicit order keeps foundational packages ahead of their integrations.
 (dolist (file '("appearance.el"
                 "evil.el"
                 "completion.el"

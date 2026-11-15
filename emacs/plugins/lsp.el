@@ -13,7 +13,6 @@
   :init
   (setq
    lsp-keymap-prefix "C-c l"
-   ;; Corfu uses the LSP CAPF directly; skip Company autoconfiguration.
    lsp-completion-provider :none
    lsp-diagnostics-provider :flycheck
    lsp-enable-snippet t
@@ -21,15 +20,14 @@
    lsp-signature-render-documentation nil
    lsp-signature-posframe-params
    (list :poshandler #'posframe-poshandler-point-bottom-left-corner
-	 :max-width 80
-	 :max-height 8
-	 :min-width 20
-	 :border-width 1
-	 :left-fringe 8
-	 :right-fringe 8)
+		 :max-width 80
+		 :max-height 8
+		 :min-width 20
+		 :border-width 1
+		 :left-fringe 8
+		 :right-fringe 8)
    lsp-enable-symbol-highlighting t
    lsp-rust-analyzer-lens-implementations-enable nil
-   ;; Include Clippy lints in the existing LSP/Flycheck diagnostics.
    lsp-rust-analyzer-cargo-watch-command "clippy"
    lsp-enable-semantic-highlighting t
    lsp-headerline-breadcrumb-enable t
@@ -61,9 +59,6 @@
 (use-package treesit-auto
   :ensure t
   :custom
-  ;; Avoid probing every missing grammar each time a file gets its major mode.
-  ;; Rustic handles Rust's tree-sitter integration without mode remapping.
-  ;; Add other languages here when installing more grammars.
   (treesit-auto-langs '(json python toml))
   (treesit-auto-install 'prompt)
   :config

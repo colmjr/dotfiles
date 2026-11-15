@@ -6,7 +6,6 @@
   :ensure t
   :defer t
   :init
-  ;; Rustic supplies the Cargo/formatting integrations, but keeps tree-sitter.
   (setq rust-load-optional-libraries nil
         rust-mode-treesitter-derive
         (and (fboundp 'treesit-ready-p)
@@ -16,7 +15,6 @@
   :ensure t
   :mode ("\\.rs\\'" . rustic-mode)
   :init
-  ;; Start LSP through our own hook and leave automatic formatting to Apheleia.
   (setq rustic-lsp-setup-p nil
         rustic-format-trigger nil
         rustic-format-on-save nil)
