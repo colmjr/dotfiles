@@ -35,6 +35,15 @@
    "Would you like to restore the last projectile session?"
    #'projectile-session-restore))
 
+(defun my/flycheck-quickfix-focus ()
+  "Open quickfix and switch focus."
+  (interactive)
+  (flycheck-list-errors)
+  (when-let ((window (get-buffer-window flycheck-error-list-buffer)))
+	(select-window window)
+	)
+  )
+
 (defun my/evil-scroll-up-center ()
   "Center scroll up."
   (interactive)

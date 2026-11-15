@@ -54,7 +54,7 @@
     (kbd "<leader>sg") #'consult-ripgrep
 	(kbd "<leader>sf") #'projectile-find-file
     (kbd "<leader>st") #'projectile-todos
-    (kbd "<leader>q")  #'flycheck-list-errors
+    (kbd "<leader>q")  #'my/flycheck-quickfix-focus
     (kbd "<leader>ss") #'consult-lsp-symbols
     (kbd "<leader>sS") #'consult-imenu
     (kbd "<leader>ca") #'lsp-execute-code-action

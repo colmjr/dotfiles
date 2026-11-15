@@ -19,7 +19,6 @@
   :ensure nil
   :demand t
   :custom
-  ;; Keep tabs and their shortcuts, but show the current tab in the mode line.
   (tab-bar-show nil)
   (tab-bar-select-tab-modifiers '(super))
   (tab-bar-tab-hints t)
