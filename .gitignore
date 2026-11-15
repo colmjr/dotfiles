@@ -1,42 +1,196 @@
-.DS_Store
+# This is the live ~/.config directory. Ignore everything by default.
+# Allow only reviewed config files, never entire runtime directories.
+# Add a new file and its parent directories below before staging it.
+*
+!/.gitignore
+!/README.md
 
-# credentials / tokens
-github-copilot/
-**/gh/hosts.yml
-glab-cli/
-homebrew/
+# btop
+!/btop/
+!/btop/btop.conf
 
-# machine-local, not config
-iterm2/
-**/opencode/node_modules/
-**/karabiner/automatic_backups/
-**/raycast/extensions/
-**/tmux/plugins/
-**/zed/prompts/
+# emacs
+!/emacs/
+!/emacs/plugins/
+!/emacs/themes/
+!/emacs/custom.el
+!/emacs/functions.el
+!/emacs/init.el
+!/emacs/keymaps.el
+!/emacs/plugins.el
+!/emacs/plugins/ai.el
+!/emacs/plugins/appearance.el
+!/emacs/plugins/completion.el
+!/emacs/plugins/dashboard.el
+!/emacs/plugins/editing.el
+!/emacs/plugins/evil.el
+!/emacs/plugins/flycheck.el
+!/emacs/plugins/ghostel.el
+!/emacs/plugins/git.el
+!/emacs/plugins/languages.el
+!/emacs/plugins/lsp.el
+!/emacs/plugins/org.el
+!/emacs/plugins/projectile.el
+!/emacs/set.el
+!/emacs/themes/gruvbox-nvim-theme.el
 
-# pi installation / dependencies
-**/pi/agent/bin/
-**/pi/agent/install/
-**/pi/agent/**/node_modules/
+# eza
+!/eza/
+!/eza/theme.yml
 
-# pi runtime / secrets
-**/pi/agent/auth.json
-**/pi/agent/sessions/
-**/pi/agent/npm/
-**/pi/agent/models-store.json
-**/pi/agent/scratchpad/
-**/pi/web-search-cache/
-beets/
-mpd/
+# fish
+!/fish/
+!/fish/config.fish
 
-# linux machine-local / generated
-**/Thunar/accels.scm
-**/pulse/cookie
-**/dconf/user
-Bitwarden/
-mozilla/
+# gh
+!/gh/
+!/gh/config.yml
 
-# raycast
-**/raycast
-/shared/.config/pi/agent/mcp-auth.json
-/shared/.config/pi/agent/mcp.json
+# git
+!/git/
+!/git/ignore
+
+# karabiner
+!/karabiner/
+!/karabiner/karabiner.json
+
+# lazygit
+!/lazygit/
+!/lazygit/config.yml
+
+# neofetch
+!/neofetch/
+!/neofetch/config.conf
+
+# nvim
+!/nvim/
+!/nvim/.github/
+!/nvim/lua/
+!/nvim/templates/
+!/nvim/.github/ISSUE_TEMPLATE/
+!/nvim/.github/workflows/
+!/nvim/lua/colmjr/
+!/nvim/lua/colmjr/plugins/
+!/nvim/.github/ISSUE_TEMPLATE/bug_report.md
+!/nvim/.github/pull_request_template.md
+!/nvim/.github/workflows/stylua.yml
+!/nvim/.gitignore
+!/nvim/.stylua.toml
+!/nvim/README.md
+!/nvim/init.lua
+!/nvim/lua/colmjr/health.lua
+!/nvim/lua/colmjr/init.lua
+!/nvim/lua/colmjr/plugin.lua
+!/nvim/lua/colmjr/plugins/accelerated-jk.lua
+!/nvim/lua/colmjr/plugins/alpha.lua
+!/nvim/lua/colmjr/plugins/autopairs.lua
+!/nvim/lua/colmjr/plugins/blink.lua
+!/nvim/lua/colmjr/plugins/canola.lua
+!/nvim/lua/colmjr/plugins/conform.lua
+!/nvim/lua/colmjr/plugins/dap.lua
+!/nvim/lua/colmjr/plugins/diagnostics.lua
+!/nvim/lua/colmjr/plugins/diffview.lua
+!/nvim/lua/colmjr/plugins/fidget.lua
+!/nvim/lua/colmjr/plugins/gitsigns.lua
+!/nvim/lua/colmjr/plugins/harpoon.lua
+!/nvim/lua/colmjr/plugins/lint.lua
+!/nvim/lua/colmjr/plugins/lsp.lua
+!/nvim/lua/colmjr/plugins/lualine.lua
+!/nvim/lua/colmjr/plugins/markview.lua
+!/nvim/lua/colmjr/plugins/mini-ai.lua
+!/nvim/lua/colmjr/plugins/nvim-surround.lua
+!/nvim/lua/colmjr/plugins/orgmode.lua
+!/nvim/lua/colmjr/plugins/rust.lua
+!/nvim/lua/colmjr/plugins/telescope.lua
+!/nvim/lua/colmjr/plugins/theme.lua
+!/nvim/lua/colmjr/plugins/todo-comments.lua
+!/nvim/lua/colmjr/plugins/treesitter.lua
+!/nvim/lua/colmjr/plugins/vim-fugitive.lua
+!/nvim/lua/colmjr/plugins/vim-tmux-navigator.lua
+!/nvim/lua/colmjr/plugins/which-key.lua
+!/nvim/lua/colmjr/remap.lua
+!/nvim/lua/colmjr/set.lua
+!/nvim/nvim-pack-lock.json
+!/nvim/templates/cf-statement-bookmarklet.txt
+!/nvim/templates/cp.cpp
+
+# opencode
+!/opencode/
+!/opencode/package-lock.json
+
+# pandoc
+!/pandoc/
+!/pandoc/filters/
+!/pandoc/templates/
+!/pandoc/filters/typst-src.lua
+!/pandoc/templates/typst.template
+
+# pi
+!/pi/
+!/pi/agent/
+!/pi/agent/agents/
+!/pi/agent/extensions/
+!/pi/agent/pi-web-access/
+!/pi/agent/skills-on-demand/
+!/pi/agent/extensions/plan-mode/
+!/pi/agent/extensions/subagent/
+!/pi/agent/skills-on-demand/whisky-dll-triage/
+!/pi/agent/AGENTS.md
+!/pi/agent/agents/planner.md
+!/pi/agent/agents/reviewer.md
+!/pi/agent/agents/scout.md
+!/pi/agent/agents/worker.md
+!/pi/agent/extensions/compaction-memory.ts
+!/pi/agent/extensions/discuss-mode.ts
+!/pi/agent/extensions/load-skills.ts
+!/pi/agent/extensions/plan-mode/README.md
+!/pi/agent/extensions/plan-mode/index.ts
+!/pi/agent/extensions/plan-mode/utils.ts
+!/pi/agent/extensions/questionnaire.ts
+!/pi/agent/extensions/scratchpad.ts
+!/pi/agent/extensions/subagent/agents.ts
+!/pi/agent/extensions/subagent/index.ts
+!/pi/agent/extensions/todo.ts
+!/pi/agent/keybindings.json
+!/pi/agent/pi-web-access/last-seen-version.json
+!/pi/agent/settings.json
+!/pi/agent/skills-on-demand/whisky-dll-triage/SKILL.md
+
+# skhd
+!/skhd/
+!/skhd/skhdrc
+
+# starship.toml
+!/starship.toml
+
+# tmux
+!/tmux/
+!/tmux/is-vim.sh
+!/tmux/tmux.conf
+
+# uv
+!/uv/
+!/uv/conda-backup/
+!/uv/conda-backup/base.explicit.txt
+!/uv/conda-backup/base.from-history.yml
+!/uv/conda-backup/base.yml
+!/uv/conda-backup/english-compiler-old-pyvenv.cfg
+!/uv/conda-backup/english-compiler.explicit.txt
+!/uv/conda-backup/english-compiler.from-history.yml
+!/uv/conda-backup/english-compiler.yml
+!/uv/conda-backup/ml.explicit.txt
+!/uv/conda-backup/ml.from-history.yml
+!/uv/conda-backup/ml.yml
+!/uv/uv-receipt.json
+
+# yabai
+!/yabai/
+!/yabai/yabairc
+
+# zed
+!/zed/
+!/zed/debug.json
+!/zed/keymap.json
+!/zed/settings.json
+!/zed/settings_backup.json
+!/zed/tasks.json
