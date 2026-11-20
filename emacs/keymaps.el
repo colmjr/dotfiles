@@ -3,14 +3,12 @@
 ;;; Code:
 
 
-(global-set-key (kbd "C-x g") #'magit-status)
-(global-set-key (kbd "C-s") #'consult-line)
 (global-set-key (kbd "C-x b") #'consult-buffer)
 (global-set-key (kbd "C-c r") #'consult-recent-file)
 (global-set-key (kbd "s-t") #'tab-new)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
-(global-set-key (kbd "C-c t") #'ghostel)
+(global-set-key (kbd "C-c t") #'ghostel-project)
 (global-set-key (kbd "C-c b") #'xwidget-webkit-browse-url)
 (global-set-key (kbd "C-.") #'embark-act)
 (global-set-key (kbd "C-;") #'embark-dwim)
@@ -23,10 +21,10 @@
 (global-set-key (kbd "C-h F") #'helpful-function)
 
 (with-eval-after-load 'corfu
-  (with-eval-after-load 'evil
+  (with-eval-after-load 'meow
     (evil-define-key 'insert corfu-map
-      (kbd "C-y") #'corfu-insert
-      (kbd "C-e") #'corfu-quit)))
+					 (kbd "C-y") #'corfu-insert
+					 (kbd "C-e") #'corfu-quit)))
 
 (with-eval-after-load 'evil
   (evil-set-leader 'normal (kbd "SPC"))
@@ -50,48 +48,48 @@
 
 (with-eval-after-load 'evil
   (evil-define-key 'normal 'global
-    (kbd "<leader>p") #'projectile-command-map
-    (kbd "<leader>sg") #'consult-ripgrep
-	(kbd "<leader>sf") #'projectile-find-file
-    (kbd "<leader>st") #'projectile-todos
-    (kbd "<leader>q")  #'my/flycheck-quickfix-focus
-    (kbd "<leader>ss") #'consult-lsp-symbols
-    (kbd "<leader>sS") #'consult-imenu
-    (kbd "<leader>ca") #'lsp-execute-code-action
-    (kbd "<leader>cc") #'my/projectile-compile
-    (kbd "<leader>cC") #'projectile-compile-project
-    (kbd "<leader>cr") #'my/projectile-run
-    (kbd "<leader>cR") #'projectile-run-project
-    (kbd "<leader>ct") #'my/projectile-test
-    (kbd "<leader>cT") #'projectile-test-project))
+				   (kbd "<leader>p") #'projectile-command-map
+				   (kbd "<leader>sg") #'consult-ripgrep
+				   (kbd "<leader>sf") #'projectile-find-file
+				   (kbd "<leader>st") #'projectile-todos
+				   (kbd "<leader>q")  #'my/flycheck-quickfix-focus
+				   (kbd "<leader>ss") #'consult-lsp-symbols
+				   (kbd "<leader>sS") #'consult-imenu
+				   (kbd "<leader>ca") #'lsp-execute-code-action
+				   (kbd "<leader>cc") #'my/projectile-compile
+				   (kbd "<leader>cC") #'projectile-compile-project
+				   (kbd "<leader>cr") #'my/projectile-run
+				   (kbd "<leader>cR") #'projectile-run-project
+				   (kbd "<leader>ct") #'my/projectile-test
+				   (kbd "<leader>cT") #'projectile-test-project))
 
-(with-eval-after-load 'evil
-  (with-eval-after-load 'lsp-mode
-    (evil-define-key 'normal 'lsp-mode
-      (kbd "gd") #'lsp-find-definition
-      (kbd "grr") #'lsp-find-references
-      (kbd "gri") #'lsp-find-implementation
-      (kbd "grD") #'lsp-find-declaration
-      ;; shadow gt
-      (kbd "grt") #'lsp-find-type-definition
-	  (kbd "grn") #'lsp-rename))
+;; (with-eval-after-load 'evil
+;;   (with-eval-after-load 'lsp-mode
+;;     (meow-define-keys 'normal 'lsp-mode
+;; 					 (kbd "gd") #'lsp-find-definition
+;; 					 (kbd "grr") #'lsp-find-references
+;; 					 (kbd "gri") #'lsp-find-implementation
+;; 					 (kbd "grD") #'lsp-find-declaration
+;; 					 ;; shadow gt
+;; 					 (kbd "grt") #'lsp-find-type-definition
+;; 					 (kbd "grn") #'lsp-rename))
 
-  (with-eval-after-load 'rustic
-    ;; Keep the global Projectile build/run/test bindings and project commands.
-    (evil-define-key 'normal rustic-mode-map
-      (kbd "<leader>c.") #'rustic-cargo-current-test
-      (kbd "<leader>ck") #'rustic-cargo-check
-      (kbd "<leader>cl") #'rustic-cargo-clippy
-      (kbd "<leader>cp") #'rustic-popup))
+(with-eval-after-load 'rustic
+  ;; Keep the global Projectile build/run/test bindings and project commands.
+  (meow-define-key 'normal rustic-mode-map
+				   (kbd "<leader>c.") #'rustic-cargo-current-test
+				   (kbd "<leader>ck") #'rustic-cargo-check
+				   (kbd "<leader>cl") #'rustic-cargo-clippy
+				   (kbd "<leader>cp") #'rustic-popup))
 
-  (with-eval-after-load 'diff-hl
-    (evil-define-key 'normal diff-hl-mode-map
-	  (kbd "]d") #'diff-hl-next-hunk
-	  (kbd "[d") #'diff-hl-previous-hunk))
+(with-eval-after-load 'diff-hl
+  (meow-define-key 'normal diff-hl-mode-map
+				   (kbd "]d") #'diff-hl-next-hunk
+				   (kbd "[d") #'diff-hl-previous-hunk))
 
-  (with-eval-after-load 'lsp-ui
-    (evil-define-key 'normal lsp-ui-doc-frame-mode-map
-	  (kbd "q") #'lsp-ui-doc-hide
-	  (kbd "<escape>") #'lsp-ui-doc-hide)))
+(with-eval-after-load 'lsp-ui
+  (meow-define-key 'normal lsp-ui-doc-frame-mode-map
+				   (kbd "q") #'lsp-ui-doc-hide
+				   (kbd "<escape>") #'lsp-ui-doc-hide)))
 
 ;;; keymaps.el ends here

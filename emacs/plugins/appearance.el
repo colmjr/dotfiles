@@ -4,10 +4,11 @@
 
 (add-to-list 'custom-theme-load-path
              (expand-file-name "themes/" my/config-directory))
-(mapc #'disable-theme custom-enabled-themes)
+;; (mapc #'disable-theme custom-enabled-themes)
 ;; (use-package gruvbox-theme
 ;;   :config (load-theme 'gruvbox-light-medium))
-(load-theme 'gruvbox-nvim t)
+;; (load-theme 'gruvbox-nvim t)
+(load-theme 'modus-operandi-tinted t)
 
 (use-package dired
   :ensure nil

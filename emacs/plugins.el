@@ -14,7 +14,8 @@
                 "org.el"
 				"ai.el"
                 "ghostel.el"
-                "dashboard.el"))
+                "dashboard.el"
+                "music.el"))
   (load (expand-file-name file
                           (expand-file-name "plugins/" my/config-directory))
         nil 'nomessage))

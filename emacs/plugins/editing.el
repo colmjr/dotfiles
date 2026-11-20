@@ -10,6 +10,6 @@
 (use-package apheleia
   :ensure t
   :config
-  (apheleia-global-mode +1))
+  (apheleia-global-mode 1))
 
 ;;; editing.el ends here

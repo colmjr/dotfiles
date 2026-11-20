@@ -8,16 +8,19 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("53b9dd9615039a563a211a7b2437a0af67a0a4bca7323ae6d18ec87606bb8be0"
+   '("28b9703810da2df6fb8667b681cea47d6fbfa5df6a7f23d5dee41d25acca38ba"
+	 "4f1e4cadfd4f998cc23338246bae383a0d3a99a5edea9bcf26922ef054671299"
+	 "e1da45d87a83acb558e69b90015f0821679716be79ecb76d635aafdca8f6ebd4"
+	 "b8dc59f939f4d0d912e4e0861146625b561aec245d268d390c517fda0e3b0448"
+	 "53b9dd9615039a563a211a7b2437a0af67a0a4bca7323ae6d18ec87606bb8be0"
 	 default))
  '(package-selected-packages
    '(agent-shell apheleia ayu-theme cape clippy consult consult-lsp corfu
-				 dashboard doom-modeline evil-collection
-				 evil-commentary evil-surround flycheck gruvbox-theme
+				 dashboard doom-modeline flycheck gruvbox-theme
 				 haskell-mode helpful leuven-theme lsp-haskell
-				 lsp-pyright magit marginalia nerd-icons olivetti
-				 orderless pilish projectile rg rust-mode treesit-auto
-				 vertico yasnippet)))
+				 lsp-pyright magit marginalia meow multiple-cursors
+				 nerd-icons olivetti orderless pilish projectile rg
+				 rust-mode smudge treesit-auto vertico yasnippet)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

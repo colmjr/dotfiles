@@ -14,6 +14,9 @@
               tab-width 4))
 
 (add-hook 'rust-mode-hook #'my/use-tabs)
+(with-eval-after-load 'lsp-rust
+  (set-face-attribute 'lsp-rust-analyzer-mutable-modifier-face
+                      nil :underline nil))
 (add-hook 'rust-ts-mode-hook #'my/use-tabs)
 
 (savehist-mode 1)
@@ -28,7 +31,7 @@
 (setq scroll-margin 7
       scroll-conservatively 101)
 
-(set-face-attribute 'default nil :height 210 :family "JetBrains Mono")
+(set-face-attribute 'default nil :height 200 :family "JetBrains Mono")
 
 (set-face-attribute 'fixed-pitch nil :family "JetBrains Mono" :height 1.0)
 

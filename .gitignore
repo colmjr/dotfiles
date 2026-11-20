@@ -24,6 +24,7 @@
 !/emacs/plugins/dashboard.el
 !/emacs/plugins/editing.el
 !/emacs/plugins/evil.el
+!/emacs/plugins/meow.el
 !/emacs/plugins/flycheck.el
 !/emacs/plugins/ghostel.el
 !/emacs/plugins/git.el

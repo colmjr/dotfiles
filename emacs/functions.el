@@ -1,6 +1,7 @@
 ;;; functions.el --- Personal commands -*- lexical-binding: t; -*-
 
 ;;; Code:
+(require 'cl-lib)
 
 (defun my/projectile-compile (&optional arg)
   "Compile the current project without prompting.
@@ -40,17 +41,15 @@
   (interactive)
   (flycheck-list-errors)
   (when-let ((window (get-buffer-window flycheck-error-list-buffer)))
-	(select-window window)
-	)
-  )
+	(select-window window)))
 
-(defun my/evil-scroll-up-center ()
+(defun my/meow-scroll-up-center ()
   "Center scroll up."
   (interactive)
   (call-interactively #'evil-scroll-up)
   (recenter))
 
-(defun my/evil-scroll-down-center ()
+(defun my/meow-scroll-down-center ()
   "Center scroll up."
   (interactive)
   (call-interactively #'evil-scroll-down)
@@ -71,4 +70,11 @@
   (interactive)
   (load-file user-init-file))
 
+;; TODO
+(defun my/doom-workspace ()
+  "Print workspace tab info."
+  (interactive)
+  (let ((tabs (cl-loop for tab in (tab-bar-tabs)
+					   for i from 1
+					   collect (format "[%d]: %s" i (alist-get 'name tab)))))))
 ;;; functions.el ends here
