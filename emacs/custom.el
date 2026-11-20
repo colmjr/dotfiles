@@ -16,9 +16,10 @@
 	 default))
  '(package-selected-packages
    '(agent-shell apheleia ayu-theme cape clippy consult consult-lsp corfu
-				 dashboard doom-modeline flycheck gruvbox-theme
+				 dashboard doom-modeline evil evil-collection evil-commentary
+				 evil-ghostel evil-goggles evil-surround flycheck gruvbox-theme
 				 haskell-mode helpful leuven-theme lsp-haskell
-				 lsp-pyright magit marginalia meow multiple-cursors
+				 lsp-pyright magit marginalia multiple-cursors
 				 nerd-icons olivetti orderless pilish projectile rg
 				 rust-mode smudge treesit-auto vertico yasnippet)))
 

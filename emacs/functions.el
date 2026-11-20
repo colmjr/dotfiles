@@ -43,13 +43,13 @@
   (when-let ((window (get-buffer-window flycheck-error-list-buffer)))
 	(select-window window)))
 
-(defun my/meow-scroll-up-center ()
+(defun my/evil-scroll-up-center ()
   "Center scroll up."
   (interactive)
   (call-interactively #'evil-scroll-up)
   (recenter))
 
-(defun my/meow-scroll-down-center ()
+(defun my/evil-scroll-down-center ()
   "Center scroll up."
   (interactive)
   (call-interactively #'evil-scroll-down)
