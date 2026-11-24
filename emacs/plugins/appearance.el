@@ -2,13 +2,7 @@
 
 ;;; Code:
 
-(add-to-list 'custom-theme-load-path
-             (expand-file-name "themes/" my/config-directory))
-;; (mapc #'disable-theme custom-enabled-themes)
-;; (use-package gruvbox-theme
-;;   :config (load-theme 'gruvbox-light-medium))
-;; (load-theme 'gruvbox-nvim t)
-(load-theme 'modus-operandi-tinted t)
+(load-theme 'gruvbox-dark-hard t)
 
 (use-package dired
   :ensure nil
@@ -52,18 +46,6 @@
 
 (use-package nerd-icons
   :ensure t)
-
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :after nerd-icons
-;;   :init
-;;   (setq doom-modeline-workspace-name t
-;;         doom-modeline-buffer-encoding nil
-;; 		doom-modeline-indent-info nil
-;; 		doom-modeline-minor-modes nil
-;; 		)
-;;   :config
-;;   (doom-modeline-mode 1))
 
 (setq mode-line-collapse-minor-modes t
       mode-line-collapse-minor-modes-to "")
