@@ -5,8 +5,9 @@
 (require 'package)
 
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/")
-	     t)
+			 '("melpa" . "https://melpa.org/packages/"))
+
+(load "~/.local/share/autolith/installation/current/libexec/autolith/emacs/autolith.el")
 
 (package-initialize)
 

@@ -5,6 +5,13 @@
 !/.gitignore
 !/README.md
 
+# autolith
+!/autolith/
+!/autolith/init.lisp
+!/autolith/instructions.md
+!/autolith/preferences.lock
+!/autolith/preferences.sexp
+
 # btop
 !/btop/
 !/btop/btop.conf

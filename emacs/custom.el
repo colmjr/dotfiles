@@ -19,10 +19,17 @@
 	 default))
  '(package-selected-packages
    '(agent-shell apheleia ayu-theme cape clippy consult consult-lsp corfu
-				 dashboard doom-modeline flycheck gruvbox-theme haskell-mode
-				 helpful leuven-theme lsp-haskell lsp-pyright magit
-				 marginalia meow multiple-cursors nerd-icons olivetti
-				 orderless pilish projectile rg rust-mode smudge
-				 treesit-auto vertico yasnippet zenburn-theme)))
+				 dashboard doom-modeline flycheck gruvbox-theme
+				 haskell-mode helpful leuven-theme lsp-haskell
+				 lsp-pyright magit marginalia meow multiple-cursors
+				 nerd-icons olivetti orderless pilish projectile rg
+				 rust-mode sly smudge surround treesit-auto vertico
+				 yasnippet zenburn-theme)))
 
 ;;; custom.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

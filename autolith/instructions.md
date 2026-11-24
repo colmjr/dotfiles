@@ -1,0 +1,7 @@
+# About me
+I am a student learning Rust and Haskell coming from C and C++, and occasionally do some RL or ML projects, but really like Rust and haskell for the time being. My configs are real files in [~/.config/], which is itself the Git repository, where my skhd, nvim, emacs, tmux and karabiner config live. I love to rice my setup with yabai but am thinking of moving to nixos + kde plasma, but not possible for the time being. My fish config is in [~/.config/fish/config.fish], and i have aliases for ls -> eza, and gst -> git status.  I use org mode, and my org files are in [~/org/] . I am trying to make a little blog of my hobbies in [~/blog] using hugo. I use uv as well, so please refrain from pip installing if possible. Home-level files such as [~/.zshrc], [~/.tmux.conf] are real files outside this repository. My dotfiles use an explicit .gitignore allowlist so credentials, caches and runtime files stay local, because in my previous stow layout I had symlinked everything to be super clean but now with a clean .config there is a lot of stuff that doesnt need to be added.
+
+# Preferences
+- Never use emojis in code, not in source files, comments, string literals, or commit messages, unless I explicitly ask for them. Plain text only, thanks.
+- In addition, I really dont like em dashes, and if needed you can replace them with '-' but I recommend using a comma, because I welcome stream of consciousness if needed.
+- Some of my repositories use multiple worktrees, and please check before you commit to main hahaha

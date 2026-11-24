@@ -12,4 +12,8 @@
   :config
   (apheleia-global-mode 1))
 
+(use-package surround
+  :ensure t
+  :bind-keymap ("M-'" . surround-keymap))
+
 ;;; editing.el ends here
