@@ -1,8 +1,29 @@
-;;; keymaps.el --- Global, Evil, and package-local keybindings -*- lexical-binding: t; -*-
+;;; keymaps.el --- Global, Meow, and package-local keybindings -*- lexical-binding: t; -*-
 
 ;;; Code:
 
+(defvar-keymap my/window-map
+  :doc "Window commands for the C-w prefix."
+  "h" #'windmove-left
+  "j" #'windmove-down
+  "k" #'windmove-up
+  "l" #'windmove-right
+  "v" #'my/vsplit-focus
+  "s" #'my/hsplit-focus
+  "w" #'other-window
+  "C-w" #'other-window
+  "W" (lambda () (interactive) (other-window -1))
+  "c" #'delete-window
+  "q" #'delete-window
+  "o" #'delete-other-windows
+  "=" #'balance-windows
+  "+" #'enlarge-window
+  "-" #'shrink-window
+  ">" #'enlarge-window-horizontally
+  "<" #'shrink-window-horizontally)
 
+(global-set-key (kbd "C-w") my/window-map)
+(global-set-key (kbd "C-c C-w") #'kill-region)
 (global-set-key (kbd "C-x g") #'magit-status)
 (global-set-key (kbd "C-s") #'consult-line)
 (global-set-key (kbd "C-x b") #'consult-buffer)
@@ -23,88 +44,62 @@
 (global-set-key (kbd "C-h F") #'helpful-function)
 
 (with-eval-after-load 'corfu
-  (with-eval-after-load 'evil
-    (evil-define-key 'insert corfu-map
-      (kbd "C-y") #'corfu-insert
-      (kbd "C-e") #'corfu-quit)))
+  ;; Let Enter use the buffer's normal newline and indentation command.
+  (define-key corfu-map (kbd "RET") nil)
+  (define-key corfu-map (kbd "<return>") nil)
+  (define-key corfu-map (kbd "C-y") #'corfu-insert)
+  (define-key corfu-map (kbd "C-e") #'corfu-quit))
 
-(with-eval-after-load 'evil
-  (evil-set-leader 'normal (kbd "SPC"))
-  (define-key evil-insert-state-map (kbd "C-SPC")
-              #'completion-at-point)
-  (define-key evil-normal-state-map (kbd "-") #'dired-jump)
-  (define-key evil-normal-state-map (kbd "D") (kbd "dd"))
-  (define-key evil-normal-state-map (kbd "Y") (kbd "yy"))
-  (define-key evil-normal-state-map (kbd "C") (kbd "cc"))
-  (define-key evil-normal-state-map (kbd "C-u") #'my/evil-scroll-up-center)
-  (define-key evil-normal-state-map (kbd "C-d") #'my/evil-scroll-down-center)
-  (define-key evil-normal-state-map (kbd "C-.") #'embark-act)
-  (define-key evil-normal-state-map (kbd "K") #'lsp-ui-doc-glance)
-  (define-key evil-window-map (kbd "v") #'my/vsplit-focus)
-  (define-key evil-window-map (kbd "s") #'my/hsplit-focus)
-  (define-key evil-normal-state-map (kbd "<escape>")
-			  (lambda ()
-				(interactive)
-				(evil-ex-nohighlight)
-				(evil-force-normal-state))))
+(with-eval-after-load 'meow
+  ;; On reload this callback can run before Meow's use-package :config.
+  (setf (alist-get 'leader meow-keymap-alist) my/leader-map)
+  (meow-normal-define-key (cons "C-w" my/window-map))
+  (meow-motion-define-key (cons "C-w" my/window-map))
+  (meow-define-keys 'insert (cons "C-w" my/window-map))
+  (define-key my/leader-map (kbd "w") my/window-map)
+  (meow-leader-define-key
+   '("p" . projectile-command-map)
+   '("s g" . consult-ripgrep)
+   '("s f" . projectile-find-file)
+   '("s t" . projectile-todos)
+   '("s s" . consult-lsp-symbols)
+   '("s S" . consult-imenu)
+   '("s r" . consult-recent-file)
+   '("q" . my/flycheck-quickfix-focus)
+   '("l a" . lsp-execute-code-action)
+   '("l c" . projectile-compile-project)
+   '("l d" . lsp-find-definition)
+   '("l D" . lsp-find-declaration)
+   '("l h" . lsp-ui-doc-glance)
+   '("l r" . lsp-find-references)
+   '("l R" . projectile-run-project)
+   '("l n" . lsp-rename)
+   '("l t" . lsp-find-type-definition)
+   '("l T" . projectile-test-project)
+   '("b k" . kill-current-buffer)
+   '("b l" . ibuffer)
+   '("b b" . consult-buffer)
+   '("b n" . next-buffer)
+   '("b p" . previous-buffer)
+   '("b s" . my/save-all-buffers)
+   '("b x" . scratch-buffer)
+   '("b z" . bury-buffer)
+   '("TAB" . mode-line-other-buffer)
+   '("g n" . diff-hl-next-hunk)
+   '("g p" . diff-hl-previous-hunk))
 
-(with-eval-after-load 'evil
-  (evil-define-key 'normal 'global
-	;; projectile
-    (kbd "<leader>p") #'projectile-command-map
-	;; search
-    (kbd "<leader>sg") #'consult-ripgrep
-	(kbd "<leader>sf") #'projectile-find-file
-    (kbd "<leader>st") #'projectile-todos
-    (kbd "<leader>ss") #'consult-lsp-symbols
-    (kbd "<leader>sS") #'consult-imenu
-	;;quickfix
-    (kbd "<leader>q")  #'my/flycheck-quickfix-focus
-	;; code
-    (kbd "<leader>ca") #'lsp-execute-code-action
-    (kbd "<leader>cc") #'my/projectile-compile
-    (kbd "<leader>cC") #'projectile-compile-project
-    (kbd "<leader>cr") #'my/projectile-run
-    (kbd "<leader>cR") #'projectile-run-project
-    (kbd "<leader>ct") #'my/projectile-test
-    (kbd "<leader>cT") #'projectile-test-project
-	;; buffers
-	(kbd "<leader>bk") #'kill-buffer
-	(kbd "<leader>bl") #'ibuffer
-	(kbd "<leader>bb") #'consult-buffer
-	(kbd "<leader>bn") #'next-buffer
-	(kbd "<leader>bp") #'previous-buffer
-	(kbd "<leader>bS") #'evil-write-all
-	(kbd "<leader>bx") #'scratch-buffer
-	(kbd "<leader>TAB") #'evil-switch-to-windows-last-buffer)
+  (with-eval-after-load 'lsp-mode
+    (meow-leader-define-key (cons "l l" lsp-command-map)))
 
-  (with-eval-after-load 'evil
-	(with-eval-after-load 'lsp-mode
-      (evil-define-key 'normal 'lsp-mode
-		(kbd "gd") #'lsp-find-definition
-		(kbd "grr") #'lsp-find-references
-		(kbd "gri") #'lsp-find-implementation
-		(kbd "grD") #'lsp-find-declaration
-		;; shadow gt
-		(kbd "grt") #'lsp-find-type-definition
-		(kbd "grn") #'lsp-rename))
+  (with-eval-after-load 'rustic
+    (meow-leader-define-key
+     '("l ." . rustic-cargo-current-test)
+     '("l k" . rustic-cargo-check)
+     '("l C" . rustic-cargo-clippy)
+     '("l p" . rustic-popup)))
 
-	(with-eval-after-load 'rustic
-      ;; Keep the global Projectile build/run/test bindings and project commands.
-      (evil-define-key 'normal rustic-mode-map
-		(kbd "<leader>c.") #'rustic-cargo-current-test
-		(kbd "<leader>ck") #'rustic-cargo-check
-		(kbd "<leader>cl") #'rustic-cargo-clippy
-		(kbd "<leader>cp") #'rustic-popup))
-
-	(with-eval-after-load 'diff-hl
-      (evil-define-key 'normal diff-hl-mode-map
-		(kbd "]d") #'diff-hl-next-hunk
-		(kbd "[d") #'diff-hl-previous-hunk))
-
-	(with-eval-after-load 'lsp-ui
-      (evil-define-key 'normal lsp-ui-doc-frame-mode-map
-		(kbd "q") #'lsp-ui-doc-hide
-		(kbd "<escape>") #'lsp-ui-doc-hide)))
+  (with-eval-after-load 'lsp-ui
+    (define-key lsp-ui-doc-frame-mode-map (kbd "q") #'lsp-ui-doc-hide)
+    (define-key lsp-ui-doc-frame-mode-map (kbd "<escape>") #'lsp-ui-doc-hide)))
 
 ;;; keymaps.el ends here

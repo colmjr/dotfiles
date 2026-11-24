@@ -53,16 +53,19 @@
 (use-package nerd-icons
   :ensure t)
 
-(use-package doom-modeline
-  :ensure t
-  :after nerd-icons
-  :init
-  (setq doom-modeline-workspace-name t
-        doom-modeline-buffer-encoding nil
-		doom-modeline-indent-info nil
-		doom-modeline-minor-modes nil
-		)
-  :config
-  (doom-modeline-mode 1))
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :after nerd-icons
+;;   :init
+;;   (setq doom-modeline-workspace-name t
+;;         doom-modeline-buffer-encoding nil
+;; 		doom-modeline-indent-info nil
+;; 		doom-modeline-minor-modes nil
+;; 		)
+;;   :config
+;;   (doom-modeline-mode 1))
+
+(setq mode-line-collapse-minor-modes t
+      mode-line-collapse-minor-modes-to "")
 
 ;;; appearance.el ends here

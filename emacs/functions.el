@@ -43,18 +43,6 @@
   (when-let ((window (get-buffer-window flycheck-error-list-buffer)))
 	(select-window window)))
 
-(defun my/evil-scroll-up-center ()
-  "Center scroll up."
-  (interactive)
-  (call-interactively #'evil-scroll-up)
-  (recenter))
-
-(defun my/evil-scroll-down-center ()
-  "Center scroll up."
-  (interactive)
-  (call-interactively #'evil-scroll-down)
-  (recenter))
-
 (defun my/vsplit-focus ()
   "Focus on vertical split window."
   (interactive)

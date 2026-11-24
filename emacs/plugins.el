@@ -3,7 +3,7 @@
 ;;; Code:
 
 (dolist (file '("appearance.el"
-                "evil.el"
+                "meow.el"
                 "completion.el"
                 "projectile.el"
                 "git.el"

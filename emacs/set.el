@@ -41,7 +41,7 @@
 
 (setq mode-line-percent-position nil)
 
-(line-number-mode -1)
+(line-number-mode 1)
 
 (column-number-mode -1)
 

@@ -21,9 +21,15 @@
   :custom
   (rustic-cargo-use-last-stored-arguments t))
 
+(defun my/haskell-disable-code-lenses ()
+  "Disable automatic LSP code lenses in the current Haskell buffer."
+  (setq-local lsp-lens-enable nil))
+
 (use-package haskell-mode
   :ensure t
-  :mode "\\.hs\\'")
+  :mode "\\.hs\\'"
+  :hook
+  ((haskell-mode haskell-literate-mode) . my/haskell-disable-code-lenses))
 
 (use-package lsp-haskell
   :ensure t)

@@ -16,11 +16,11 @@
   :config
   (global-flycheck-mode 1)
   (global-flycheck-annotate-mode 1)
-  (add-hook 'evil-insert-state-entry-hook
+  (add-hook 'meow-insert-enter-hook
 	    (lambda ()
 	      (when (bound-and-true-p flycheck-mode)
 		(flycheck-annotate-mode -1))))
-  (add-hook 'evil-insert-state-exit-hook
+  (add-hook 'meow-insert-exit-hook
 	    (lambda ()
 	      (when (bound-and-true-p flycheck-mode)
 		(flycheck-annotate-mode 1)))))

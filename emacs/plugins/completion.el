@@ -22,8 +22,7 @@
 (use-package consult
   :ensure t
   :commands (consult-line consult-buffer consult-recent-file
-						  consult-ripgrep consult-imenu)
-  :after evil)
+						  consult-ripgrep consult-imenu))
 
 (use-package consult-lsp
   :ensure t

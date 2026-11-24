@@ -272,13 +272,7 @@
    `(dashboard-heading ((t (:foreground ,yellow :weight bold))))
    `(dashboard-banner-logo-title ((t (:foreground ,orange :weight bold))))
    `(dashboard-items-face ((t (:foreground ,fg1))))
-   `(dashboard-no-items-face ((t (:foreground ,gray))))
-   ;; Evil's search overlays do not use the built-in isearch faces.
-   `(evil-ex-search ((t (:foreground ,bg0 :background ,yellow))))
-   `(evil-ex-lazy-highlight ((t (:foreground ,bg0 :background ,yellow))))
-   `(evil-ex-incsearch ((t (:foreground ,bg0 :background ,orange))))
-   `(evil-ex-substitute-matches ((t (:foreground ,bg0 :background ,yellow))))
-   `(evil-ex-substitute-replacement ((t (:foreground ,green :weight bold)))))
+   `(dashboard-no-items-face ((t (:foreground ,gray)))))
 
   ;; Match Neovim's 16 terminal colors, including Ghostel's ANSI inheritance.
   (let ((normal (list bg0 "#cc241d" "#98971a" "#d79921"
