@@ -25,4 +25,5 @@
 ;; use load for my/reload-config
 (dolist (file '("functions.el" "plugins.el" "set.el" "keymaps.el"))
   (load (expand-file-name file my/config-directory) nil 'nomessage))
+
 ;;; init.el ends here

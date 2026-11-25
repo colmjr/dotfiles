@@ -50,4 +50,9 @@
 (setq mode-line-collapse-minor-modes t
       mode-line-collapse-minor-modes-to "")
 
+;; (use-package keycast
+;;   :ensure t
+;;   :init
+;;   (keycast-header-line-mode 1))
+
 ;;; appearance.el ends here

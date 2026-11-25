@@ -27,7 +27,7 @@
 	  ;; %x problems for some reason
 	  ("l" "Links" entry
 	   (file "~/org/links.org")
-	   "* [[%(or (gui-get-selection 'CLIPBOARD 'STRING) \"\"][%^{Description}]] :%^{Tag|blog|article|tutorial|reddit|video|problem}:\nSaved: %u"))))
+	   "* [[%(or (gui-get-selection 'CLIPBOARD 'STRING) \"\")][%^{Description}]] :%^{Tag|blog|article|tutorial|reddit|video|problem}:\nSaved: %u"))))
 
 (use-package org-modern
   :ensure t

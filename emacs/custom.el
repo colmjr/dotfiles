@@ -18,13 +18,14 @@
 	 "53b9dd9615039a563a211a7b2437a0af67a0a4bca7323ae6d18ec87606bb8be0"
 	 default))
  '(package-selected-packages
-   '(agent-shell apheleia ayu-theme cape clippy consult consult-lsp corfu
-				 dashboard doom-modeline flycheck gruvbox-theme
-				 haskell-mode helpful leuven-theme lsp-haskell
+   '(agent-shell apheleia ayu-theme cape clippy constant-theme consult
+				 consult-lsp corfu dashboard dev-docs devdocs
+				 doom-modeline elfeed flycheck gruvbox-theme
+				 haskell-mode helpful keycast leuven-theme lsp-haskell
 				 lsp-pyright magit marginalia meow multiple-cursors
-				 nerd-icons olivetti orderless pilish projectile rg
-				 rust-mode sly smudge surround treesit-auto vertico
-				 yasnippet zenburn-theme)))
+				 nano-theme nerd-icons olivetti orderless pilish
+				 projectile rg rust-mode sly smudge surround
+				 treesit-auto vertico yasnippet zenburn-theme)))
 
 ;;; custom.el ends here
 (custom-set-faces

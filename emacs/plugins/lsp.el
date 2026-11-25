@@ -65,4 +65,8 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(use-package devdocs
+  :ensure t
+  :bind ("C-h D" . devdocs-lookup))
+
 ;;; lsp.el ends here

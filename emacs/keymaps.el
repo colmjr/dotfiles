@@ -76,6 +76,7 @@
    '("l n" . lsp-rename)
    '("l t" . lsp-find-type-definition)
    '("l T" . projectile-test-project)
+   '("l i" . lsp-find-implementation)
    '("b k" . kill-current-buffer)
    '("b l" . ibuffer)
    '("b b" . consult-buffer)
