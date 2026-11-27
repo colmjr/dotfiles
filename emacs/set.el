@@ -55,6 +55,12 @@
 
 (tool-bar-mode -1)
 
+(setq backup-directory-alist
+      `(("." . ,(locate-user-emacs-file "backups/"))))
+
+(setq version-control t
+      delete-old-versions t)
+
 ;; prog mode line numbers
 (global-display-line-numbers-mode -1)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)

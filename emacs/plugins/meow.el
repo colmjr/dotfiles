@@ -138,7 +138,6 @@
      (till . 30)
      (symbol . 30)))
   :config
-  ;; These keys are window/scroll commands, so editing must call commands directly.
   (setq meow--kbd-kill-region #'kill-region
         meow--kbd-kill-line #'kill-line
         meow--kbd-delete-char #'delete-char)

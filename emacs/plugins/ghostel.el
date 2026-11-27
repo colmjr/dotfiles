@@ -2,20 +2,14 @@
 
 ;;; Code:
 
-(defun my/ghostel-send-C-w ()
-  "Send C-w to the terminal instead of using the window prefix."
-  (interactive)
-  (ghostel-send-key "w" "ctrl"))
-
 (use-package ghostel
   :ensure t
   :commands ghostel
   :config
-  ;; Use the option's setter to update keymaps in existing terminal buffers too.
+  ;; Let C-w reach the terminal, restoring its normal terminal behavior.
   (customize-set-variable
    'ghostel-keymap-exceptions
-   (cons "C-w" (remove "C-w" ghostel-keymap-exceptions)))
-  (define-key ghostel-mode-map (kbd "C-c C-w") #'my/ghostel-send-C-w))
+   (remove "C-w" ghostel-keymap-exceptions)))
 
 (use-package xwidget
   :ensure nil

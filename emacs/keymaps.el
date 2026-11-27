@@ -3,7 +3,7 @@
 ;;; Code:
 
 (defvar-keymap my/window-map
-  :doc "Window commands for the C-w prefix."
+  :doc "Window commands for SPC w and C-c SPC w."
   "h" #'windmove-left
   "j" #'windmove-down
   "k" #'windmove-up
@@ -22,12 +22,10 @@
   ">" #'enlarge-window-horizontally
   "<" #'shrink-window-horizontally)
 
-(global-set-key (kbd "C-w") my/window-map)
-(global-set-key (kbd "C-c C-w") #'kill-region)
+(global-set-key (kbd "C-w") #'kill-region)
 (global-set-key (kbd "C-x g") #'magit-status)
 (global-set-key (kbd "C-s") #'consult-line)
 (global-set-key (kbd "C-x b") #'consult-buffer)
-(global-set-key (kbd "C-c r") #'consult-recent-file)
 (global-set-key (kbd "s-t") #'tab-new)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
@@ -53,9 +51,10 @@
 (with-eval-after-load 'meow
   ;; On reload this callback can run before Meow's use-package :config.
   (setf (alist-get 'leader meow-keymap-alist) my/leader-map)
-  (meow-normal-define-key (cons "C-w" my/window-map))
-  (meow-motion-define-key (cons "C-w" my/window-map))
-  (meow-define-keys 'insert (cons "C-w" my/window-map))
+  ;; Let C-w use native global and mode-specific bindings.
+  (meow-normal-define-key '("C-w" . nil))
+  (meow-motion-define-key '("C-w" . nil))
+  (meow-define-keys 'insert '("C-w" . nil))
   (define-key my/leader-map (kbd "w") my/window-map)
   (meow-leader-define-key
    '("p" . projectile-command-map)

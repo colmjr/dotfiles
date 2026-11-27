@@ -20,7 +20,6 @@ if test (uname) = Darwin
     # online-judge-tools (oj) - Codeforces submission from the terminal
     fish_add_path -g "$HOME/Library/Python/3.12/bin"
     # Homebrew GCC provides the GNU C++ headers used by competitive programming
-    alias g++='/opt/homebrew/bin/g++-15'
 end
 
 # ghcup: the shipped ~/.ghcup/env is POSIX sh and can't be sourced by fish,
